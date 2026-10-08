@@ -5,10 +5,12 @@ import { iconVariants } from "../icons/iconLibrary";
 import type { IconVariant } from "../icons/types";
 import { useSavedIcons } from "../saved/savedIconsStore";
 import {
+  countSets,
   DEFAULT_FILTERS,
   DEFAULT_RENDER_SIZE,
   filterIcons,
   type FilterState,
+  type SetCounts,
 } from "./filterIcons";
 
 interface LibraryContextValue {
@@ -16,6 +18,8 @@ interface LibraryContextValue {
   setFilter: <K extends keyof FilterState>(key: K, value: FilterState[K]) => void;
   resetFilters: () => void;
   results: IconVariant[];
+  /** Live count of icons per set for the current search + facets. */
+  setCounts: SetCounts;
   renderSize: number;
   savedCount: number;
   /** True while a deferred search is still catching up with the input. */
@@ -39,6 +43,7 @@ export function LibraryProvider({ children }: { children: ReactNode }) {
   const resetFilters = useCallback(() => setFilters(DEFAULT_FILTERS), []);
 
   const results = useMemo(() => filterIcons(iconVariants, deferred, savedKeys), [deferred, savedKeys]);
+  const setCounts = useMemo(() => countSets(iconVariants, deferred, savedKeys), [deferred, savedKeys]);
 
   const value = useMemo<LibraryContextValue>(
     () => ({
@@ -46,11 +51,12 @@ export function LibraryProvider({ children }: { children: ReactNode }) {
       setFilter,
       resetFilters,
       results,
+      setCounts,
       renderSize: filters.size === "all" ? DEFAULT_RENDER_SIZE : filters.size,
       savedCount: savedKeys.length,
       isStale: deferred !== filters,
     }),
-    [filters, setFilter, resetFilters, results, savedKeys.length, deferred],
+    [filters, setFilter, resetFilters, results, setCounts, savedKeys.length, deferred],
   );
 
   return <LibraryContext.Provider value={value}>{children}</LibraryContext.Provider>;

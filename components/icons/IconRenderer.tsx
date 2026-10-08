@@ -25,11 +25,13 @@ function SvgNode({ node, compiled }: SvgNodeProps) {
     return <Tag {...geometry} {...paint} {...node.attrs} />;
   }
 
-  // Static attributes that are also animated are owned by Framer Motion.
+  // Attributes that are also animated (dash values, a morphing `d`) are owned by Framer Motion.
   const restValues = compiled.variants[REST] as Record<string, unknown>;
-  const staticAttrs = Object.fromEntries(Object.entries(node.attrs ?? {}).filter(([key]) => !(key in restValues)));
+  const notAnimated = ([key]: [string, unknown]) => !(key in restValues);
+  const staticGeometry = Object.fromEntries(Object.entries(geometry).filter(notAnimated));
+  const staticAttrs = Object.fromEntries(Object.entries(node.attrs ?? {}).filter(notAnimated));
   const MotionTag = motionTags[node.type];
-  return <MotionTag {...geometry} {...paint} {...staticAttrs} variants={compiled.variants} style={compiled.style} />;
+  return <MotionTag {...staticGeometry} {...paint} {...staticAttrs} variants={compiled.variants} style={compiled.style} />;
 }
 
 export interface IconRendererProps {
@@ -39,6 +41,8 @@ export interface IconRendererProps {
   state?: IconAnimationState;
   /** Set to "rest" to play the active animation immediately on mount. */
   initialState?: IconAnimationState;
+  /** Stroke width on the 24px grid (default 1.5). */
+  strokeWidth?: number;
   className?: string;
 }
 
@@ -46,7 +50,14 @@ export interface IconRendererProps {
  * Renders an icon variant as inline SVG. Animation variants are compiled once
  * per icon (cached in `getIconAnimation`), so re-renders only flip `state`.
  */
-export const IconRenderer = memo(function IconRenderer({ variant, size, state = REST, initialState, className }: IconRendererProps) {
+export const IconRenderer = memo(function IconRenderer({
+  variant,
+  size,
+  state = REST,
+  initialState,
+  strokeWidth = ROOT_ATTRS.strokeWidth,
+  className,
+}: IconRendererProps) {
   const reactId = useId();
   const compiled = getIconAnimation(variant);
   const { knockouts, body } = splitNodes(variant.nodes);
@@ -77,6 +88,7 @@ export const IconRenderer = memo(function IconRenderer({ variant, size, state = 
     height: size,
     viewBox: VIEWBOX,
     ...ROOT_ATTRS,
+    strokeWidth,
     className,
     "aria-hidden": true,
     focusable: "false" as const,

@@ -13,6 +13,11 @@ import {
   type Track,
 } from "./animationTypes";
 import { commerceRecipes } from "./animated-icons/commerce";
+import { developerRecipes } from "./animated-icons/developer";
+import { devicesRecipes } from "./animated-icons/devices";
+import { mapsRecipes } from "./animated-icons/maps";
+import { natureRecipes } from "./animated-icons/nature";
+import { securityRecipes } from "./animated-icons/security";
 import { communicationRecipes } from "./animated-icons/communication";
 import { coreRecipes } from "./animated-icons/core";
 import { filesRecipes } from "./animated-icons/files";
@@ -46,6 +51,11 @@ export const iconAnimations = {
   ...filesRecipes,
   ...communicationRecipes,
   ...commerceRecipes,
+  ...developerRecipes,
+  ...devicesRecipes,
+  ...securityRecipes,
+  ...natureRecipes,
+  ...mapsRecipes,
 } satisfies Record<AnimationName, AnimationRecipe>;
 
 /* -------------------------------------------------------------------------- */

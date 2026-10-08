@@ -9,7 +9,10 @@ interface SetRowProps {
   onSelect: () => void;
   /** Present when the set has sub-groups (Figma: caret "arrow button to open dropdown"). */
   expandable?: { expanded: boolean; onToggle: () => void; controls: string };
+  /** Figma count badge (#ededed pill) — used for New / Saved. */
   badge?: number;
+  /** Live number of matching icons, shown muted on the right. */
+  count?: number;
   indent?: boolean;
 }
 
@@ -17,7 +20,8 @@ interface SetRowProps {
  * One row of the Figma "Sets" list (48:1729). Unselected rows are plain muted
  * text; the selected row is the green raised pill with white text.
  */
-export function SetRow({ label, selected, onSelect, expandable, badge, indent }: SetRowProps) {
+export function SetRow({ label, selected, onSelect, expandable, badge, count, indent }: SetRowProps) {
+  const empty = count === 0 && !selected;
   return (
     <div className="relative w-full">
       {selected && (
@@ -31,29 +35,40 @@ export function SetRow({ label, selected, onSelect, expandable, badge, indent }:
       <button
         type="button"
         aria-pressed={selected}
+        aria-label={(count ?? badge) !== undefined ? `${label}, ${count ?? badge} icons` : undefined}
         onClick={onSelect}
         className={cx(
-          "group relative flex h-8 w-full cursor-pointer items-center justify-between rounded-[10px] pr-1.5 text-left focus-visible:outline-offset-[-1px]",
+          "group relative flex h-8 w-full cursor-pointer items-center justify-between gap-2 rounded-[10px] pr-2 text-left focus-visible:outline-offset-[-1px]",
           indent ? "pl-11" : "pl-8",
           !selected && "hover:bg-[rgba(28,31,33,0.04)]",
         )}
       >
         <span
           className={cx(
-            "text-[12px] leading-[14.4px] font-medium transition-colors duration-150",
-            selected ? "text-white" : "text-muted group-hover:text-ink",
+            "truncate text-[12px] leading-[14.4px] font-medium transition-colors duration-150",
+            selected ? "text-white" : empty ? "text-muted/60" : "text-muted group-hover:text-ink",
           )}
         >
           {label}
         </span>
-        {badge !== undefined && badge > 0 && (
-          <span
-            className="flex h-4 min-w-4 items-center justify-center rounded-[4px] bg-badge px-[5px] text-[8px] leading-3 font-medium text-black"
-            aria-label={`${badge} saved`}
-          >
-            {badge}
-          </span>
-        )}
+        <span className="flex shrink-0 items-center gap-1.5">
+          {badge !== undefined && badge > 0 && (
+            <span className="flex h-4 min-w-4 items-center justify-center rounded-[4px] bg-badge px-[5px] text-[8px] leading-3 font-medium text-black">
+              {badge}
+            </span>
+          )}
+          {count !== undefined && badge === undefined && (
+            <span
+              aria-hidden
+              className={cx(
+                "text-[11px] leading-3 font-medium tabular-nums transition-colors",
+                selected ? "text-white/80" : "text-muted/70 group-hover:text-muted",
+              )}
+            >
+              {count}
+            </span>
+          )}
+        </span>
       </button>
       {expandable && (
         <button

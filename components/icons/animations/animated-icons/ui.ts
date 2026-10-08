@@ -121,6 +121,36 @@ export const uiRecipes = {
     hour: draw({ delay: 0.3, duration: 0.22, ease: EASE_OUT }),
   }),
 
+  /** The arc chases its own arrowhead around the circle. */
+  refresh: () => ({
+    arc: merge(draw({ duration: 0.5 }), keyframes("rotate", [-90, 0], { duration: 0.55, ease: EASE_OUT, origin: [0.5, 0.5] })),
+    head: draw({ delay: 0.38, duration: 0.18, ease: EASE_OUT }),
+  }),
+
+  /** The return arc is drawn back toward the head, which snaps left. */
+  undo: () => ({
+    arc: draw({ duration: 0.4, from: "end" }),
+    head: merge(draw({ delay: 0.3, duration: 0.2, ease: EASE_OUT }), slide({ x: 2.5, delay: 0.3, duration: 0.35 })),
+  }),
+
+  /** Sheets drop onto the stack one by one. */
+  layers: () => ({
+    bottom: merge(draw({ duration: 0.3 }), slide({ y: -3, duration: 0.4 })),
+    middle: merge(draw({ delay: 0.1, duration: 0.3 }), slide({ y: -3, delay: 0.1, duration: 0.4 })),
+    top: merge(draw({ delay: 0.2, duration: 0.35 }), slide({ y: -3, delay: 0.2, duration: 0.45 })),
+  }),
+
+  /** Glass draws, sand drains from the top bulb, falls, and piles up below. */
+  hourglass: () => ({
+    capTop: draw({ duration: 0.2, from: "center" }),
+    capBottom: draw({ duration: 0.2, from: "center" }),
+    left: draw({ delay: 0.08, duration: 0.35 }),
+    right: draw({ delay: 0.08, duration: 0.35 }),
+    sandTop: { tracks: { pathLength: { values: [1, 1, 0.25], times: [0, 0.4, 1], duration: 0.75, ease: EASE_IN_OUT, rest: 1 }, pathOffset: { values: [0, 0, 0.375], times: [0, 0.4, 1], duration: 0.75, ease: EASE_IN_OUT, rest: 0 } } },
+    stream: draw({ delay: 0.3, duration: 0.25 }),
+    sandBottom: draw({ delay: 0.45, duration: 0.3, from: "center" }),
+  }),
+
   /** Frame draws, rings drop in, header rule and dates appear. */
   calendar: () => ({
     frame: draw({ duration: 0.45 }),

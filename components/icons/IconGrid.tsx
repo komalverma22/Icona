@@ -85,7 +85,7 @@ export function IconGrid() {
             exit={{ opacity: 0, scale: 0.96 }}
             transition={{ duration: 0.22, ease: EASE_OUT }}
           >
-            <IconCard variant={variant} size={renderSize} />
+            <IconCard variant={variant} size={renderSize} strokeWidth={filters.strokeWidth} color={filters.color} />
           </motion.div>
         ))}
       </AnimatePresence>

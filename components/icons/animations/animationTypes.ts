@@ -51,7 +51,43 @@ export type AnimationName =
   | "loader"
   | "cart"
   | "message"
-  | "volume";
+  | "volume"
+  // Underrated additions
+  | "command"
+  | "fingerprint"
+  | "scan"
+  | "qrCode"
+  | "toggle"
+  | "cursor"
+  | "keyboard"
+  | "terminal"
+  | "code"
+  | "gitBranch"
+  | "wifi"
+  | "battery"
+  | "mic"
+  | "headphones"
+  | "key"
+  | "shieldCheck"
+  | "sun"
+  | "moon"
+  | "leaf"
+  | "droplet"
+  | "flame"
+  | "sparkles"
+  | "zap"
+  | "mapPin"
+  | "compass"
+  | "anchor"
+  | "flag"
+  | "target"
+  | "refresh"
+  | "undo"
+  | "layers"
+  | "hourglass"
+  | "grip"
+  | "lightbulb"
+  | "gift";
 
 export type Direction = "up" | "down" | "left" | "right" | "upRight";
 
@@ -62,6 +98,8 @@ export interface AnimationOptions {
 
 /** Properties a node may animate. Path props are Framer Motion's normalised SVG path values. */
 export type AnimatedProp =
+  /** Path morph: keyframes must share the same command structure. */
+  | "d"
   | "pathLength"
   | "pathOffset"
   | "pathSpacing"

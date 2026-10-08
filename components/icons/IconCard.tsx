@@ -24,6 +24,10 @@ export interface IconCardProps {
   variant: IconVariant;
   /** Rendered (and copied) size in px. */
   size: number;
+  /** Stroke width on the 24px grid (rendered and copied). */
+  strokeWidth: number;
+  /** Icon colour; null inherits the card's ink colour and copies as `currentColor`. */
+  color: string | null;
 }
 
 /**
@@ -34,7 +38,7 @@ export interface IconCardProps {
  *  - The card only passes `state` to IconRenderer — all animation logic lives in
  *    the icon's recipe.
  */
-export const IconCard = memo(function IconCard({ variant, size }: IconCardProps) {
+export const IconCard = memo(function IconCard({ variant, size, strokeWidth, color }: IconCardProps) {
   const saved = useIsSaved(variant.key);
   const reduceMotion = useReducedMotion();
 
@@ -58,12 +62,12 @@ export const IconCard = memo(function IconCard({ variant, size }: IconCardProps)
   );
 
   const onCopy = useCallback(async () => {
-    const ok = await copyText(toSvgMarkup(variant, size));
+    const ok = await copyText(toSvgMarkup(variant, size, { strokeWidth, color }));
     if (!ok) return;
     setCopied(true);
     window.clearTimeout(copiedTimer.current);
     copiedTimer.current = window.setTimeout(() => setCopied(false), COPIED_MS);
-  }, [variant, size]);
+  }, [variant, size, strokeWidth, color]);
 
   const onToggleSave = useCallback(() => {
     const willSave = !saved;
@@ -145,9 +149,9 @@ export const IconCard = memo(function IconCard({ variant, size }: IconCardProps)
       {/* Icon */}
       <div
         className="absolute inset-0 flex items-center justify-center text-ink transition-transform duration-200 ease-out"
-        style={{ transform: active && lift ? `translateY(-${lift}px)` : undefined }}
+        style={{ transform: active && lift ? `translateY(-${lift}px)` : undefined, color: color ?? undefined }}
       >
-        <IconRenderer variant={variant} size={size} state={iconState} />
+        <IconRenderer variant={variant} size={size} strokeWidth={strokeWidth} state={iconState} />
       </div>
 
       {/* Name tooltip */}

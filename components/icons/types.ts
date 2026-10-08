@@ -17,7 +17,12 @@ export type CategoryId =
   | "media"
   | "files"
   | "commerce"
-  | "social";
+  | "social"
+  | "developer"
+  | "devices"
+  | "security"
+  | "nature"
+  | "maps";
 
 /**
  * How a node is painted.
@@ -60,6 +65,8 @@ export interface IconDefinition {
   subcategory?: string;
   tags: string[];
   sizes: readonly IconSize[];
+  /** Recently added — listed in the "New" set. */
+  isNew?: boolean;
   /** Name of the animation recipe; omit for static icons. */
   animation?: AnimationName;
   animationOptions?: AnimationOptions;
@@ -78,6 +85,7 @@ export interface IconVariant {
   tags: string[];
   sizes: readonly IconSize[];
   style: IconStyle;
+  isNew: boolean;
   animated: boolean;
   animation?: AnimationName;
   animationOptions?: AnimationOptions;

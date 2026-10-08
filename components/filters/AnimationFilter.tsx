@@ -1,19 +1,33 @@
 "use client";
 
+import { useId } from "react";
 import { useLibrary } from "../library/LibraryProvider";
 import type { AnimationFilterValue } from "../library/filterIcons";
-import { SegmentedList, type SegmentOption } from "../ui/SegmentedList";
+import { SegmentedControl, type SegmentOption } from "../ui/SegmentedControl";
+import { FilterSection } from "./FilterSection";
 
 const OPTIONS: readonly SegmentOption<AnimationFilterValue>[] = [
   { value: "all", label: "All" },
-  { value: "animated", label: "Animated" },
+  {
+    value: "animated",
+    label: "Animated",
+    icon: <span aria-hidden className="size-1.5 animate-pulse rounded-full bg-accent" />,
+  },
   { value: "static", label: "Static" },
 ];
 
 /** "Animated" shows only icons that have an SVG path animation recipe. */
 export function AnimationFilter() {
   const { filters, setFilter } = useLibrary();
+  const labelId = useId();
   return (
-    <SegmentedList label="Animation" options={OPTIONS} value={filters.animation} onChange={(v) => setFilter("animation", v)} />
+    <FilterSection labelId={labelId} label="Animation">
+      <SegmentedControl
+        labelledBy={labelId}
+        options={OPTIONS}
+        value={filters.animation}
+        onChange={(v) => setFilter("animation", v)}
+      />
+    </FilterSection>
   );
 }

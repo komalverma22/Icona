@@ -9,11 +9,11 @@ import { SavedFilter } from "./SavedFilter";
 import { SetRow } from "./SetRow";
 
 /**
- * "Sets" list from Figma: All, every category (expandable into its
- * sub-groups), and Saved with a count badge.
+ * "Sets" list from Figma: All, New (badge), every category (expandable into
+ * its sub-groups, with live counts), and Saved (badge).
  */
 export function CategoryFilter() {
-  const { filters, setFilter } = useLibrary();
+  const { filters, setFilter, setCounts } = useLibrary();
   const baseId = useId();
   const [expanded, setExpanded] = useState<CategoryId | null>(null);
   const set = filters.set;
@@ -22,11 +22,24 @@ export function CategoryFilter() {
 
   return (
     <nav aria-label="Icon sets" className="flex w-full flex-col">
-      <p className="pt-6 pb-2.5 text-[12px] leading-3 font-medium text-muted">Sets</p>
+      <h3 className="pt-7 pb-3 text-[12px] leading-3 font-medium text-muted">Sets</h3>
       <LayoutGroup id={baseId}>
-        <ul className="flex w-full flex-col pt-0.5">
+        <ul className="flex w-full flex-col gap-0.5">
           <li>
-            <SetRow label="All icons" selected={set.kind === "all"} onSelect={() => setFilter("set", { kind: "all" })} />
+            <SetRow
+              label="All icons"
+              count={setCounts.all}
+              selected={set.kind === "all"}
+              onSelect={() => setFilter("set", { kind: "all" })}
+            />
+          </li>
+          <li>
+            <SetRow
+              label="New"
+              badge={setCounts.new}
+              selected={set.kind === "new"}
+              onSelect={() => setFilter("set", set.kind === "new" ? { kind: "all" } : { kind: "new" })}
+            />
           </li>
           {categories.map((category) => {
             const isOpen = expanded === category.id;
@@ -36,6 +49,7 @@ export function CategoryFilter() {
               <li key={category.id}>
                 <SetRow
                   label={category.label}
+                  count={setCounts.categories[category.id] ?? 0}
                   selected={selectedCategory && !set.subcategory}
                   onSelect={() => {
                     setFilter("set", { kind: "category", id: category.id });
@@ -63,6 +77,7 @@ export function CategoryFilter() {
                           <SetRow
                             indent
                             label={sub}
+                            count={setCounts.subcategories[`${category.id}/${sub}`] ?? 0}
                             selected={selectedCategory && set.subcategory === sub}
                             onSelect={() => setFilter("set", { kind: "category", id: category.id, subcategory: sub })}
                           />

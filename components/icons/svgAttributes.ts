@@ -73,14 +73,27 @@ function nodeToString(node: IconNode): string {
   return `<${node.type} ${attrsToString({ ...geometryAttrs(node), ...paintAttrs(node), ...(node.attrs ?? {}) })}/>`;
 }
 
+export interface MarkupOptions {
+  /** Stroke width on the 24px grid (default 1.5). */
+  strokeWidth?: number;
+  /** Hex colour to bake in; omitted keeps `currentColor` so the icon inherits text colour. */
+  color?: string | null;
+}
+
 /**
  * Serialize an icon to standalone, valid SVG markup (viewBox, paths, paints,
  * masks preserved). Animation-only helper nodes are excluded.
  */
-export function toSvgMarkup(variant: IconVariant, size: number): string {
+export function toSvgMarkup(variant: IconVariant, size: number, options: MarkupOptions = {}): string {
   const nodes = variant.nodes.filter((n) => !n.animationOnly);
   const { knockouts, body } = splitNodes(nodes);
-  const root = attrsToString({ width: size, height: size, viewBox: VIEWBOX, ...ROOT_ATTRS });
+  const root = attrsToString({
+    width: size,
+    height: size,
+    viewBox: VIEWBOX,
+    ...ROOT_ATTRS,
+    strokeWidth: options.strokeWidth ?? ROOT_ATTRS.strokeWidth,
+  });
 
   const lines: string[] = [`<svg xmlns="http://www.w3.org/2000/svg" ${root}>`];
   if (knockouts.length > 0) {
@@ -100,5 +113,6 @@ export function toSvgMarkup(variant: IconVariant, size: number): string {
     lines.push(...body.map((n) => `  ${nodeToString(n)}`));
   }
   lines.push(`</svg>`);
-  return lines.join("\n");
+  const markup = lines.join("\n");
+  return options.color ? markup.replaceAll("currentColor", options.color) : markup;
 }

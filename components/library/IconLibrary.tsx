@@ -2,9 +2,10 @@
 
 import { MotionConfig } from "framer-motion";
 import { FilterPanel } from "../filters/FilterPanel";
-import { MobileFilterBar } from "../filters/MobileFilterBar";
+import { ResultsToolbar } from "../filters/ResultsToolbar";
 import { IconGrid } from "../icons/IconGrid";
 import { Navbar } from "../layout/Navbar";
+import { ScrollArea } from "../ui/ScrollArea";
 import { LibraryProvider } from "./LibraryProvider";
 
 /**
@@ -19,14 +20,14 @@ export function IconLibrary() {
         <div className="mx-auto flex max-w-[1440px] items-start gap-[41px] px-4 pt-6 pb-16 md:px-8 md:pt-9 xl:px-[82px]">
           <main className="min-w-0 flex-1">
             <h1 className="sr-only">Icon library</h1>
-            <MobileFilterBar />
+            <ResultsToolbar />
             <IconGrid />
           </main>
-          <aside
-            aria-label="Filters"
-            className="sticky top-[100px] hidden max-h-[calc(100vh-116px)] w-64 shrink-0 overflow-y-auto pb-4 pl-4 lg:block"
-          >
-            <FilterPanel />
+          {/* 256px aside: 8px + 240px panel + 11px gap + 3px overlay scrollbar */}
+          <aside aria-label="Filters" className="sticky top-[100px] hidden w-64 shrink-0 lg:block">
+            <ScrollArea viewportClassName="max-h-[calc(100vh-116px)] pr-[14px] pb-6 pl-2">
+              <FilterPanel />
+            </ScrollArea>
           </aside>
         </div>
       </LibraryProvider>

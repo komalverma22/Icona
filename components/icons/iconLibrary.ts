@@ -1,5 +1,8 @@
-import { iconDefinitions } from "./iconData";
-import type { CategoryId, IconStyle, IconVariant } from "./types";
+import { iconDefinitions as baseDefinitions } from "./iconData";
+import { underratedIconDefinitions } from "./iconDataUnderrated";
+import type { CategoryId, IconDefinition, IconStyle, IconVariant } from "./types";
+
+const iconDefinitions: readonly IconDefinition[] = [...baseDefinitions, ...underratedIconDefinitions];
 
 export interface CategoryMeta {
   id: CategoryId;
@@ -17,10 +20,29 @@ const CATEGORY_LABELS: Record<CategoryId, string> = {
   files: "Files",
   commerce: "Commerce",
   social: "Social",
+  developer: "Developer",
+  devices: "Devices",
+  security: "Security",
+  nature: "Nature",
+  maps: "Maps",
 };
 
 /** Sidebar order. */
-const CATEGORY_ORDER: CategoryId[] = ["core", "ui", "navigation", "communication", "media", "files", "commerce", "social"];
+const CATEGORY_ORDER: CategoryId[] = [
+  "core",
+  "ui",
+  "navigation",
+  "developer",
+  "devices",
+  "security",
+  "communication",
+  "media",
+  "files",
+  "nature",
+  "maps",
+  "commerce",
+  "social",
+];
 
 const STYLES: IconStyle[] = ["outline", "fill"];
 
@@ -32,7 +54,7 @@ export const iconVariants: readonly IconVariant[] = iconDefinitions.flatMap((def
   STYLES.flatMap((style): IconVariant[] => {
     const nodes = def[style];
     if (!nodes) return [];
-    const searchText = [def.name, def.id, CATEGORY_LABELS[def.category], def.subcategory ?? "", style, ...def.tags]
+    const searchText = [def.name, def.id, CATEGORY_LABELS[def.category], def.subcategory ?? "", style, def.isNew ? "new" : "", ...def.tags]
       .join(" ")
       .toLowerCase();
     return [
@@ -45,6 +67,7 @@ export const iconVariants: readonly IconVariant[] = iconDefinitions.flatMap((def
         tags: def.tags,
         sizes: def.sizes,
         style,
+        isNew: Boolean(def.isNew),
         animated: Boolean(def.animation),
         animation: def.animation,
         animationOptions: def.animationOptions,

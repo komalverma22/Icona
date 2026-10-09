@@ -252,7 +252,7 @@ export function AnimationStudio({ variantKey, inSheet = false }: { variantKey: s
       </div>
 
       {/* Variants */}
-      <h3 className="mt-6 mb-2 text-[12px] leading-3 font-medium text-muted">Variants</h3>
+      {/* <h3 className="mt-6 mb-2 text-[12px] leading-3 font-medium text-muted">Variants</h3>
       <div role="radiogroup" aria-label={`${variant.name} animations`} className="flex flex-col gap-3">
         {grouped.map(({ style, items }) => (
           <div key={style.id} className="flex flex-col gap-0.5">
@@ -292,7 +292,7 @@ export function AnimationStudio({ variantKey, inSheet = false }: { variantKey: s
             })}
           </div>
         ))}
-      </div>
+      </div> */}
 
       {/* Compare */}
       <div className="mt-6 mb-2 flex items-center justify-between">

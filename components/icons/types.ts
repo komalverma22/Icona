@@ -19,6 +19,8 @@ export type CategoryId =
   | "commerce"
   | "social"
   | "developer"
+  | "data"
+  | "accessibility"
   | "devices"
   | "security"
   | "nature"

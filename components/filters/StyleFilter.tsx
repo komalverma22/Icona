@@ -1,17 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useId, useRef, useState, type KeyboardEvent } from "react";
-import { ACTIVE, REST } from "../icons/animations/animationTypes";
-import { iconVariantsByKey } from "../icons/iconLibrary";
-import { IconRenderer } from "../icons/IconRenderer";
+import { useId, useRef, type KeyboardEvent } from "react";
 import { useLibrary } from "../library/LibraryProvider";
 import type { StyleFilterValue } from "../library/filterIcons";
 import { cx } from "../ui/Button";
 import { FilterSection } from "./FilterSection";
-
-const HEART_OUTLINE = iconVariantsByKey.get("heart-outline")!;
-const HEART_FILL = iconVariantsByKey.get("heart-fill")!;
 
 const OPTIONS: readonly { value: StyleFilterValue; label: string }[] = [
   { value: "all", label: "All" },
@@ -19,30 +13,14 @@ const OPTIONS: readonly { value: StyleFilterValue; label: string }[] = [
   { value: "fill", label: "Fill" },
 ];
 
-/** Trailing preview drawn with the library's own heart — it animates while the row is hovered. */
-function Preview({ value, active }: { value: StyleFilterValue; active: boolean }) {
-  const state = active ? ACTIVE : REST;
-  if (value === "all") {
-    return (
-      <span className="flex items-center gap-0.5">
-        <IconRenderer variant={HEART_OUTLINE} size={14} state={state} />
-        <IconRenderer variant={HEART_FILL} size={14} state={state} />
-      </span>
-    );
-  }
-  return <IconRenderer variant={value === "fill" ? HEART_FILL : HEART_OUTLINE} size={14} state={state} />;
-}
-
 /**
  * Style picker — the Figma vertical list (48:1679): tray of 30px rows, the
- * selected row is a raised white pill with a check on the left; each row
- * shows a live preview of the style on the right.
+ * selected row is a raised white pill with a check on the left.
  */
 export function StyleFilter() {
   const { filters, setFilter } = useLibrary();
   const labelId = useId();
   const pillId = useId();
-  const [hovered, setHovered] = useState<StyleFilterValue | null>(null);
   const refs = useRef<(HTMLButtonElement | null)[]>([]);
 
   const onKeyDown = (e: KeyboardEvent<HTMLButtonElement>, index: number) => {
@@ -75,10 +53,6 @@ export function StyleFilter() {
               tabIndex={selected ? 0 : -1}
               onClick={() => setFilter("style", option.value)}
               onKeyDown={(e) => onKeyDown(e, i)}
-              onPointerEnter={() => setHovered(option.value)}
-              onPointerLeave={() => setHovered(null)}
-              onFocus={() => setHovered(option.value)}
-              onBlur={() => setHovered(null)}
               className="group relative flex h-[30px] w-full cursor-pointer items-center rounded-[8px] px-[30px] text-left focus-visible:outline-offset-[-1px]"
             >
               {selected && (
@@ -99,15 +73,6 @@ export function StyleFilter() {
                 )}
               >
                 {option.label}
-              </span>
-              <span
-                aria-hidden
-                className={cx(
-                  "absolute top-1/2 right-[9px] flex -translate-y-1/2 items-center transition-colors duration-150",
-                  selected ? "text-ink" : "text-muted group-hover:text-ink",
-                )}
-              >
-                <Preview value={option.value} active={hovered === option.value} />
               </span>
             </button>
           );

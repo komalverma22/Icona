@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { iconCount } from "../icons/iconLibrary";
 import { useLibrary } from "../library/LibraryProvider";
 import { Search } from "../ui/Search";
 
@@ -35,7 +36,7 @@ export function IconSearch({ className, autoFocusShortcut = true }: { className?
       value={filters.query}
       onValueChange={(v) => setFilter("query", v)}
       aria-label="Search icons by name, category or tag"
-      placeholder="Search"
+      placeholder={`Search ${iconCount} icons…`}
       onKeyDown={(e) => {
         if (e.key === "Escape") {
           if (filters.query) setFilter("query", "");

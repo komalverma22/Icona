@@ -15,7 +15,8 @@ export interface SegmentOption<T extends string | number> {
 
 interface SegmentedControlProps<T extends string | number> {
   options: readonly SegmentOption<T>[];
-  value: T;
+  /** null = no option selected (e.g. a value chosen outside the control). */
+  value: T | null;
   onChange: (value: T) => void;
   /** id of the element labelling this group. */
   labelledBy?: string;
@@ -71,7 +72,7 @@ export function SegmentedControl<T extends string | number>({
             role="radio"
             aria-checked={selected}
             aria-label={option.ariaLabel}
-            tabIndex={selected ? 0 : -1}
+            tabIndex={selected || (i === 0 && !options.some((o) => o.value === value)) ? 0 : -1}
             onClick={() => onChange(option.value)}
             onKeyDown={(e) => onKeyDown(e, i)}
             className="group relative flex h-[26px] min-w-0 cursor-pointer items-center justify-center rounded-[8px] px-1.5 focus-visible:outline-offset-[-1px]"

@@ -2,15 +2,18 @@
 
 import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
 import { useId, useState } from "react";
-import { categories } from "../icons/iconLibrary";
+import { categories, iconVariantsByKey } from "../icons/iconLibrary";
 import type { CategoryId } from "../icons/types";
 import { useLibrary } from "../library/LibraryProvider";
 import { SavedFilter } from "./SavedFilter";
 import { SetRow } from "./SetRow";
 
+const ALL_ICON = iconVariantsByKey.get("layers-outline");
+const NEW_ICON = iconVariantsByKey.get("sparkles-outline");
+
 /**
- * "Sets" list from Figma: All, New (badge), every category (expandable into
- * its sub-groups, with live counts), and Saved (badge).
+ * "Sets" menu: All, New, every category (expandable into its sub-groups) and
+ * Saved — each row with its icon, a live count badge and a trailing chevron.
  */
 export function CategoryFilter() {
   const { filters, setFilter, setCounts } = useLibrary();
@@ -28,6 +31,7 @@ export function CategoryFilter() {
           <li>
             <SetRow
               label="All icons"
+              icon={ALL_ICON}
               count={setCounts.all}
               selected={set.kind === "all"}
               onSelect={() => setFilter("set", { kind: "all" })}
@@ -36,7 +40,8 @@ export function CategoryFilter() {
           <li>
             <SetRow
               label="New"
-              badge={setCounts.new}
+              icon={NEW_ICON}
+              count={setCounts.new}
               selected={set.kind === "new"}
               onSelect={() => setFilter("set", set.kind === "new" ? { kind: "all" } : { kind: "new" })}
             />
@@ -49,6 +54,7 @@ export function CategoryFilter() {
               <li key={category.id}>
                 <SetRow
                   label={category.label}
+                  icon={category.icon}
                   count={setCounts.categories[category.id] ?? 0}
                   selected={selectedCategory && !set.subcategory}
                   onSelect={() => {
@@ -70,7 +76,7 @@ export function CategoryFilter() {
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-                      className="overflow-hidden"
+                      className="relative flex flex-col gap-0.5 overflow-hidden pt-0.5 before:absolute before:top-1 before:bottom-1 before:left-[17.5px] before:w-px before:bg-divider"
                     >
                       {category.subcategories.map((sub) => (
                         <li key={sub}>

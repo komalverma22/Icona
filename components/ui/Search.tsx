@@ -16,7 +16,7 @@ interface SearchProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "onCha
  * and a clear button that replaces the hint once there is a query.
  */
 export const Search = forwardRef<HTMLInputElement, SearchProps>(function Search(
-  { value, onValueChange, showShortcut = true, className, placeholder = "Search", ...rest },
+  { value, onValueChange, showShortcut = true, className, placeholder = "Search icons…", ...rest },
   ref,
 ) {
   const [modKey, setModKey] = useState("Ctrl");
@@ -27,15 +27,22 @@ export const Search = forwardRef<HTMLInputElement, SearchProps>(function Search(
   const hasValue = value.length > 0;
 
   return (
-    <div className={cx("relative w-full", className)}>
-      <img
-        src="/figma/search.svg"
-        alt=""
+    <div className={cx("group/search relative w-full", className)}>
+      <svg
         aria-hidden
-        width={11}
-        height={11}
-        className="pointer-events-none absolute top-1/2 left-[10.5px] size-[11px] -translate-y-1/2"
-      />
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="pointer-events-none absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted transition-colors duration-150 group-focus-within/search:text-ink"
+      >
+        <circle cx="10.75" cy="10.75" r="6.25" />
+        <path d="M15.5 15.5L19.5 19.5" />
+      </svg>
       <input
         ref={ref}
         type="search"
@@ -45,7 +52,7 @@ export const Search = forwardRef<HTMLInputElement, SearchProps>(function Search(
         autoComplete="off"
         spellCheck={false}
         className={cx(
-          "h-8 w-full rounded-[10px] border border-line bg-field pl-[29.8px] text-[12px] text-ink shadow-field outline-none placeholder:text-muted",
+          "h-8 w-full rounded-[10px] border border-line bg-field pl-8 text-[12px] text-ink shadow-field outline-none placeholder:text-muted/90",
           "transition-[border-color,box-shadow] duration-150 focus:border-accent focus-visible:outline-none focus:shadow-[0_0_0_3px_rgba(91,220,103,0.18)]",
           "[&::-webkit-search-cancel-button]:appearance-none",
           hasValue ? "pr-8" : showShortcut ? "pr-3 sm:pr-[64px]" : "pr-3",

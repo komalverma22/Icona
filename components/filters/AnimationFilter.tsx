@@ -8,11 +8,7 @@ import { FilterSection } from "./FilterSection";
 
 const OPTIONS: readonly SegmentOption<AnimationFilterValue>[] = [
   { value: "all", label: "All" },
-  {
-    value: "animated",
-    label: "Animated",
-    icon: <span aria-hidden className="size-1.5 animate-pulse rounded-full bg-accent" />,
-  },
+  { value: "animated", label: "Animated" },
   { value: "static", label: "Static" },
 ];
 

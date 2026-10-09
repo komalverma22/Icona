@@ -1,14 +1,21 @@
 import { iconDefinitions as baseDefinitions } from "./iconData";
+import { discoverIconDefinitions } from "./iconDataDiscover";
 import { underratedIconDefinitions } from "./iconDataUnderrated";
 import type { CategoryId, IconDefinition, IconStyle, IconVariant } from "./types";
 
-const iconDefinitions: readonly IconDefinition[] = [...baseDefinitions, ...underratedIconDefinitions];
+const iconDefinitions: readonly IconDefinition[] = [
+  ...baseDefinitions,
+  ...underratedIconDefinitions,
+  ...discoverIconDefinitions,
+];
 
 export interface CategoryMeta {
   id: CategoryId;
   label: string;
   /** Sub-groups shown when the set is expanded in the sidebar (derived from data). */
   subcategories: string[];
+  /** Glyph shown next to the set in the sidebar. */
+  icon?: IconVariant;
 }
 
 const CATEGORY_LABELS: Record<CategoryId, string> = {
@@ -21,6 +28,8 @@ const CATEGORY_LABELS: Record<CategoryId, string> = {
   commerce: "Commerce",
   social: "Social",
   developer: "Developer",
+  data: "Data Viz",
+  accessibility: "Accessibility",
   devices: "Devices",
   security: "Security",
   nature: "Nature",
@@ -33,6 +42,8 @@ const CATEGORY_ORDER: CategoryId[] = [
   "ui",
   "navigation",
   "developer",
+  "data",
+  "accessibility",
   "devices",
   "security",
   "communication",
@@ -43,6 +54,25 @@ const CATEGORY_ORDER: CategoryId[] = [
   "commerce",
   "social",
 ];
+
+/** Library icon (outline) that represents each set in the sidebar. */
+const CATEGORY_ICONS: Record<CategoryId, string> = {
+  core: "star",
+  ui: "toggle",
+  navigation: "compass",
+  communication: "message",
+  media: "play",
+  files: "folder",
+  commerce: "cart",
+  social: "share",
+  developer: "code",
+  data: "gauge",
+  accessibility: "accessibility",
+  devices: "keyboard",
+  security: "shield-check",
+  nature: "leaf",
+  maps: "map-pin",
+};
 
 const STYLES: IconStyle[] = ["outline", "fill"];
 
@@ -78,6 +108,9 @@ export const iconVariants: readonly IconVariant[] = iconDefinitions.flatMap((def
   }),
 );
 
+/** Number of distinct icons (each may ship in several styles). */
+export const iconCount = iconDefinitions.length;
+
 export const iconVariantsByKey: ReadonlyMap<string, IconVariant> = new Map(iconVariants.map((v) => [v.key, v]));
 
 export const categories: readonly CategoryMeta[] = CATEGORY_ORDER.map((id) => {
@@ -87,7 +120,7 @@ export const categories: readonly CategoryMeta[] = CATEGORY_ORDER.map((id) => {
       subcategories.push(def.subcategory);
     }
   }
-  return { id, label: CATEGORY_LABELS[id], subcategories };
+  return { id, label: CATEGORY_LABELS[id], subcategories, icon: iconVariantsByKey.get(`${CATEGORY_ICONS[id]}-outline`) };
 });
 
 export const categoryLabel = (id: CategoryId) => CATEGORY_LABELS[id];

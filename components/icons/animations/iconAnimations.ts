@@ -5,6 +5,7 @@ import {
   REST,
   type AnimatableValue,
   type AnimationName,
+  type AnimationOptions,
   type AnimationPlan,
   type AnimationRecipe,
   type CompiledAnimation,
@@ -13,6 +14,7 @@ import {
   type Track,
 } from "./animationTypes";
 import { commerceRecipes } from "./animated-icons/commerce";
+import { contextualRecipes } from "./animated-icons/contextual";
 import { developerRecipes } from "./animated-icons/developer";
 import { devicesRecipes } from "./animated-icons/devices";
 import { mapsRecipes } from "./animated-icons/maps";
@@ -56,6 +58,7 @@ export const iconAnimations = {
   ...securityRecipes,
   ...natureRecipes,
   ...mapsRecipes,
+  ...contextualRecipes,
 } satisfies Record<AnimationName, AnimationRecipe>;
 
 /* -------------------------------------------------------------------------- */
@@ -139,21 +142,23 @@ const EMPTY: CompiledAnimation = Object.freeze({});
  * Compiled, cached animation for an icon variant. Variants are built once per
  * icon and shared by every render, so cards never recreate animation objects.
  */
-export function getIconAnimation(variant: IconVariant): CompiledAnimation {
-  if (!variant.animation) return EMPTY;
-  const hit = cache.get(variant.key);
+export function getIconAnimation(
+  variant: IconVariant,
+  name: AnimationName | null | undefined = variant.animation,
+  options: AnimationOptions = variant.animationOptions ?? {},
+): CompiledAnimation {
+  if (!name) return EMPTY;
+  const cacheKey = `${variant.key}:${name}:${options.direction ?? ""}`;
+  const hit = cache.get(cacheKey);
   if (hit) return hit;
 
-  const recipe: AnimationRecipe = iconAnimations[variant.animation];
-  const plan = withAutoFill(
-    variant,
-    recipe({ nodes: variant.nodes, style: variant.style, options: variant.animationOptions ?? {} }),
-  );
+  const recipe: AnimationRecipe = iconAnimations[name];
+  const plan = withAutoFill(variant, recipe({ nodes: variant.nodes, style: variant.style, options }));
 
   const compiled: Record<string, CompiledNodeMotion> = {};
   for (const [id, motion] of Object.entries(plan)) compiled[id] = compileNode(motion);
 
   const frozen = Object.freeze(compiled);
-  cache.set(variant.key, frozen);
+  cache.set(cacheKey, frozen);
   return frozen;
 }

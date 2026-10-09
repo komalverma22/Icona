@@ -53,6 +53,12 @@ const BUBBLE =
   "M5 4.5H19A1.5 1.5 0 0 1 20.5 6V15.5A1.5 1.5 0 0 1 19 17H11L6.5 20.5V17H5A1.5 1.5 0 0 1 3.5 15.5V6A1.5 1.5 0 0 1 5 4.5Z";
 /** Full circle (r 8.5) starting at the top so it draws clockwise from 12 o'clock. */
 const RING = "M12 3.5A8.5 8.5 0 1 1 12 20.5A8.5 8.5 0 1 1 12 3.5";
+/** Animation-only parts used by the "Open Letter" and "Drop In" motion variants. */
+const TRASH_SCRAP = "M10.5 1L13.5 1.5L13 4L10 3.5Z";
+const MAIL_LETTER: IconNode[] = [
+  { id: "letter", type: "path", d: "M7 11V4.5A1 1 0 0 1 8 3.5H16A1 1 0 0 1 17 4.5V11", animationOnly: true },
+  { id: "letterLine", type: "path", d: "M9.5 6.5H14.5", animationOnly: true },
+];
 
 /* Icons ------------------------------------------------------------------- */
 
@@ -337,6 +343,7 @@ export const iconDefinitions: IconDefinition[] = [
       p("body", "M6 6.5L6.9 19.1A1.5 1.5 0 0 0 8.4 20.5H15.6A1.5 1.5 0 0 0 17.1 19.1L18 6.5"),
       p("rib1", "M10 10.5V16.5"),
       p("rib2", "M14 10.5V16.5"),
+      p("scrap", TRASH_SCRAP, { animationOnly: true }),
     ],
     fill: [
       p("lid", "M4 6.5H20"),
@@ -344,6 +351,7 @@ export const iconDefinitions: IconDefinition[] = [
       p("body", "M6 6.5H18L17.1 19.1A1.5 1.5 0 0 1 15.6 20.5H8.4A1.5 1.5 0 0 1 6.9 19.1Z", FILL),
       p("rib1", "M10 10.5V16.5", KO),
       p("rib2", "M14 10.5V16.5", KO),
+      p("scrap", TRASH_SCRAP, { animationOnly: true }),
     ],
   },
   {
@@ -506,8 +514,8 @@ export const iconDefinitions: IconDefinition[] = [
     tags: ["mail", "email", "envelope", "message", "inbox", "letter"],
     sizes,
     animation: "mail",
-    outline: [p("envelope", MAIL_BOX), p("flap", "M3.5 7L12 13L20.5 7")],
-    fill: [p("envelope", MAIL_BOX, FILL), p("flap", "M3.5 7L12 13L20.5 7", KO)],
+    outline: [p("envelope", MAIL_BOX), p("flap", "M3.5 7L12 13L20.5 7"), ...MAIL_LETTER],
+    fill: [p("envelope", MAIL_BOX, FILL), p("flap", "M3.5 7L12 13L20.5 7", KO), ...MAIL_LETTER],
   },
   {
     id: "message",

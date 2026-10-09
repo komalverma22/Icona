@@ -1,5 +1,7 @@
 import { iconDefinitions as baseDefinitions } from "./iconData";
 import { discoverIconDefinitions } from "./iconDataDiscover";
+import { pixelIconDefinitions, tracedArt } from "./iconDataPixel";
+import { playgroundIconDefinitions } from "./iconDataPlayground";
 import { underratedIconDefinitions } from "./iconDataUnderrated";
 import type { CategoryId, IconDefinition, IconStyle, IconVariant } from "./types";
 
@@ -7,6 +9,8 @@ const iconDefinitions: readonly IconDefinition[] = [
   ...baseDefinitions,
   ...underratedIconDefinitions,
   ...discoverIconDefinitions,
+  ...playgroundIconDefinitions,
+  ...pixelIconDefinitions,
 ];
 
 export interface CategoryMeta {
@@ -30,6 +34,8 @@ const CATEGORY_LABELS: Record<CategoryId, string> = {
   developer: "Developer",
   data: "Data Viz",
   accessibility: "Accessibility",
+  creative: "Creative",
+  pixel: "Pixel Art",
   devices: "Devices",
   security: "Security",
   nature: "Nature",
@@ -44,6 +50,8 @@ const CATEGORY_ORDER: CategoryId[] = [
   "developer",
   "data",
   "accessibility",
+  "creative",
+  "pixel",
   "devices",
   "security",
   "communication",
@@ -68,6 +76,8 @@ const CATEGORY_ICONS: Record<CategoryId, string> = {
   developer: "code",
   data: "gauge",
   accessibility: "accessibility",
+  creative: "magic-wand",
+  pixel: "pixel-gamepad",
   devices: "keyboard",
   security: "shield-check",
   nature: "leaf",
@@ -98,10 +108,11 @@ export const iconVariants: readonly IconVariant[] = iconDefinitions.flatMap((def
         sizes: def.sizes,
         style,
         isNew: Boolean(def.isNew),
-        animated: Boolean(def.animation),
+        animated: Boolean(def.animation || def.pixel),
         animation: def.animation,
         animationOptions: def.animationOptions,
         nodes,
+        pixel: def.pixel && (style === "fill" ? def.pixel : tracedArt(def.pixel)),
         searchText,
       },
     ];

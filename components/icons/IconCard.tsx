@@ -1,7 +1,19 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { memo, useCallback, useEffect, useRef, useState, type FocusEvent, type KeyboardEvent, type PointerEvent } from "react";
+import {
+  memo,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type FocusEvent,
+  type KeyboardEvent,
+  type MouseEvent,
+  type PointerEvent,
+} from "react";
+import { MotionIcon } from "../motion/MotionIcon";
+import type { MotionVariant } from "../motion/types";
 import { toggleSaved, useIsSaved } from "../saved/savedIconsStore";
 import { cx } from "../ui/Button";
 import { ACTIVE, REST } from "./animations/animationTypes";
@@ -16,6 +28,7 @@ import type { IconVariant } from "./types";
 const BOOKMARK_OUTLINE = iconVariantsByKey.get("bookmark-outline")!;
 const BOOKMARK_FILL = iconVariantsByKey.get("bookmark-fill")!;
 const CHECK = iconVariantsByKey.get("check-outline")!;
+const MOTION_GLYPH = iconVariantsByKey.get("sparkles-outline")!;
 
 const COPIED_MS = 1600;
 const reveal = { duration: 0.2, ease: EASE_OUT };
@@ -28,6 +41,11 @@ export interface IconCardProps {
   strokeWidth: number;
   /** Icon colour; null inherits the card's ink colour and copies as `currentColor`. */
   color: string | null;
+  /** Motion variant played on hover (resolved from the Motion filter and the user's choice). */
+  motion?: MotionVariant;
+  /** Number of motion variants this icon offers. */
+  motionCount: number;
+  onOpenStudio: (variantKey: string) => void;
 }
 
 /**
@@ -35,10 +53,12 @@ export interface IconCardProps {
  *  - Hover (mouse/pen), keyboard focus or a tap activates it: the SVG path
  *    animation plays, the Save button and "Copy as SVG" animate in.
  *  - Leaving resets the animation to rest; re-entering replays it from the start.
- *  - The card only passes `state` to IconRenderer — all animation logic lives in
- *    the icon's recipe.
+ *  - The card only passes `active` to MotionIcon — the chosen motion variant
+ *    (path recipe, effect, particles or pixel frames) does the rest.
+ *  - Clicking the card (mouse / pen), the Animations button or "A" opens the
+ *    Animation Studio for this icon.
  */
-export const IconCard = memo(function IconCard({ variant, size, strokeWidth, color }: IconCardProps) {
+export const IconCard = memo(function IconCard({ variant, size, strokeWidth, color, motion: mv, motionCount, onOpenStudio }: IconCardProps) {
   const saved = useIsSaved(variant.key);
   const reduceMotion = useReducedMotion();
 
@@ -51,7 +71,7 @@ export const IconCard = memo(function IconCard({ variant, size, strokeWidth, col
   const savedTimer = useRef<number | undefined>(undefined);
 
   const active = hovered || keyboardFocus || touched;
-  const iconState = active && !reduceMotion ? ACTIVE : REST;
+  const pointerType = useRef<string>("mouse");
 
   useEffect(
     () => () => {
@@ -86,7 +106,13 @@ export const IconCard = memo(function IconCard({ variant, size, strokeWidth, col
     if (e.pointerType !== "touch") setHovered(false);
   };
   const onPointerDown = (e: PointerEvent) => {
+    pointerType.current = e.pointerType;
     if (e.pointerType === "touch") setTouched(true);
+  };
+  const onClick = (e: MouseEvent<HTMLDivElement>) => {
+    // Taps only activate the card on touch; buttons handle their own clicks.
+    if (pointerType.current === "touch" || (e.target as HTMLElement).closest("button")) return;
+    onOpenStudio(variant.key);
   };
   const onFocus = (e: FocusEvent<HTMLDivElement>) => {
     // Only keyboard focus counts — clicking Save must not pin the card open.
@@ -106,10 +132,13 @@ export const IconCard = memo(function IconCard({ variant, size, strokeWidth, col
     } else if (key === "s") {
       e.preventDefault();
       onToggleSave();
+    } else if (key === "a") {
+      e.preventDefault();
+      onOpenStudio(variant.key);
     }
   };
 
-  const label = `${variant.name}, ${variant.style}${variant.animated ? ", animated" : ""}`;
+  const label = `${variant.name}, ${variant.style}, ${motionCount} animations`;
   const showSave = active || saved;
   // Large icons make room for the Copy button while the card is active.
   const lift = Math.max(0, (size - 24) / 4);
@@ -120,14 +149,16 @@ export const IconCard = memo(function IconCard({ variant, size, strokeWidth, col
       tabIndex={0}
       role="group"
       aria-label={label}
-      aria-keyshortcuts="Enter C S"
+      aria-keyshortcuts="Enter C S A"
+      data-active={active ? "" : undefined}
       onPointerEnter={onPointerEnter}
       onPointerLeave={onPointerLeave}
       onPointerDown={onPointerDown}
       onFocus={onFocus}
       onBlur={onBlur}
       onKeyDown={onKeyDown}
-      className="group/card relative h-[102.84px] w-full rounded-[10px] bg-card outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+      onClick={onClick}
+      className="group/card relative h-[102.84px] cursor-pointer w-full rounded-[10px] bg-card outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
     >
       {/* Figma "Item paints" hairline */}
       <span
@@ -148,10 +179,10 @@ export const IconCard = memo(function IconCard({ variant, size, strokeWidth, col
 
       {/* Icon */}
       <div
-        className="absolute inset-0 flex items-center justify-center text-ink transition-transform duration-200 ease-out"
+        className="absolute inset-0 rounded-[10px] text-ink transition-transform duration-200 ease-out"
         style={{ transform: active && lift ? `translateY(-${lift}px)` : undefined, color: color ?? undefined }}
       >
-        <IconRenderer variant={variant} size={size} strokeWidth={strokeWidth} state={iconState} />
+        <MotionIcon variant={variant} motion={mv} active={active} size={size} strokeWidth={strokeWidth} />
       </div>
 
       {/* Name tooltip */}
@@ -166,9 +197,34 @@ export const IconCard = memo(function IconCard({ variant, size, strokeWidth, col
             className="pointer-events-none absolute bottom-full left-1/2 z-20 mb-1.5 -translate-x-1/2 whitespace-nowrap rounded-[6px] bg-ink px-2 py-1 text-[11px] leading-[14px] font-medium text-white shadow-card-hover"
           >
             {variant.name}
+            {mv && <span className="text-white/60"> · {mv.label}</span>}
           </motion.span>
         )}
       </AnimatePresence>
+
+      {/* Animation Studio — top left */}
+      {motionCount > 0 && (
+        <motion.button
+          type="button"
+          aria-label={`Open animations for ${variant.name} (${motionCount} variants)`}
+          onClick={() => onOpenStudio(variant.key)}
+          initial={false}
+          animate={active ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.8, y: -2 }}
+          transition={reveal}
+          className={cx(
+            "absolute top-1.5 left-1.5 z-10 flex h-6 cursor-pointer items-center gap-1 rounded-[7px] px-1.5",
+            active ? "pointer-events-auto" : "pointer-events-none",
+          )}
+        >
+          <span aria-hidden className="absolute inset-0 rounded-[7px] surface-raised shadow-button" />
+          <span aria-hidden className="relative text-text">
+            <IconRenderer variant={MOTION_GLYPH} size={12} recipe={null} />
+          </span>
+          <span aria-hidden className="relative text-[10px] leading-3 font-medium text-ink tabular-nums">
+            {motionCount}
+          </span>
+        </motion.button>
+      )}
 
       {/* Save / bookmark — top right */}
       <motion.button

@@ -58,7 +58,7 @@ export function splitNodes(nodes: readonly IconNode[]) {
 
 /** Presentation attributes are kebab-case in markup; geometry/structural ones (viewBox, maskUnits) are not. */
 const kebab = (name: string) =>
-  /^(stroke|fill)[A-Z]/.test(name) ? name.replace(/[A-Z]/g, (m) => `-${m.toLowerCase()}`) : name;
+  /^(stroke|fill|shape)[A-Z]/.test(name) ? name.replace(/[A-Z]/g, (m) => `-${m.toLowerCase()}`) : name;
 
 const escapeAttr = (value: string | number) =>
   String(value).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");

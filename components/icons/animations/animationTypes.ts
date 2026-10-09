@@ -87,7 +87,18 @@ export type AnimationName =
   | "hourglass"
   | "grip"
   | "lightbulb"
-  | "gift";
+  | "gift"
+  // Context-aware motion variants
+  | "carWheels"
+  | "rocketFlame"
+  | "mailOpen"
+  | "trashDrop"
+  | "downloadDrop"
+  | "clockSpin"
+  | "menuMorph"
+  | "plusMorph"
+  | "eyeBlink"
+  | "partyStreamers";
 
 export type Direction = "up" | "down" | "left" | "right" | "upRight";
 
@@ -110,7 +121,9 @@ export type AnimatedProp =
   | "x"
   | "y"
   | "rotate"
-  | "scale";
+  | "scale"
+  | "scaleX"
+  | "scaleY";
 
 export type AnimatableValue = number | string;
 

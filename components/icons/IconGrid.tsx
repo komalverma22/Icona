@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import type { KeyboardEvent } from "react";
 import { useLibrary } from "../library/LibraryProvider";
 import { hasActiveFilters } from "../library/filterIcons";
+import { getMotions, resolveMotion } from "../motion/registry";
 import { Button } from "../ui/Button";
 import { EASE_OUT } from "./animations/primitives";
 import { IconCard } from "./IconCard";
@@ -41,7 +42,7 @@ function onGridKeyDown(e: KeyboardEvent<HTMLDivElement>) {
 }
 
 export function IconGrid() {
-  const { results, renderSize, filters, resetFilters, isStale } = useLibrary();
+  const { results, renderSize, filters, resetFilters, isStale, motionChoices, openStudio } = useLibrary();
   const animateLayout = results.length <= LAYOUT_ANIMATION_LIMIT;
 
   if (results.length === 0) {
@@ -84,8 +85,18 @@ export function IconGrid() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.96 }}
             transition={{ duration: 0.22, ease: EASE_OUT }}
+            // An active card (and its particles) must paint above its neighbours.
+            className="relative has-[[data-active]]:z-10"
           >
-            <IconCard variant={variant} size={renderSize} strokeWidth={filters.strokeWidth} color={filters.color} />
+            <IconCard
+              variant={variant}
+              size={renderSize}
+              strokeWidth={filters.strokeWidth}
+              color={filters.color}
+              motion={resolveMotion(variant, filters.motion, motionChoices[variant.key])}
+              motionCount={getMotions(variant).length}
+              onOpenStudio={openStudio}
+            />
           </motion.div>
         ))}
       </AnimatePresence>

@@ -7,6 +7,7 @@ import { cx } from "../ui/Button";
 import { AnimationFilter } from "./AnimationFilter";
 import { CategoryFilter } from "./CategoryFilter";
 import { ColorFilter } from "./ColorFilter";
+import { MotionFilter } from "./MotionFilter";
 import { SizeFilter } from "./SizeFilter";
 import { SortFilter } from "./SortFilter";
 import { StrokeFilter } from "./StrokeFilter";
@@ -14,7 +15,7 @@ import { StyleFilter } from "./StyleFilter";
 
 /**
  * Filter sidebar. Two groups:
- *  - Filter : Style, Animation (narrow the results)
+ *  - Filter : Style, Animation, Motion style (narrow the results)
  *  - Customize : Size, Stroke, Color (change how icons render and copy)
  * followed by the Sets list. `inSheet` adds Sort, which lives in the results
  * toolbar on larger screens.
@@ -48,6 +49,7 @@ export function FilterPanel({ inSheet = false }: { inSheet?: boolean }) {
       <div className="flex w-full flex-col gap-6">
         <StyleFilter />
         <AnimationFilter />
+        <MotionFilter />
         {inSheet && <SortFilter />}
       </div>
 

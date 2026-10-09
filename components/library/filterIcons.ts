@@ -1,10 +1,13 @@
 import type { CategoryId, IconSize, IconStyle, IconVariant } from "../icons/types";
+import { motionStyles } from "../motion/registry";
+import type { MotionStyleId } from "../motion/types";
 
 export type StyleFilterValue = "all" | IconStyle;
 export type SizeFilterValue = "all" | IconSize;
 export type AnimationFilterValue = "all" | "animated" | "static";
 export type StrokeWidthValue = 1 | 1.5 | 2;
 export type SortValue = "featured" | "az" | "new";
+export type MotionFilterValue = "all" | MotionStyleId;
 export type SetFilterValue =
   | { kind: "all" }
   | { kind: "new" }
@@ -16,6 +19,8 @@ export interface FilterState {
   style: StyleFilterValue;
   size: SizeFilterValue;
   animation: AnimationFilterValue;
+  /** Motion style: narrows to icons that have a variant in this style, and cards preview that style on hover. */
+  motion: MotionFilterValue;
   set: SetFilterValue;
   /** Render option: stroke width of outline icons (also applied to copied SVG). */
   strokeWidth: StrokeWidthValue;
@@ -31,6 +36,7 @@ export const DEFAULT_FILTERS: FilterState = {
   style: "all",
   size: "all",
   animation: "all",
+  motion: "all",
   set: { kind: "all" },
   strokeWidth: DEFAULT_STROKE_WIDTH,
   color: null,
@@ -59,11 +65,12 @@ function score(variant: IconVariant, terms: string[]): number {
 const parseTerms = (query: string) => query.trim().toLowerCase().split(/\s+/).filter(Boolean);
 
 /** Everything except the "set" dimension — shared by filtering and the per-set counts. */
-function matchesFacets(variant: IconVariant, filters: FilterState): boolean {
+function matchesFacets(variant: IconVariant, filters: FilterState, ignoreMotion = false): boolean {
   if (filters.style !== "all" && variant.style !== filters.style) return false;
   if (filters.size !== "all" && !variant.sizes.includes(filters.size)) return false;
   if (filters.animation === "animated" && !variant.animated) return false;
   if (filters.animation === "static" && variant.animated) return false;
+  if (!ignoreMotion && filters.motion !== "all" && !motionStyles(variant).has(filters.motion)) return false;
   return true;
 }
 
@@ -135,6 +142,24 @@ export function countSets(variants: readonly IconVariant[], filters: FilterState
   return counts;
 }
 
+/** How many icons offer each motion style, given every other active filter (search, facets, set). */
+export function countMotionStyles(
+  variants: readonly IconVariant[],
+  filters: FilterState,
+  savedKeys: readonly string[],
+): Partial<Record<MotionFilterValue, number>> {
+  const terms = parseTerms(filters.query);
+  const saved = new Set(savedKeys);
+  const counts: Partial<Record<MotionFilterValue, number>> = {};
+  for (const variant of variants) {
+    if (!matchesFacets(variant, filters, true) || !matchesSet(variant, filters.set, saved)) continue;
+    if (terms.length && score(variant, terms) === 0) continue;
+    counts.all = (counts.all ?? 0) + 1;
+    for (const style of motionStyles(variant)) counts[style] = (counts[style] ?? 0) + 1;
+  }
+  return counts;
+}
+
 /** Filters that narrow the result set (render options like stroke / colour / sort are excluded). */
 export function hasActiveFilters(filters: FilterState) {
   return (
@@ -142,6 +167,7 @@ export function hasActiveFilters(filters: FilterState) {
     filters.style !== "all" ||
     filters.size !== "all" ||
     filters.animation !== "all" ||
+    filters.motion !== "all" ||
     filters.set.kind !== "all"
   );
 }

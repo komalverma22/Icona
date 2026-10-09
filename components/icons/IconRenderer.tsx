@@ -2,7 +2,14 @@
 
 import { motion } from "framer-motion";
 import { memo, useId } from "react";
-import { ACTIVE, REST, type CompiledNodeMotion, type IconAnimationState } from "./animations/animationTypes";
+import {
+  ACTIVE,
+  REST,
+  type AnimationName,
+  type AnimationOptions,
+  type CompiledNodeMotion,
+  type IconAnimationState,
+} from "./animations/animationTypes";
 import { getIconAnimation } from "./animations/iconAnimations";
 import { geometryAttrs, maskIdFor, paintAttrs, ROOT_ATTRS, splitNodes, VIEWBOX } from "./svgAttributes";
 import type { IconNode, IconVariant } from "./types";
@@ -44,6 +51,9 @@ export interface IconRendererProps {
   /** Stroke width on the 24px grid (default 1.5). */
   strokeWidth?: number;
   className?: string;
+  /** Path recipe to play instead of the icon's signature animation (null = static). */
+  recipe?: AnimationName | null;
+  recipeOptions?: AnimationOptions;
 }
 
 /**
@@ -57,9 +67,11 @@ export const IconRenderer = memo(function IconRenderer({
   initialState,
   strokeWidth = ROOT_ATTRS.strokeWidth,
   className,
+  recipe = variant.animation,
+  recipeOptions,
 }: IconRendererProps) {
   const reactId = useId();
-  const compiled = getIconAnimation(variant);
+  const compiled = getIconAnimation(variant, recipe, recipeOptions ?? variant.animationOptions);
   const { knockouts, body } = splitNodes(variant.nodes);
   const maskId = maskIdFor(variant, reactId.replace(/[^a-zA-Z0-9_-]/g, ""));
 
@@ -94,7 +106,7 @@ export const IconRenderer = memo(function IconRenderer({
     focusable: "false" as const,
   };
 
-  if (!variant.animated) return <svg {...common}>{content}</svg>;
+  if (!recipe) return <svg {...common}>{content}</svg>;
 
   return (
     <motion.svg {...common} initial={initialState ?? false} animate={state === ACTIVE ? ACTIVE : REST}>

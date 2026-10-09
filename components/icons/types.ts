@@ -21,6 +21,8 @@ export type CategoryId =
   | "developer"
   | "data"
   | "accessibility"
+  | "creative"
+  | "pixel"
   | "devices"
   | "security"
   | "nature"
@@ -56,7 +58,15 @@ export type IconNode = Geometry & {
   /** Exists only to support an animation (hidden at rest, excluded from copy). */
   animationOnly?: boolean;
   /** Extra static presentation attributes (camelCase React names). */
-  attrs?: { strokeDasharray?: string; strokeDashoffset?: number; strokeOpacity?: number; transform?: string };
+  attrs?: {
+    strokeDasharray?: string;
+    strokeDashoffset?: number;
+    strokeOpacity?: number;
+    fillOpacity?: number;
+    transform?: string;
+    /** Pixel art: keep square pixels crisp at any scale. */
+    shapeRendering?: "crispEdges";
+  };
 };
 
 /** Authoring format for a single icon (all of its styles). */
@@ -74,6 +84,20 @@ export interface IconDefinition {
   animationOptions?: AnimationOptions;
   outline?: IconNode[];
   fill?: IconNode[];
+  /** Pixel-art source (12×12 grid). Its nodes are generated from the sprite; frames drive pixel animations. */
+  pixel?: PixelArt;
+}
+
+/**
+ * A 12×12 pixel sprite, one string per row: "#" solid, "+" shade (40% tone),
+ * anything else empty. Each pixel is 2×2 units on the 24px grid.
+ */
+export type PixelGrid = readonly string[];
+
+export interface PixelArt {
+  sprite: PixelGrid;
+  /** Extra frames (walk cycles, open lids…) used by pixel animations. */
+  frames?: Record<string, PixelGrid>;
 }
 
 /** A renderable entry in the grid — one icon in one style. */
@@ -92,6 +116,8 @@ export interface IconVariant {
   animation?: AnimationName;
   animationOptions?: AnimationOptions;
   nodes: IconNode[];
+  /** Pixel-art source for this style (outline styles get an auto-traced outline sprite). */
+  pixel?: PixelArt;
   /** Pre-computed lowercase search haystack. */
   searchText: string;
 }

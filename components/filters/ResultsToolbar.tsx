@@ -11,6 +11,7 @@ import { SegmentedControl } from "../ui/SegmentedControl";
 import { Sheet } from "../ui/Sheet";
 import { FilterPanel } from "./FilterPanel";
 import { SORT_OPTIONS } from "./SortFilter";
+import { MOTION_STYLE_BY_ID } from "../motion/styles";
 
 const FILTER_ICON = iconVariantsByKey.get("filter-outline")!;
 const CLOSE_ICON = iconVariantsByKey.get("x-outline")!;
@@ -34,6 +35,8 @@ function buildChips(filters: FilterState, setFilter: ReturnType<typeof useLibrar
       label: filters.animation === "animated" ? "Animated" : "Static",
       remove: () => setFilter("animation", "all"),
     });
+  if (filters.motion !== "all")
+    chips.push({ key: "motion", label: `Motion: ${MOTION_STYLE_BY_ID.get(filters.motion)?.label}`, remove: () => setFilter("motion", "all") });
   const set = filters.set;
   if (set.kind !== "all") {
     const label =

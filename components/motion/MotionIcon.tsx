@@ -4,8 +4,8 @@ import { animate, motion, useReducedMotion, useSpring, type AnimationPlaybackCon
 import { memo, useCallback, useEffect, useMemo, useRef, type PointerEvent } from "react";
 import { ACTIVE, REST } from "../icons/animations/animationTypes";
 import { directionVector } from "../icons/animations/primitives";
+import { toSvgMarkup } from "../export/static";
 import { IconRenderer } from "../icons/IconRenderer";
-import { toSvgMarkup } from "../icons/svgAttributes";
 import type { IconVariant } from "../icons/types";
 import { buildEffect } from "./effects";
 import { ParticleField } from "./particles";

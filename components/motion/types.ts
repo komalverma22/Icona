@@ -1,5 +1,8 @@
 import type { Easing } from "framer-motion";
 import type { AnimationName, AnimationOptions } from "../icons/animations/animationTypes";
+import type { ParticlePresetId } from "./particles";
+
+export type { ParticlePresetId };
 
 /**
  * Motion variants — the hover animations an icon can play.
@@ -74,35 +77,6 @@ export interface EffectTrack {
   loop?: boolean;
   repeatDelay?: number;
 }
-
-export type ParticlePresetId =
-  | "confetti"
-  | "stars"
-  | "sparkle"
-  | "dust"
-  | "smoke"
-  | "flame"
-  | "bubbles"
-  | "shards"
-  | "shockwave"
-  | "electric"
-  | "attract"
-  | "orbit"
-  | "hearts"
-  | "notes"
-  | "zzz"
-  | "rain"
-  | "splash"
-  | "steam"
-  | "embers"
-  | "leaves"
-  | "coins"
-  | "ripple"
-  | "streaks"
-  | "firework"
-  | "pixel-confetti"
-  | "pixel-smoke"
-  | "dust-drift";
 
 /** A one-shot burst at a moment of the effect. Coordinates are on the 24px icon grid. */
 export interface ParticleCue {

@@ -15,13 +15,13 @@ import {
 import { MotionIcon } from "../motion/MotionIcon";
 import type { MotionVariant } from "../motion/types";
 import { toggleSaved, useIsSaved } from "../saved/savedIconsStore";
+import { toSvgMarkup } from "../export/static";
 import { cx } from "../ui/Button";
 import { ACTIVE, REST } from "./animations/animationTypes";
 import { EASE_OUT } from "./animations/primitives";
 import { copyText } from "./clipboard";
 import { iconVariantsByKey } from "./iconLibrary";
 import { IconRenderer } from "./IconRenderer";
-import { toSvgMarkup } from "./svgAttributes";
 import type { IconVariant } from "./types";
 
 // The card's own glyphs come from the library itself.

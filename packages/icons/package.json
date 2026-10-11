@@ -1,0 +1,21 @@
+{
+  "name": "@icona/icons",
+  "version": "0.1.0",
+  "description": "Icona icons as React components: static, animated and pixel-art. Tree-shakeable, typed, no animation library.",
+  "keywords": ["icons", "react", "svg", "animated-icons", "pixel-art"],
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "files": ["dist", "README.md"],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" },
+    "./animated": { "types": "./dist/animated.d.ts", "import": "./dist/animated.js" },
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "publishConfig": { "access": "public" }
+}

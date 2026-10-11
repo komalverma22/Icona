@@ -11,6 +11,7 @@ import {
   type PointerEvent as ReactPointerEvent,
 } from "react";
 import { cx } from "./Button";
+import { normalizeHex } from "./colorUtils";
 
 /* -------------------------------------------------------------------------- */
 /* Colour maths                                                                */
@@ -54,13 +55,7 @@ function hexToHsv(hex: string): Hsv | null {
   return { h, s: max ? d / max : 0, v: max };
 }
 
-/** Accepts "#abc", "abc", "#aabbcc", "aabbcc" → "#aabbcc" (lowercase), otherwise null. */
-export function normalizeHex(input: string): string | null {
-  const raw = input.trim().replace(/^#/, "").toLowerCase();
-  if (/^[0-9a-f]{3}$/.test(raw)) return `#${raw.replace(/./g, (ch) => ch + ch)}`;
-  if (/^[0-9a-f]{6}$/.test(raw)) return `#${raw}`;
-  return null;
-}
+export { normalizeHex };
 
 /* -------------------------------------------------------------------------- */
 /* Drag helper                                                                 */

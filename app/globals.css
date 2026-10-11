@@ -84,3 +84,31 @@
     linear-gradient(0deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.1) 100%),
     linear-gradient(90deg, #5bdc67 0%, #5bdc67 100%);
 }
+
+/* Syntax highlighting for the code preview (light theme, on-brand). */
+.code-block {
+  --tok-keyword: #6d4fd6;
+  --tok-string: #1f8f3a;
+  --tok-number: #2d6be4;
+  --tok-comment: #9a9da0;
+  --tok-tag: #1c1f21;
+  --tok-attr: #b4541f;
+  --tok-prop: #2d6be4;
+}
+.code-block .tok-keyword { color: var(--tok-keyword); }
+.code-block .tok-string { color: var(--tok-string); }
+.code-block .tok-number { color: var(--tok-number); }
+.code-block .tok-comment { color: var(--tok-comment); font-style: italic; }
+.code-block .tok-tag { color: var(--tok-tag); font-weight: 600; }
+.code-block .tok-attr { color: var(--tok-attr); }
+.code-block .tok-prop { color: var(--tok-prop); }
+
+/* Checkerboard behind transparent previews. */
+@utility bg-checker {
+  background-color: #fff;
+  background-image:
+    linear-gradient(45deg, #f1f2f4 25%, transparent 25%, transparent 75%, #f1f2f4 75%),
+    linear-gradient(45deg, #f1f2f4 25%, transparent 25%, transparent 75%, #f1f2f4 75%);
+  background-position: 0 0, 8px 8px;
+  background-size: 16px 16px;
+}

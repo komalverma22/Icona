@@ -1,7 +1,9 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import Link from "next/link";
 import { useCallback, useEffect, useId, useMemo, useRef, useState, type KeyboardEvent } from "react";
+import { optionsToParams, DEFAULT_OPTIONS } from "../export/options";
 import { categoryLabel, iconVariantsByKey } from "../icons/iconLibrary";
 import { IconRenderer } from "../icons/IconRenderer";
 import type { IconVariant } from "../icons/types";
@@ -62,7 +64,7 @@ function Stage({
  * every variant side by side.
  */
 export function AnimationStudio({ variantKey, inSheet = false }: { variantKey: string; inSheet?: boolean }) {
-  const { motionChoices, setMotionChoice, closeStudio, openStudio, filters, setFilter } = useLibrary();
+  const { motionChoices, setMotionChoice, closeStudio, openStudio, filters, setFilter, renderSize } = useLibrary();
   const reduce = useReducedMotion();
   const variant = iconVariantsByKey.get(variantKey);
   const motions = useMemo(() => (variant ? getMotions(variant) : []), [variant]);
@@ -250,6 +252,15 @@ export function AnimationStudio({ variantKey, inSheet = false }: { variantKey: s
           <IconRenderer variant={UNDO} size={12} recipe={null} />
         </button>
       </div>
+
+      {/* Export & install: opens the icon's own page with the current choices */}
+      <Link
+        href={`/icons/${variant.key}?${optionsToParams({ ...DEFAULT_OPTIONS, motionId: current.id, color: filters.color, size: renderSize, strokeWidth: filters.strokeWidth })}`}
+        className="mt-3 flex h-10 w-full items-center justify-between rounded-[10px] border border-line bg-white px-3 text-[12px] leading-[14.4px] font-medium text-ink shadow-button transition-colors hover:bg-card"
+      >
+        <span>Get code, export &amp; install</span>
+        <span aria-hidden className="text-muted">→</span>
+      </Link>
 
       {/* Variants */}
       {/* <h3 className="mt-6 mb-2 text-[12px] leading-3 font-medium text-muted">Variants</h3>

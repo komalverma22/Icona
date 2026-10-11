@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useCallback, useContext, useDeferredValue, useMemo, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useDeferredValue, useEffect, useMemo, useState, type ReactNode } from "react";
 import { iconVariants } from "../icons/iconLibrary";
 import type { IconVariant } from "../icons/types";
 import { useSavedIcons } from "../saved/savedIconsStore";
@@ -39,12 +39,57 @@ interface LibraryContextValue {
 
 const LibraryContext = createContext<LibraryContextValue | null>(null);
 
+/** Search, filters and the open studio survive a trip to an icon's details page (and back) within a browser tab. */
+const SESSION_KEY = "icona.library.v1";
+
+interface Persisted {
+  filters: FilterState;
+  motionChoices: Record<string, string>;
+  studioKey: string | null;
+}
+
+function readSession(): Persisted | null {
+  try {
+    const raw = window.sessionStorage.getItem(SESSION_KEY);
+    if (!raw) return null;
+    const data = JSON.parse(raw) as Partial<Persisted>;
+    const filters: FilterState = { ...DEFAULT_FILTERS };
+    for (const key of Object.keys(DEFAULT_FILTERS) as (keyof FilterState)[]) {
+      const value = data.filters?.[key];
+      if (value !== undefined && typeof value === typeof DEFAULT_FILTERS[key]) (filters as unknown as Record<string, unknown>)[key] = value;
+    }
+    return { filters, motionChoices: data.motionChoices ?? {}, studioKey: typeof data.studioKey === "string" ? data.studioKey : null };
+  } catch {
+    return null;
+  }
+}
+
 /** Owns filter state and derives the visible icon list for the whole page. */
 export function LibraryProvider({ children }: { children: ReactNode }) {
   const [filters, setFilters] = useState<FilterState>(DEFAULT_FILTERS);
   const savedKeys = useSavedIcons();
   const [motionChoices, setMotionChoices] = useState<Readonly<Record<string, string>>>({});
   const [studioKey, setStudioKey] = useState<string | null>(null);
+
+  // Restore after mount (not during render) so server and client markup match.
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => {
+    const saved = readSession();
+    if (saved) {
+      setFilters(saved.filters);
+      setMotionChoices(saved.motionChoices);
+      setStudioKey(saved.studioKey);
+    }
+    setHydrated(true);
+  }, []);
+  useEffect(() => {
+    if (!hydrated) return;
+    try {
+      window.sessionStorage.setItem(SESSION_KEY, JSON.stringify({ filters, motionChoices, studioKey } satisfies Persisted));
+    } catch {
+      // Storage can be unavailable (private mode); the library still works, it just won't be remembered.
+    }
+  }, [hydrated, filters, motionChoices, studioKey]);
 
   // Keep typing responsive: filtering runs against a deferred copy of the state.
   const deferred = useDeferredValue(filters);

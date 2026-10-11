@@ -1,4 +1,31 @@
-import type { ParticlePresetId } from "./types";
+export type ParticlePresetId =
+  | "confetti"
+  | "stars"
+  | "sparkle"
+  | "dust"
+  | "smoke"
+  | "flame"
+  | "bubbles"
+  | "shards"
+  | "shockwave"
+  | "electric"
+  | "attract"
+  | "orbit"
+  | "hearts"
+  | "notes"
+  | "zzz"
+  | "rain"
+  | "splash"
+  | "steam"
+  | "embers"
+  | "leaves"
+  | "coins"
+  | "ripple"
+  | "streaks"
+  | "firework"
+  | "pixel-confetti"
+  | "pixel-smoke"
+  | "dust-drift";
 
 /**
  * Tiny canvas particle system for hover effects.
@@ -518,7 +545,7 @@ function drawShape(ctx: CanvasRenderingContext2D, p: Particle, size: number) {
 }
 
 /* -------------------------------------------------------------------------- */
-/* Field                                                                       */
+/* Simulation                                                                  */
 /* -------------------------------------------------------------------------- */
 
 interface Emitter {
@@ -531,32 +558,33 @@ interface Emitter {
   started: number;
 }
 
-export class ParticleField {
-  private canvas: HTMLCanvasElement | null = null;
-  private ctx: CanvasRenderingContext2D | null = null;
+/**
+ * Particle state, physics and drawing — no DOM, no timers. `ParticleField`
+ * drives it from requestAnimationFrame; the exporter drives it with fixed time
+ * steps to record GIF / APNG frames.
+ */
+export class ParticleSim {
   private particles: Particle[] = [];
   private emitters: Emitter[] = [];
-  private raf = 0;
-  private last = 0;
   private now = 0;
   private nextId = 1;
-  private dpr = 1;
 
-  constructor(private readonly host: HTMLElement) {}
+  /** True while anything is alive or still emitting. */
+  get active() {
+    return this.particles.length > 0 || this.emitters.length > 0;
+  }
 
   /** Spawn a one-shot burst. */
   burst(preset: ParticlePresetId, o: SpawnOptions) {
     const room = MAX_PARTICLES - this.particles.length;
     if (room <= 0) return;
     this.particles.push(...PRESETS[preset](o).slice(0, room));
-    this.start();
   }
 
   /** Continuous emission; returns an id for `stop`. `origin(t)` gets seconds since start. */
   emit(preset: ParticlePresetId, rate: number, origin: (t: number) => SpawnOptions, duration = Infinity): number {
     const id = this.nextId++;
     this.emitters.push({ id, preset, rate, carry: 1, until: duration, origin, started: -1 });
-    this.start();
     return id;
   }
 
@@ -575,10 +603,147 @@ export class ParticleField {
     }
   }
 
-  /** Remove everything immediately (unmount). */
-  destroy() {
+  /** Remove everything immediately. */
+  clear() {
     this.emitters = [];
     this.particles = [];
+  }
+
+  /** Advance the simulation by `dt` seconds. */
+  advance(dt: number) {
+    this.now += dt;
+
+    for (const e of this.emitters) {
+      if (e.started < 0) e.started = this.now;
+      const t = this.now - e.started;
+      e.carry += e.rate * dt;
+      while (e.carry >= 1 && this.particles.length < MAX_PARTICLES) {
+        e.carry -= 1;
+        this.particles.push(...PRESETS[e.preset](e.origin(t)));
+      }
+    }
+    this.emitters = this.emitters.filter((e) => this.now - e.started < e.until);
+
+    this.particles = this.particles.filter((p) => this.step(p, dt));
+  }
+
+  private step(p: Particle, dt: number): boolean {
+    if (p.delay > 0) {
+      p.delay -= dt;
+      return true;
+    }
+    p.age += dt;
+    if (!p.persist && p.age >= p.life) return false;
+
+    if (p.orbit) {
+      p.orbit.a += p.orbit.va * dt;
+      p.x = p.orbit.cx + Math.cos(p.orbit.a) * p.orbit.rx;
+      p.y = p.orbit.cy + Math.sin(p.orbit.a) * p.orbit.ry;
+      return true;
+    }
+    if (p.target) {
+      const dx = p.target.x - p.x;
+      const dy = p.target.y - p.y;
+      const d = Math.hypot(dx, dy);
+      if (d < 3) return false;
+      const pull = 900 / Math.max(d, 8);
+      p.vx += (dx / d) * pull * 60 * dt;
+      p.vy += (dy / d) * pull * 60 * dt;
+      p.vx *= Math.exp(-3 * dt);
+      p.vy *= Math.exp(-3 * dt);
+    }
+    p.vx += p.ax * dt;
+    p.vy += p.ay * dt;
+    if (p.drag) {
+      const k = Math.exp(-p.drag * dt);
+      p.vx *= k;
+      p.vy *= k;
+    }
+    p.x += p.vx * dt;
+    p.y += p.vy * dt;
+    p.rot += p.vr * dt;
+    return true;
+  }
+
+  /** Clear the canvas and draw every live particle. Host-px coordinates start `pad` px inside the canvas. */
+  draw(ctx: CanvasRenderingContext2D, scale = 1, pad = PAD) {
+    const canvas = ctx.canvas;
+    ctx.setTransform(scale, 0, 0, scale, 0, 0);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.translate(pad, pad);
+
+    for (const p of this.particles) {
+      if (p.delay > 0) continue;
+      const k = p.persist ? 0 : Math.min(1, p.age / p.life);
+      // Fade in quickly, out over the last 40% of life (persistent orbiters fade only when released).
+      let alpha = p.alpha * Math.min(1, p.age / 0.06) * (k > 0.6 ? 1 - (k - 0.6) / 0.4 : 1);
+      if (p.twinkle) alpha *= 0.55 + 0.45 * Math.sin(p.age * 28);
+      if (alpha <= 0.01) continue;
+      let size = p.size * (1 + (p.grow - 1) * k);
+      if (p.kind === "spark") size *= Math.sin(Math.min(1, k) * Math.PI);
+
+      let x = p.x;
+      let y = p.y;
+      if (p.wobble) x += Math.sin(p.age * p.wobble.freq + p.wobble.phase) * p.wobble.amp * Math.min(1, p.age * 2) * 0.15;
+      if (p.grid) {
+        x = Math.round(x / p.grid) * p.grid;
+        y = Math.round(y / p.grid) * p.grid;
+        size = p.grid;
+      }
+
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.fillStyle = p.color;
+      ctx.strokeStyle = p.color;
+      ctx.translate(x, y);
+      if (p.kind === "streak") ctx.rotate(Math.atan2(p.vy, p.vx) || p.rot);
+      else if (p.kind === "bolt") ctx.rotate(p.rot);
+      else if (p.kind !== "square" && p.kind !== "coin") ctx.rotate(p.rot);
+      drawShape(ctx, p, size);
+      ctx.restore();
+    }
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Field                                                                       */
+/* -------------------------------------------------------------------------- */
+
+export class ParticleField {
+  private canvas: HTMLCanvasElement | null = null;
+  private ctx: CanvasRenderingContext2D | null = null;
+  private readonly sim = new ParticleSim();
+  private raf = 0;
+  private last = 0;
+  private dpr = 1;
+
+  constructor(private readonly host: HTMLElement) {}
+
+  /** Spawn a one-shot burst. */
+  burst(preset: ParticlePresetId, o: SpawnOptions) {
+    this.sim.burst(preset, o);
+    if (this.sim.active) this.start();
+  }
+
+  /** Continuous emission; returns an id for `stop`. `origin(t)` gets seconds since start. */
+  emit(preset: ParticlePresetId, rate: number, origin: (t: number) => SpawnOptions, duration = Infinity): number {
+    const id = this.sim.emit(preset, rate, origin, duration);
+    this.start();
+    return id;
+  }
+
+  stop(id: number) {
+    this.sim.stop(id);
+  }
+
+  /** Stop all emitters and let persistent particles (orbiters) fade out. */
+  release() {
+    this.sim.release();
+  }
+
+  /** Remove everything immediately (unmount). */
+  destroy() {
+    this.sim.clear();
     this.teardown();
   }
 
@@ -622,104 +787,118 @@ export class ParticleField {
   private tick = (time: number) => {
     const dt = Math.min(0.05, (time - this.last) / 1000);
     this.last = time;
-    this.now += dt;
+    this.sim.advance(dt);
+    if (this.ctx) this.sim.draw(this.ctx, this.dpr);
 
-    for (const e of this.emitters) {
-      if (e.started < 0) e.started = this.now;
-      const t = this.now - e.started;
-      e.carry += e.rate * dt;
-      while (e.carry >= 1 && this.particles.length < MAX_PARTICLES) {
-        e.carry -= 1;
-        this.particles.push(...PRESETS[e.preset](e.origin(t)));
-      }
-    }
-    this.emitters = this.emitters.filter((e) => this.now - e.started < e.until);
-
-    this.particles = this.particles.filter((p) => this.step(p, dt));
-    this.draw();
-
-    if (!this.particles.length && !this.emitters.length) {
+    if (!this.sim.active) {
       this.teardown();
       return;
     }
     this.raf = requestAnimationFrame(this.tick);
   };
+}
 
-  private step(p: Particle, dt: number): boolean {
-    if (p.delay > 0) {
-      p.delay -= dt;
-      return true;
-    }
-    p.age += dt;
-    if (!p.persist && p.age >= p.life) return false;
+/* -------------------------------------------------------------------------- */
+/* Scripts — particle cues as plain data (used by exported components)         */
+/* -------------------------------------------------------------------------- */
 
-    if (p.orbit) {
-      p.orbit.a += p.orbit.va * dt;
-      p.x = p.orbit.cx + Math.cos(p.orbit.a) * p.orbit.rx;
-      p.y = p.orbit.cy + Math.sin(p.orbit.a) * p.orbit.ry;
-      return true;
+/** A one-shot burst. Coordinates are on the 24px icon grid; `follow` emits from the icon's moved position. */
+export interface BurstCue {
+  at: number;
+  preset: ParticlePresetId;
+  x?: number;
+  y?: number;
+  angle?: number;
+  spread?: number;
+  count?: number;
+  follow?: boolean;
+}
+
+/** A continuous emitter. `path` is the sampled origin (grid units) over `duration`. */
+export interface EmitCue {
+  at: number;
+  preset: ParticlePresetId;
+  rate: number;
+  x?: number;
+  y?: number;
+  angle?: number;
+  spread?: number;
+  duration?: number;
+  follow?: boolean;
+  path?: [number, number][];
+}
+
+export interface ParticleScript {
+  bursts: BurstCue[];
+  emitters: EmitCue[];
+}
+
+const along = (path: [number, number][], p: number): [number, number] => {
+  const f = Math.max(0, Math.min(1, p)) * (path.length - 1);
+  const i = Math.min(path.length - 2, Math.floor(f));
+  const k = f - i;
+  return [path[i][0] + (path[i + 1][0] - path[i][0]) * k, path[i + 1][1] + (path[i + 1][1] - path[i][1]) * k];
+};
+
+export interface PlayOptions {
+  /** Rendered icon size in px (the host box is `size` × `size`). */
+  size: number;
+  /** Particle colour for "ink" particles. */
+  ink: string;
+  /** Playback speed multiplier. */
+  speed?: number;
+  /** Element whose on-screen position `follow` cues track (the moving icon layer). */
+  follow?: Element | null;
+}
+
+/**
+ * Play a particle script on a `ParticleField` attached to `host` (a positioned
+ * box the size of the icon). Returns a stop function that cancels pending cues
+ * and lets live particles fade out.
+ */
+export function playParticleScript(field: ParticleField, host: HTMLElement, script: ParticleScript, { size, ink, speed = 1, follow }: PlayOptions): () => void {
+  const u = size / 24;
+  const timers: number[] = [];
+  const ids: number[] = [];
+  const origin = (gx: number, gy: number, moved?: boolean) => {
+    let x = gx * u;
+    let y = gy * u;
+    if (moved && follow) {
+      const h = host.getBoundingClientRect();
+      const r = follow.getBoundingClientRect();
+      x += r.left + r.width / 2 - (h.left + h.width / 2);
+      y += r.top + r.height / 2 - (h.top + h.height / 2);
     }
-    if (p.target) {
-      const dx = p.target.x - p.x;
-      const dy = p.target.y - p.y;
-      const d = Math.hypot(dx, dy);
-      if (d < 3) return false;
-      const pull = 900 / Math.max(d, 8);
-      p.vx += (dx / d) * pull * 60 * dt;
-      p.vy += (dy / d) * pull * 60 * dt;
-      p.vx *= Math.exp(-3 * dt);
-      p.vy *= Math.exp(-3 * dt);
-    }
-    p.vx += p.ax * dt;
-    p.vy += p.ay * dt;
-    if (p.drag) {
-      const k = Math.exp(-p.drag * dt);
-      p.vx *= k;
-      p.vy *= k;
-    }
-    p.x += p.vx * dt;
-    p.y += p.vy * dt;
-    p.rot += p.vr * dt;
-    return true;
+    return { x, y };
+  };
+
+  for (const c of script.bursts) {
+    timers.push(
+      window.setTimeout(() => field.burst(c.preset, { ...origin(c.x ?? 12, c.y ?? 12, c.follow), u, ink, angle: c.angle, spread: c.spread, count: c.count }), (c.at / speed) * 1000),
+    );
+  }
+  for (const e of script.emitters) {
+    const duration = e.duration === undefined ? undefined : e.duration / speed;
+    timers.push(
+      window.setTimeout(() => {
+        ids.push(
+          field.emit(
+            e.preset,
+            e.rate * speed,
+            (t) => {
+              const [gx, gy] = e.path ? along(e.path, t / (duration ?? 1)) : [e.x ?? 12, e.y ?? 12];
+              return { ...origin(gx, gy, e.follow), u, ink, angle: e.angle, spread: e.spread };
+            },
+            duration,
+          ),
+        );
+      }, (e.at / speed) * 1000),
+    );
   }
 
-  private draw() {
-    const ctx = this.ctx;
-    const canvas = this.canvas;
-    if (!ctx || !canvas) return;
-    ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.translate(PAD, PAD);
-
-    for (const p of this.particles) {
-      if (p.delay > 0) continue;
-      const k = p.persist ? 0 : Math.min(1, p.age / p.life);
-      // Fade in quickly, out over the last 40% of life (persistent orbiters fade only when released).
-      let alpha = p.alpha * Math.min(1, p.age / 0.06) * (k > 0.6 ? 1 - (k - 0.6) / 0.4 : 1);
-      if (p.twinkle) alpha *= 0.55 + 0.45 * Math.sin(p.age * 28);
-      if (alpha <= 0.01) continue;
-      let size = p.size * (1 + (p.grow - 1) * k);
-      if (p.kind === "spark") size *= Math.sin(Math.min(1, k) * Math.PI);
-
-      let x = p.x;
-      let y = p.y;
-      if (p.wobble) x += Math.sin(p.age * p.wobble.freq + p.wobble.phase) * p.wobble.amp * Math.min(1, p.age * 2) * 0.15;
-      if (p.grid) {
-        x = Math.round(x / p.grid) * p.grid;
-        y = Math.round(y / p.grid) * p.grid;
-        size = p.grid;
-      }
-
-      ctx.save();
-      ctx.globalAlpha = alpha;
-      ctx.fillStyle = p.color;
-      ctx.strokeStyle = p.color;
-      ctx.translate(x, y);
-      if (p.kind === "streak") ctx.rotate(Math.atan2(p.vy, p.vx) || p.rot);
-      else if (p.kind === "bolt") ctx.rotate(p.rot);
-      else if (p.kind !== "square" && p.kind !== "coin") ctx.rotate(p.rot);
-      drawShape(ctx, p, size);
-      ctx.restore();
-    }
-  }
+  return () => {
+    timers.forEach((t) => window.clearTimeout(t));
+    ids.forEach((id) => field.stop(id));
+    field.release();
+  };
 }

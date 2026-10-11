@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "build:icons": "tsx scripts/build-icons.mts"
   },
   "dependencies": {
     "framer-motion": "^14.0.0",
@@ -20,6 +21,7 @@
     "@types/react-dom": "^19.3.0",
     "postcss": "^8.5.29",
     "tailwindcss": "^4.3.3",
+    "tsx": "^4.23.15",
     "typescript": "^5.9.3"
   }
 }

@@ -2,7 +2,7 @@ import type { IconNode, IconVariant } from "./types";
 
 /**
  * Single source of truth for how icon nodes become SVG attributes.
- * Used both by the React renderer and by the "Copy as SVG" serializer, so
+ * Used both by the React renderer and by the exporter (components/export), so
  * what users copy is exactly what they see.
  */
 
@@ -50,69 +50,4 @@ export function splitNodes(nodes: readonly IconNode[]) {
   const body: IconNode[] = [];
   for (const node of nodes) (node.knockout ? knockouts : body).push(node);
   return { knockouts, body };
-}
-
-/* -------------------------------------------------------------------------- */
-/* Serializer                                                                  */
-/* -------------------------------------------------------------------------- */
-
-/** Presentation attributes are kebab-case in markup; geometry/structural ones (viewBox, maskUnits) are not. */
-const kebab = (name: string) =>
-  /^(stroke|fill|shape)[A-Z]/.test(name) ? name.replace(/[A-Z]/g, (m) => `-${m.toLowerCase()}`) : name;
-
-const escapeAttr = (value: string | number) =>
-  String(value).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
-
-function attrsToString(attrs: AttrMap): string {
-  return Object.entries(attrs)
-    .map(([k, v]) => `${kebab(k)}="${escapeAttr(v)}"`)
-    .join(" ");
-}
-
-function nodeToString(node: IconNode): string {
-  return `<${node.type} ${attrsToString({ ...geometryAttrs(node), ...paintAttrs(node), ...(node.attrs ?? {}) })}/>`;
-}
-
-export interface MarkupOptions {
-  /** Stroke width on the 24px grid (default 1.5). */
-  strokeWidth?: number;
-  /** Hex colour to bake in; omitted keeps `currentColor` so the icon inherits text colour. */
-  color?: string | null;
-}
-
-/**
- * Serialize an icon to standalone, valid SVG markup (viewBox, paths, paints,
- * masks preserved). Animation-only helper nodes are excluded.
- */
-export function toSvgMarkup(variant: IconVariant, size: number, options: MarkupOptions = {}): string {
-  const nodes = variant.nodes.filter((n) => !n.animationOnly);
-  const { knockouts, body } = splitNodes(nodes);
-  const root = attrsToString({
-    width: size,
-    height: size,
-    viewBox: VIEWBOX,
-    ...ROOT_ATTRS,
-    strokeWidth: options.strokeWidth ?? ROOT_ATTRS.strokeWidth,
-  });
-
-  const lines: string[] = [`<svg xmlns="http://www.w3.org/2000/svg" ${root}>`];
-  if (knockouts.length > 0) {
-    const id = maskIdFor(variant);
-    lines.push(
-      `  <defs>`,
-      `    <mask id="${id}" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">`,
-      `      <rect width="24" height="24" fill="#fff" stroke="none"/>`,
-      ...knockouts.map((n) => `      ${nodeToString(n)}`),
-      `    </mask>`,
-      `  </defs>`,
-      `  <g mask="url(#${id})">`,
-      ...body.map((n) => `    ${nodeToString(n)}`),
-      `  </g>`,
-    );
-  } else {
-    lines.push(...body.map((n) => `  ${nodeToString(n)}`));
-  }
-  lines.push(`</svg>`);
-  const markup = lines.join("\n");
-  return options.color ? markup.replaceAll("currentColor", options.color) : markup;
 }

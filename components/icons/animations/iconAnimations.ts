@@ -139,6 +139,20 @@ const cache = new Map<string, CompiledAnimation>();
 const EMPTY: CompiledAnimation = Object.freeze({});
 
 /**
+ * The resolved, uncompiled animation plan (node id → tracks) for an icon
+ * variant — what the exporter turns into CSS keyframes.
+ */
+export function getIconPlan(
+  variant: IconVariant,
+  name: AnimationName | null | undefined = variant.animation,
+  options: AnimationOptions = variant.animationOptions ?? {},
+): AnimationPlan {
+  if (!name) return {};
+  const recipe: AnimationRecipe = iconAnimations[name];
+  return withAutoFill(variant, recipe({ nodes: variant.nodes, style: variant.style, options }));
+}
+
+/**
  * Compiled, cached animation for an icon variant. Variants are built once per
  * icon and shared by every render, so cards never recreate animation objects.
  */
@@ -152,8 +166,7 @@ export function getIconAnimation(
   const hit = cache.get(cacheKey);
   if (hit) return hit;
 
-  const recipe: AnimationRecipe = iconAnimations[name];
-  const plan = withAutoFill(variant, recipe({ nodes: variant.nodes, style: variant.style, options }));
+  const plan = getIconPlan(variant, name, options);
 
   const compiled: Record<string, CompiledNodeMotion> = {};
   for (const [id, motion] of Object.entries(plan)) compiled[id] = compileNode(motion);

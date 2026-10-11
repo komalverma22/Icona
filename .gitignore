@@ -3,3 +3,7 @@ node_modules
 out
 next-env.d.ts
 *.tsbuildinfo
+
+# Generated icon package
+packages/icons/src/generated/
+packages/icons/dist/

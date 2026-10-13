@@ -120,3 +120,15 @@
     scroll-behavior: smooth;
   }
 }
+
+/* Landing: slowly drifting icon rows. Each row holds two identical tracks for a seamless loop. */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+.marquee-track { animation: marquee 48s linear infinite; }
+.marquee-reverse { animation-direction: reverse; }
+.marquee:hover .marquee-track { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+}

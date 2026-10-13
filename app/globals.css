@@ -132,3 +132,63 @@
 @media (prefers-reduced-motion: reduce) {
   .marquee-track { animation: none; }
 }
+
+/* How it works: animated scenes that mimic the site's own UI. */
+.how-grid {
+  background-image:
+    linear-gradient(to right, rgba(28, 31, 33, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(28, 31, 33, 0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-position: center;
+  -webkit-mask-image: radial-gradient(closest-side, #000 30%, transparent 100%);
+  mask-image: radial-gradient(closest-side, #000 30%, transparent 100%);
+}
+
+/* 01 · search → filter → pick (4.8s loop) */
+@keyframes how-type { 0%, 8% { width: 0; } 30%, 86% { width: 4ch; } 94%, 100% { width: 0; } }
+@keyframes how-blink { 50% { opacity: 0; } }
+@keyframes how-dim { 0%, 30% { opacity: 1; } 38%, 86% { opacity: 0.3; } 94%, 100% { opacity: 1; } }
+@keyframes how-pick {
+  0%, 52% { border-color: rgba(28, 31, 33, 0.1); box-shadow: none; }
+  58%, 86% { border-color: #1c1f21; box-shadow: 0 0 0 3px rgba(28, 31, 33, 0.08); }
+  94%, 100% { border-color: rgba(28, 31, 33, 0.1); box-shadow: none; }
+}
+@keyframes how-cursor {
+  0%, 26% { transform: translate(70px, 56px); opacity: 0; }
+  34% { opacity: 1; }
+  50% { transform: translate(0, 0) scale(1); }
+  54% { transform: translate(0, 0) scale(0.82); }
+  58%, 86% { transform: translate(0, 0) scale(1); opacity: 1; }
+  94%, 100% { transform: translate(70px, 56px); opacity: 0; }
+}
+.how-type { display: inline-block; overflow: hidden; white-space: nowrap; vertical-align: bottom; width: 0; animation: how-type 4.8s steps(4, end) infinite; }
+.how-caret { animation: how-blink 0.9s steps(1) infinite; }
+.how-dim { animation: how-dim 4.8s ease-in-out infinite; }
+.how-pick { animation: how-pick 4.8s ease-in-out infinite; }
+.how-cursor { animation: how-cursor 4.8s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+
+/* 02 · studio: motion list, speed slider (6s loop) */
+@keyframes how-select { 0%, 28% { transform: translateY(0); } 33%, 61% { transform: translateY(100%); } 66%, 94% { transform: translateY(200%); } 100% { transform: translateY(0); } }
+@keyframes how-knob { 0%, 100% { left: 22%; } 50% { left: 74%; } }
+@keyframes how-fill { 0%, 100% { width: 22%; } 50% { width: 74%; } }
+.how-select { animation: how-select 6s cubic-bezier(0.65, 0, 0.35, 1) infinite; }
+.how-knob { animation: how-knob 6s ease-in-out infinite; }
+.how-fill { animation: how-fill 6s ease-in-out infinite; }
+
+/* 03 · terminal: command types, file lands, usage appears (5.4s loop) */
+@keyframes how-cmd { 0%, 6% { width: 0; } 40%, 90% { width: 37ch; } 96%, 100% { width: 0; } }
+@keyframes how-out { 0%, 46% { opacity: 0; transform: translateY(4px); } 54%, 90% { opacity: 1; transform: none; } 96%, 100% { opacity: 0; } }
+@keyframes how-out-2 { 0%, 62% { opacity: 0; transform: translateY(4px); } 70%, 90% { opacity: 1; transform: none; } 96%, 100% { opacity: 0; } }
+.how-cmd { display: inline-block; overflow: hidden; white-space: nowrap; vertical-align: bottom; width: 0; animation: how-cmd 5.4s steps(37, end) infinite; }
+.how-out { animation: how-out 5.4s ease-out infinite; }
+.how-out-2 { animation: how-out-2 5.4s ease-out infinite; }
+
+@keyframes how-float { 50% { transform: translateY(-4px); } }
+.how-float { animation: how-float 3.4s ease-in-out infinite; }
+.how-float-2 { animation: how-float 3.4s ease-in-out 1.7s infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .how-type, .how-cmd { animation: none; width: auto; }
+  .how-caret, .how-dim, .how-pick, .how-cursor, .how-select, .how-knob, .how-fill, .how-out, .how-out-2, .how-float, .how-float-2 { animation: none; }
+  .how-cursor { opacity: 0; }
+}

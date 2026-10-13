@@ -47,9 +47,9 @@ export default function Page() {
           </div>
         </section>
 
-        <section aria-labelledby="how" className="border-y border-divider bg-card">
+        <section aria-labelledby="how" className="border-y border-divider bg-white">
           <div className={SECTION}>
-            <SectionHead eyebrow="How it works" title={<span id="how">From idea to interface in three steps</span>} center />
+            <SectionHead eyebrow="How it works" pillIcon="settings" title={<span id="how">From idea to interface in three steps</span>} />
             <div className="mt-10 md:mt-12">
               <HowItWorks />
             </div>

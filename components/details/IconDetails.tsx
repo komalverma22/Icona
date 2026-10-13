@@ -123,12 +123,12 @@ export function IconDetails({ variantKey, initial }: { variantKey: string; initi
       <ToastProvider>
         <header className="sticky top-0 z-40 border-b border-divider bg-white">
           <div className="mx-auto flex h-16 max-w-[1440px] items-center gap-3 px-4 md:px-8 xl:px-[82px]">
-            <Link href="/" aria-label="Icona — all icons" className="shrink-0 rounded-[10px]">
+            <Link href="/" aria-label="Icona — home" className="shrink-0 rounded-[10px]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={LOGO} alt="" width={32} height={32} className="size-8 object-cover" />
             </Link>
             <nav aria-label="Breadcrumb" className="flex min-w-0 items-center gap-2 text-[12px] leading-[14.4px] font-medium">
-              <Link href="/" className="flex h-8 items-center gap-1 rounded-[10px] pr-2 text-muted transition-colors hover:text-ink">
+              <Link href="/icons" className="flex h-8 items-center gap-1 rounded-[10px] pr-2 text-muted transition-colors hover:text-ink">
                 <IconRenderer variant={BACK} size={14} recipe={null} />
                 All icons
               </Link>

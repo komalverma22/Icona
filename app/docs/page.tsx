@@ -35,7 +35,7 @@ export default function DocsPage() {
                 Quick start
                 <svg aria-hidden width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-150 group-hover/btn:translate-x-0.5"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
               </ButtonLink>
-              <ButtonLink href="/" size="lg">
+              <ButtonLink href="/icons" size="lg">
                 Browse icons
               </ButtonLink>
             </div>
@@ -66,7 +66,7 @@ export default function DocsPage() {
             <Section id="quick-start" eyebrow="Getting started" title="Quick start">
               <Steps>
                 <Step title="Pick an icon">
-                  Search on the <Link href="/" className="font-medium text-ink underline decoration-[rgba(28,31,33,0.25)] underline-offset-2 hover:decoration-ink">icons page</Link>, filter by style, size, color or animation, and click a card to preview its animations.
+                  Search on the <Link href="/icons" className="font-medium text-ink underline decoration-[rgba(28,31,33,0.25)] underline-offset-2 hover:decoration-ink">icons page</Link>, filter by style, size, color or animation, and click a card to preview its animations.
                 </Step>
                 <Step title="Open its page">
                   Press <C>Get code, export &amp; install</C>. Your current color, size and animation come along.
@@ -227,7 +227,7 @@ export default function Example() {
                 </li>
               </UL>
               <P>
-                Found something off or missing? Browse the <Link href="/" className="font-medium text-ink underline decoration-[rgba(28,31,33,0.25)] underline-offset-2 hover:decoration-ink">icons</Link> or see how to{" "}
+                Found something off or missing? Browse the <Link href="/icons" className="font-medium text-ink underline decoration-[rgba(28,31,33,0.25)] underline-offset-2 hover:decoration-ink">icons</Link> or see how to{" "}
                 <Link href="/sponsor" className="font-medium text-ink underline decoration-[rgba(28,31,33,0.25)] underline-offset-2 hover:decoration-ink">support Icona</Link>.
               </P>
             </Section>

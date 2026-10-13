@@ -56,7 +56,7 @@ export function Navbar() {
     <header className="sticky top-0 z-40 border-b border-divider bg-white">
       <div className="mx-auto flex h-16 max-w-[1440px] items-center justify-between gap-3 px-4 md:px-8 xl:px-[82px]">
         <div className="flex min-w-0 flex-1 items-center gap-3 sm:gap-[19px]">
-          <a href="/" aria-label="Icona — all icons" className="shrink-0 rounded-[10px]">
+          <a href="/" aria-label="Icona — home" className="shrink-0 rounded-[10px]">
             <img src="/figma/logo.png" alt="" width={32} height={32} className="size-8 object-cover" />
           </a>
           <IconSearch className="max-w-[332px]" />

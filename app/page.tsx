@@ -1,5 +1,13 @@
-import { IconLibrary } from "@/components/library/IconLibrary";
+import { Hero } from "@/components/site/Hero";
+import { SiteHeader } from "@/components/site/SiteHeader";
 
 export default function Page() {
-  return <IconLibrary />;
+  return (
+    <>
+      <SiteHeader cta="login" bordered={false} />
+      <main>
+        <Hero />
+      </main>
+    </>
+  );
 }

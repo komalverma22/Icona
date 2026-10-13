@@ -14,7 +14,7 @@ export function NavLinks({ vertical = false, onNavigate }: { vertical?: boolean;
   return (
     <ul className={cx("flex", vertical ? "flex-col gap-1" : "items-center gap-1")}>
       {NAV_LINKS.map((link) => {
-        const current = link.href === "/" ? pathname === "/" || pathname.startsWith("/icons") : pathname.startsWith(link.href);
+        const current = pathname.startsWith(link.href);
         return (
           <li key={link.label}>
             <Link
@@ -22,9 +22,9 @@ export function NavLinks({ vertical = false, onNavigate }: { vertical?: boolean;
               onClick={onNavigate}
               aria-current={current ? "page" : undefined}
               className={cx(
-                "relative flex h-8 items-center rounded-[10px] px-2.5 text-[12px] leading-[14.4px] font-medium transition-colors",
+                "relative flex h-9 items-center rounded-[10px] px-3 text-[14px] leading-[16.8px] font-medium transition-colors",
                 current ? "text-ink" : "text-muted hover:text-ink",
-                vertical && "px-0 text-[14px]",
+                vertical && "px-0 text-[16px]",
               )}
             >
               {link.label}
@@ -48,26 +48,33 @@ export function GithubButton() {
 }
 
 /** Top bar for the Docs and Sponsor pages — the library's bar, minus the search and filters. */
-export function SiteHeader() {
+export function SiteHeader({ cta = "browse", bordered = true }: { cta?: "browse" | "login"; bordered?: boolean }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const close = () => setMenuOpen(false);
+  const action =
+    cta === "login" ? (
+      <Button variant="accent">Login</Button>
+    ) : (
+      <ButtonLink variant="accent" href="/icons">
+        Browse icons
+      </ButtonLink>
+    );
   return (
-    <header className="sticky top-0 z-40 border-b border-divider bg-white">
-      <div className="mx-auto flex h-16 max-w-[1440px] items-center justify-between gap-3 px-4 md:px-8 xl:px-[82px]">
-        <Link href="/" aria-label="Icona — all icons" className="flex shrink-0 items-center gap-2.5 rounded-[10px]">
+    <header className={cx("sticky top-0 z-40 bg-white", bordered && "border-b border-divider")}>
+      <div className="mx-auto flex h-16 max-w-[1440px] items-center justify-between gap-3 px-4 md:grid md:grid-cols-[1fr_auto_1fr] md:px-8 xl:px-[82px]">
+        <Link href="/" aria-label="Icona — home" className="flex shrink-0 items-center gap-3 justify-self-start rounded-[10px]">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/figma/logo.png" alt="" width={32} height={32} className="size-8 object-cover" />
-          <span className="text-[14px] leading-4 font-medium text-ink">Icona</span>
+          <img src="/figma/logo.png" alt="" width={40} height={40} className="size-10 object-cover" />
+          <span className="text-[24px] leading-6 font-semibold tracking-[-0.045em] text-ink">Icona</span>
         </Link>
 
-        <div className="hidden items-center gap-3 md:flex">
-          <nav aria-label="Primary">
-            <NavLinks />
-          </nav>
+        <nav aria-label="Primary" className="hidden md:block">
+          <NavLinks />
+        </nav>
+
+        <div className="hidden items-center gap-3 justify-self-end md:flex">
           <GithubButton />
-          <ButtonLink variant="accent" href="/">
-            Browse icons
-          </ButtonLink>
+          {action}
         </div>
 
         <Button iconOnly className="md:hidden" aria-label="Open menu" aria-expanded={menuOpen} onClick={() => setMenuOpen(true)}>
@@ -81,9 +88,7 @@ export function SiteHeader() {
           <NavLinks vertical onNavigate={close} />
           <div className="flex items-center gap-3 border-t border-divider pt-4">
             <GithubButton />
-            <ButtonLink variant="accent" href="/" className="ml-auto">
-              Browse icons
-            </ButtonLink>
+            <div className="ml-auto">{action}</div>
           </div>
         </nav>
       </Sheet>

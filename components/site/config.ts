@@ -7,7 +7,7 @@ export const GITHUB_URL = "https://github.com";
 export const SPONSOR_URL = `${GITHUB_URL}/sponsors`;
 
 export const NAV_LINKS = [
-  { label: "Icons", href: "/" },
+  { label: "Icons", href: "/icons" },
   { label: "Docs", href: "/docs" },
   { label: "Sponsor", href: "/sponsor" },
 ] as const;

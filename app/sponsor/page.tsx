@@ -66,7 +66,7 @@ export default function SponsorPage() {
       <main>
         {/* Hero ------------------------------------------------------------------ */}
         <section aria-labelledby="sponsor-title" className="relative overflow-hidden border-b border-divider">
-          <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_60%_at_85%_20%,rgba(4,159,94,0.08),transparent_70%)]" />
+          <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_60%_at_85%_20%,rgba(43,154,243,0.08),transparent_70%)]" />
           <div className="relative mx-auto grid max-w-[1440px] items-center gap-10 px-4 py-14 md:px-8 md:py-20 lg:grid-cols-[minmax(0,1fr)_minmax(0,520px)] xl:px-[82px]">
             <div className="max-w-[600px]">
               <p className="text-[12px] leading-4 font-medium text-accent-ink">Sponsor Icona</p>

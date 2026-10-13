@@ -101,7 +101,7 @@ const THUMB =
   "pointer-events-none absolute size-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white shadow-[0_0_0_1px_rgba(28,31,33,0.18),0_1px_3px_rgba(10,10,11,0.25)]";
 
 const HUE_GRADIENT = "linear-gradient(90deg,#f00 0%,#ff0 16.67%,#0f0 33.33%,#0ff 50%,#00f 66.67%,#f0f 83.33%,#f00 100%)";
-const SWATCHES = ["#1c1f21", "#8a8d8f", "#ef4444", "#f97316", "#eab308", "#049f5e", "#3d7bfa", "#8b5cf6"];
+const SWATCHES = ["#1c1f21", "#8a8d8f", "#ef4444", "#f97316", "#eab308", "#2b9af3", "#3d7bfa", "#8b5cf6"];
 
 /* -------------------------------------------------------------------------- */
 /* Component                                                                   */

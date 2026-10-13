@@ -30,7 +30,7 @@ export function BoardingPass({ tier, index }: { tier: Tier; index: number }) {
       aria-labelledby={`tier-${tier.id}`}
       className={cx(
         "group/pass relative flex flex-col overflow-hidden rounded-[18px] border bg-white transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_18px_40px_-18px_rgba(10,10,11,0.22)] motion-reduce:transition-none motion-reduce:hover:translate-y-0",
-        tier.featured ? "border-accent-ring/60 shadow-[0_0_0_1px_rgba(4,159,94,0.25)]" : "border-line",
+        tier.featured ? "border-accent-ring/60 shadow-[0_0_0_1px_rgba(43,154,243,0.25)]" : "border-line",
       )}
     >
       {tier.featured && <span aria-hidden className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-accent to-accent-light" />}
@@ -51,7 +51,7 @@ export function BoardingPass({ tier, index }: { tier: Tier; index: number }) {
           <span className="text-[13px] leading-5 text-muted">per month</span>
         </p>
         {tier.featured ? (
-          <span className="h-[18px] w-fit rounded-[5px] bg-[rgba(4,159,94,0.12)] px-1.5 text-[10px] leading-[18px] font-medium text-accent-ink">Recommended</span>
+          <span className="h-[18px] w-fit rounded-[5px] bg-[rgba(43,154,243,0.12)] px-1.5 text-[10px] leading-[18px] font-medium text-accent-ink">Recommended</span>
         ) : (
           <span aria-hidden className="h-[18px]" />
         )}

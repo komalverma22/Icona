@@ -124,7 +124,7 @@ export default function DocsPage() {
                 code={`import { HeartFillIcon } from "@/components/icona/heart-fill";
 
 export default function Example() {
-  return <HeartFillIcon size={32} color="#049f5e" strokeWidth={1.5} />;
+  return <HeartFillIcon size={32} color="#2b9af3" strokeWidth={1.5} />;
 }`}
               />
               <H3>Props</H3>

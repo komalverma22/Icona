@@ -244,7 +244,7 @@ export function AnimationStudio({ variantKey, inSheet = false }: { variantKey: s
           }}
           aria-pressed={loop}
           disabled={timing.loops}
-          className={cx(ICON_BUTTON, loop && "border-accent bg-[rgba(4,159,94,0.08)] hover:bg-[rgba(4,159,94,0.14)]")}
+          className={cx(ICON_BUTTON, loop && "border-accent bg-[rgba(43,154,243,0.08)] hover:bg-[rgba(43,154,243,0.14)]")}
         >
           Loop
         </button>

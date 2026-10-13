@@ -204,7 +204,7 @@ export function IconDetails({ variantKey, initial }: { variantKey: string; initi
                           setMode((m) => (m === "loop" ? "once" : "loop"));
                           replay();
                         }}
-                        className={cx(TOOL_BUTTON, mode === "loop" && "border-accent bg-[rgba(4,159,94,0.08)] hover:bg-[rgba(4,159,94,0.14)]")}
+                        className={cx(TOOL_BUTTON, mode === "loop" && "border-accent bg-[rgba(43,154,243,0.08)] hover:bg-[rgba(43,154,243,0.14)]")}
                       >
                         Loop
                       </button>

@@ -20,11 +20,11 @@
   --color-kbd: rgba(28, 31, 33, 0.08);    /* keyboard hint pill */
   --color-scrim: rgba(28, 31, 33, 0.5);   /* clear-search button */
   --color-badge: #ededed;        /* count badge in Sets list */
-  --color-accent: #049f5e;       /* Figma Button-final: gradient bottom — focus, selected states */
-  --color-accent-light: #38b17d; /* Button-final gradient top */
-  --color-accent-ring: #126b46;  /* Button-final hairline */
-  --color-accent-glow: #019559;  /* Button-final inset glow */
-  --color-accent-ink: #0a7a47;   /* accent text on light backgrounds */
+  --color-accent: #2b9af3;       /* sky blue (cofounder.co) — focus, selected states */
+  --color-accent-light: #8fd0ff; /* light blue tint */
+  --color-accent-ring: #1b7fd4;  /* blue hairline */
+  --color-accent-glow: #5ab6fa;  /* blue inset glow */
+  --color-accent-ink: #1566b0;   /* accent text on light backgrounds */
 
   /* Radii (Figma) */
   --radius-card: 10px;
@@ -37,10 +37,10 @@
     0px 0.5px 0px 0px rgba(10, 10, 11, 0.07), 0px 9px 5px -2px rgba(10, 10, 11, 0.01),
     0px 5px 4px -1px rgba(10, 10, 11, 0.02), 0px 2px 3px -1px rgba(10, 10, 11, 0.04),
     0px 0px 0px 0.5px rgba(10, 10, 11, 0.1), inset 0px -1px 0px 0px rgba(10, 10, 11, 0.03);
+  /* Dark button: drop shadow 0/4/7 20% + 1.5px black stroke, top highlight stroke. */
   --shadow-accent:
-    0px 2px 5px -2px rgba(4, 159, 94, 0.35), 0px 0.5px 0px 0px rgba(10, 10, 11, 0.07),
-    0px 9px 5px -2px rgba(10, 10, 11, 0.01), 0px 5px 4px -1px rgba(10, 10, 11, 0.02),
-    0px 2px 3px -1px rgba(10, 10, 11, 0.04), inset 0px 0px 4px 1px #019559;
+    0px 4px 7px 0px rgba(0, 0, 0, 0.2), 0px 0px 0px 0.5px #000000,
+    inset 0px 1px 0px 0px rgba(255, 255, 255, 0.15);
   --shadow-card-hover:
     0px 0.5px 0px 0px rgba(10, 10, 11, 0.07), 0px 9px 5px -2px rgba(10, 10, 11, 0.01),
     0px 5px 4px -1px rgba(10, 10, 11, 0.02), 0px 2px 3px -1px rgba(10, 10, 11, 0.04);
@@ -76,20 +76,20 @@
 
 @utility surface-raised {
   /* Figma "Background" gradient used on white buttons / selected segments. */
-  background-image:
-    linear-gradient(0deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.075) 100%),
-    linear-gradient(90deg, #ffffff 0%, #ffffff 100%);
+  background-image: linear-gradient(180deg, #f4f4f1 0%, #ebebe7 100%);
 }
 
 @utility surface-accent {
-  /* Figma Button-final: bottom-to-top green gradient. */
-  background-image: linear-gradient(0deg, #049f5e 0%, #38b17d 100%);
+  /* Dark button fill: #1D1F23 with a white 15% -> 0% gradient on top. */
+  background-image:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0) 100%),
+    linear-gradient(0deg, #1d1f23 0%, #1d1f23 100%);
 }
 
 /* Syntax highlighting for the code preview (light theme, on-brand). */
 .code-block {
   --tok-keyword: #6d4fd6;
-  --tok-string: #1f8f3a;
+  --tok-string: #1b7fd4;
   --tok-number: #2d6be4;
   --tok-comment: #9a9da0;
   --tok-tag: #1c1f21;

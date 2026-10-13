@@ -19,15 +19,15 @@ interface SharedProps {
 
 const rootClass = (iconOnly?: boolean, className?: string, size?: "md" | "lg") =>
   cx(
-    "group/btn relative inline-flex shrink-0 cursor-pointer items-center justify-center rounded-[10px] transition-transform duration-150 active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-60",
+    "group/btn relative inline-flex shrink-0 cursor-pointer items-center justify-center rounded-[8px] transition-transform duration-150 active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-60",
     iconOnly ? "size-8" : size === "lg" ? "h-11 gap-2 px-6" : "h-8 gap-1.5 px-3",
     className,
   );
 
 /**
  * Figma button anatomy: the visible surface is an inset "Background" layer.
- *  - raised : white gradient surface with hairline + soft stacked shadow
- *  - accent : Figma "Button-final" — #049f5e→#38b17d gradient, #126b46 hairline, inset glow, white label
+ *  - raised : soft warm-grey surface with hairline border (blue icon chips go inside)
+ *  - accent : dark #1D1F23 button, white-15% gradient, black 1.5px stroke, 0/4/7 drop shadow, white label
  */
 function ButtonInner({ variant = "raised", size, pressed, children }: Omit<SharedProps, "iconOnly">) {
   return (
@@ -37,8 +37,8 @@ function ButtonInner({ variant = "raised", size, pressed, children }: Omit<Share
         className={cx(
           "pointer-events-none absolute",
           variant === "accent"
-            ? "inset-0 rounded-[7.5px] border-[0.5px] border-accent-ring surface-accent shadow-accent transition-[filter] duration-150 group-hover/btn:brightness-105"
-            : "inset-[0.5px] rounded-[9.5px] surface-raised shadow-button",
+            ? "inset-[0.5px] rounded-[7.5px] surface-accent shadow-accent transition-[filter] duration-150 group-hover/btn:brightness-125"
+            : "inset-0 rounded-[8px] border border-black/10 surface-raised shadow-button",
           pressed && variant === "raised" && "ring-1 ring-accent-ring",
         )}
       />
@@ -46,7 +46,7 @@ function ButtonInner({ variant = "raised", size, pressed, children }: Omit<Share
         className={cx(
           "relative inline-flex items-center justify-center gap-2 leading-normal font-medium",
           size === "lg" ? "text-[14px]" : "text-[12px]",
-          variant === "accent" ? "text-white [text-shadow:0px_0.5px_0px_rgba(10,10,11,0.15)]" : "text-ink",
+          variant === "accent" ? "text-white [text-shadow:0px_4px_4px_rgba(0,0,0,0.4)]" : "text-ink",
         )}
       >
         {children}

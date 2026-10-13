@@ -29,7 +29,7 @@ export function Callout({ tone = "info", title, children }: { tone?: "info" | "w
     <aside
       className={cx(
         "my-2 flex gap-3 rounded-[12px] border px-4 py-3.5",
-        tone === "warn" ? "border-[rgba(214,142,32,0.35)] bg-[rgba(255,196,64,0.1)]" : "border-[rgba(4,159,94,0.28)] bg-[rgba(4,159,94,0.06)]",
+        tone === "warn" ? "border-[rgba(214,142,32,0.35)] bg-[rgba(255,196,64,0.1)]" : "border-[rgba(43,154,243,0.28)] bg-[rgba(43,154,243,0.06)]",
       )}
     >
       <span aria-hidden className={cx("mt-[9px] size-1.5 shrink-0 rounded-full", tone === "warn" ? "bg-[#e0a21f]" : "bg-accent")} />

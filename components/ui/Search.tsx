@@ -53,7 +53,7 @@ export const Search = forwardRef<HTMLInputElement, SearchProps>(function Search(
         spellCheck={false}
         className={cx(
           "h-8 w-full rounded-[10px] border border-line bg-field pl-8 text-[12px] text-ink shadow-field outline-none placeholder:text-muted/90",
-          "transition-[border-color,box-shadow] duration-150 focus:border-accent focus-visible:outline-none focus:shadow-[0_0_0_3px_rgba(4,159,94,0.16)]",
+          "transition-[border-color,box-shadow] duration-150 focus:border-accent focus-visible:outline-none focus:shadow-[0_0_0_3px_rgba(43,154,243,0.16)]",
           "[&::-webkit-search-cancel-button]:appearance-none",
           hasValue ? "pr-8" : showShortcut ? "pr-3 sm:pr-[64px]" : "pr-3",
         )}

@@ -11,6 +11,7 @@ const OPTIONS: readonly { value: StyleFilterValue; label: string }[] = [
   { value: "all", label: "All" },
   { value: "outline", label: "Outline" },
   { value: "fill", label: "Fill" },
+  { value: "color", label: "Color" },
 ];
 
 /**

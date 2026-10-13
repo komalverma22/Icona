@@ -36,6 +36,11 @@ export function paintAttrs(node: IconNode): AttrMap {
   if (node.knockout) {
     return paint === "stroke" ? { stroke: "#000" } : { fill: "#000", stroke: paint === "fillOnly" ? "none" : "#000" };
   }
+  if (node.tint) {
+    if (paint === "fill") return { fill: node.tint };
+    if (paint === "fillOnly") return { fill: node.tint, stroke: "none" };
+    return { stroke: node.tint };
+  }
   if (paint === "fill") return { fill: "currentColor" };
   if (paint === "fillOnly") return { fill: "currentColor", stroke: "none" };
   return {};

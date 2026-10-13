@@ -53,7 +53,7 @@ export function SiteHeader({ cta = "browse", bordered = true }: { cta?: "browse"
   const close = () => setMenuOpen(false);
   const action =
     cta === "login" ? (
-      <Button variant="accent">Login</Button>
+      <ButtonLink variant="accent" href="/login">Login</ButtonLink>
     ) : (
       <ButtonLink variant="accent" href="/icons">
         Browse icons

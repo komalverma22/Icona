@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useState, type ReactNode } from "react";
-import { categoryLabel, iconVariantsByKey } from "../icons/iconLibrary";
+import { categoryLabel, iconVariantsByKey, STYLE_LABEL } from "../icons/iconLibrary";
 import { IconRenderer } from "../icons/IconRenderer";
 import { useLibrary } from "../library/LibraryProvider";
 import { DEFAULT_FILTERS, DEFAULT_STROKE_WIDTH, isModified, type FilterState } from "../library/filterIcons";
@@ -28,7 +28,7 @@ function buildChips(filters: FilterState, setFilter: ReturnType<typeof useLibrar
   const q = filters.query.trim();
   if (q) chips.push({ key: "query", label: `“${q}”`, remove: () => setFilter("query", "") });
   if (filters.style !== "all")
-    chips.push({ key: "style", label: filters.style === "fill" ? "Fill" : "Outline", remove: () => setFilter("style", "all") });
+    chips.push({ key: "style", label: STYLE_LABEL[filters.style], remove: () => setFilter("style", "all") });
   if (filters.animation !== "all")
     chips.push({
       key: "animation",

@@ -1,7 +1,7 @@
 import type { AnimationName, AnimationOptions } from "./animations/animationTypes";
 
 /** Visual styles an icon can be published in. */
-export type IconStyle = "outline" | "fill";
+export type IconStyle = "outline" | "fill" | "color";
 
 /** Pixel sizes every icon is designed to render at (24px grid, scaled). */
 export type IconSize = 24 | 32 | 48;
@@ -26,7 +26,8 @@ export type CategoryId =
   | "devices"
   | "security"
   | "nature"
-  | "maps";
+  | "maps"
+  | "food";
 
 /**
  * How a node is painted.
@@ -55,6 +56,11 @@ export type IconNode = Geometry & {
    * cuts through the filled body (e.g. the check inside a filled circle).
    */
   knockout?: boolean;
+  /**
+   * Colour style only: the paint for this node. On a filled node it is the
+   * fill (the outline stays currentColor), on a stroked node it is the stroke.
+   */
+  tint?: string;
   /** Exists only to support an animation (hidden at rest, excluded from copy). */
   animationOnly?: boolean;
   /** Extra static presentation attributes (camelCase React names). */
@@ -84,6 +90,8 @@ export interface IconDefinition {
   animationOptions?: AnimationOptions;
   outline?: IconNode[];
   fill?: IconNode[];
+  /** Colour style: ink outline with soft colour fills. Derived from the fill style when omitted. */
+  color?: IconNode[];
   /** Pixel-art source (12×12 grid). Its nodes are generated from the sprite; frames drive pixel animations. */
   pixel?: PixelArt;
 }

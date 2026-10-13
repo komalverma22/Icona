@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { BRAND } from "../site/Integrations";
 import { AnimatedIcon } from "./AnimatedIcon";
+import { HowMotionScene } from "./HowMotionScene";
 import { Reveal } from "./Reveal";
 
 const CARD = "relative rounded-[16px] border border-line bg-white shadow-card-hover";
@@ -52,82 +53,56 @@ function PickScene() {
   );
 }
 
-/* 02 · Choose a motion ---------------------------------------------------- */
-
-const MOTIONS = ["Classic Draw", "Swing", "Ring"];
-const SWATCHES = ["#1c1f21", "#8a8d8f", "#ef4444", "#f97316", "#8b5cf6"];
-
-/** A mini Animation Studio: live preview, a motion list that steps through, colour and speed controls. */
-function MotionScene() {
-  return (
-    <div className={`${CARD} w-[288px] p-3`}>
-      <div className="flex gap-3">
-        <div className="flex size-[100px] shrink-0 items-center justify-center rounded-[12px] border border-line bg-card text-ink">
-          <AnimatedIcon id="bell" size={40} auto />
-        </div>
-        <div className="flex min-w-0 flex-1 flex-col">
-          <span className="text-[10px] leading-3 font-medium tracking-[0.06em] text-muted uppercase">Motion</span>
-          <div className="relative mt-1.5 rounded-[9px] bg-field p-0.5">
-            <span aria-hidden className="how-select absolute inset-x-0.5 top-0.5 h-7 rounded-[7px] border border-line bg-white shadow-segment" />
-            {MOTIONS.map((m) => (
-              <div key={m} className="relative flex h-7 items-center px-2 text-[11px] leading-4 font-medium text-ink">
-                {m}
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-      <div className="mt-3 flex items-center justify-between gap-3 border-t border-divider pt-3">
-        <div className="flex items-center gap-1.5">
-          {SWATCHES.map((c, i) => (
-            <span key={c} className={`size-3.5 rounded-full ${i === 0 ? "ring-2 ring-ink/20 ring-offset-1" : ""}`} style={{ background: c }} />
-          ))}
-        </div>
-        <div className="flex flex-1 items-center gap-2">
-          <span className="text-[10px] leading-3 text-muted">Speed</span>
-          <div className="relative h-1 flex-1 rounded-full bg-divider">
-            <span className="how-fill absolute inset-y-0 left-0 rounded-full bg-ink" />
-            <span className="how-knob absolute top-1/2 size-3 -translate-x-1/2 -translate-y-1/2 rounded-full border-[1.5px] border-ink bg-white" />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 /* 03 · Drop it in --------------------------------------------------------- */
 
-/** A terminal that runs the install, then the frameworks it lands in. */
+/** A mini install panel: the cursor copies the CLI command and the component file lands in the project. */
 function DropScene() {
   return (
-    <div className="flex w-[300px] flex-col items-center gap-4">
-      <div className="w-full overflow-hidden rounded-[14px] border border-black bg-[#1d1f23] shadow-[0_4px_7px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.12)]">
-        <div className="flex items-center gap-1.5 border-b border-white/10 px-3 py-2">
-          <span className="size-2 rounded-full bg-white/20" />
-          <span className="size-2 rounded-full bg-white/20" />
-          <span className="size-2 rounded-full bg-white/20" />
-          <span className="ml-2 text-[10px] leading-3 text-white/40">terminal</span>
+    <div className={`${CARD} w-[288px] p-3`}>
+      <div className="flex items-center justify-between">
+        <div className="flex rounded-[8px] border border-line bg-card p-0.5 text-[10px] leading-3 font-medium">
+          <span className="rounded-[6px] border border-line bg-white px-2 py-1 text-ink shadow-segment">CLI</span>
+          <span className="px-2 py-1 text-muted">Manual</span>
         </div>
-        <div className="space-y-1 p-3 font-mono text-[10.5px] leading-[18px] text-white/85">
-          <div className="whitespace-nowrap">
-            <span className="text-white/40">$ </span>
-            <span className="how-cmd">npx shadcn@latest add …/r/bell.json</span>
-          </div>
-          <div className="how-out whitespace-nowrap text-white/60">✓ Created components/icona/bell.tsx</div>
-          <div className="how-out-2 whitespace-nowrap">
-            <span className="text-white/45">&lt;</span>BellIcon <span className="text-white/55">animate</span>
-            <span className="text-white/45">=</span>&quot;hover&quot; <span className="text-white/45">/&gt;</span>
-          </div>
-        </div>
+        <span className="text-[10px] leading-3 text-muted">bell.tsx</span>
       </div>
-      <div className="flex items-center gap-3">
-        {BRAND.slice(0, 3).map((t, i) => (
-          <div key={t.name} className={`flex size-11 items-center justify-center rounded-[12px] border border-line bg-white shadow-card-hover ${i === 1 ? "how-float-2" : "how-float"}`}>
-            <svg viewBox="0 0 24 24" className="size-5" role="img" aria-label={t.name}>
-              <path d={t.path} fill={t.color} />
-            </svg>
-          </div>
-        ))}
+
+      <p className="mt-3 text-[10px] leading-3 font-medium tracking-[0.06em] text-muted uppercase">Run in your project</p>
+      <div className="mt-1.5 flex h-10 items-center gap-2 rounded-[10px] border border-line bg-card pr-1.5 pl-3">
+        <span className="min-w-0 flex-1 truncate font-mono text-[10.5px] leading-4 text-ink">
+          <span className="text-muted">$ </span>npx shadcn add …/r/bell.json
+        </span>
+        <span className="how-press relative flex h-7 w-[60px] shrink-0 items-center justify-center overflow-hidden rounded-[7px] border border-black bg-[#1d1f23] text-[10.5px] leading-3 font-medium text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.15)]">
+          <span className="how-label-a absolute">Copy</span>
+          <span className="how-label-b absolute">Copied</span>
+          <svg aria-hidden width="18" height="18" viewBox="0 0 24 24" className="how-cur3 pointer-events-none absolute -right-1 -bottom-3 z-10 drop-shadow-[0_2px_3px_rgba(0,0,0,0.25)]">
+            <path d="M5 3.5L18.5 12L12.2 13.4L9.4 19.5L5 3.5Z" fill="#1c1f21" stroke="#fff" strokeWidth="1.5" strokeLinejoin="round" />
+          </svg>
+        </span>
+      </div>
+
+      <div className="how-toast mt-2.5 flex items-center gap-2 rounded-[10px] border border-line bg-white px-2.5 py-2 shadow-segment">
+        <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-ink text-white">
+          <svg aria-hidden width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M5 12.5l4.5 4.5L19 7.5" />
+          </svg>
+        </span>
+        <span className="min-w-0 truncate text-[10.5px] leading-4 text-text">
+          Added <span className="font-mono text-ink">components/icona/bell.tsx</span>
+        </span>
+      </div>
+
+      <div className="mt-3 flex items-center justify-between border-t border-divider pt-3">
+        <span className="text-[10px] leading-3 text-muted">Works in</span>
+        <div className="flex items-center gap-1.5">
+          {BRAND.slice(0, 3).map((t, i) => (
+            <span key={t.name} className={`flex size-7 items-center justify-center rounded-[8px] border border-line bg-white ${i === 1 ? "how-float-2" : "how-float"}`}>
+              <svg viewBox="0 0 24 24" className="size-3.5" role="img" aria-label={t.name}>
+                <path d={t.path} fill={t.color} />
+              </svg>
+            </span>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -135,7 +110,7 @@ function DropScene() {
 
 const STEPS: { n: string; title: string; body: string; scene: ReactNode }[] = [
   { n: "01", title: "Pick an icon", body: "Search the library, filter by style, size, color or animation, and open the one you like.", scene: <PickScene /> },
-  { n: "02", title: "Choose a motion", body: "Preview its animations in the studio. Tune the color, size, stroke and speed until it feels right.", scene: <MotionScene /> },
+  { n: "02", title: "Choose a motion", body: "Preview its animations in the studio. Tune the color, size, stroke and speed until it feels right.", scene: <HowMotionScene /> },
   { n: "03", title: "Drop it in", body: "Run one install command or copy the code. It lands as a React component that works in your stack.", scene: <DropScene /> },
 ];
 

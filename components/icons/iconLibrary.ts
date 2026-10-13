@@ -1,5 +1,7 @@
 import { iconDefinitions as baseDefinitions } from "./iconData";
+import { colorNodes } from "./colorStyle";
 import { discoverIconDefinitions } from "./iconDataDiscover";
+import { foodIconDefinitions } from "./iconDataFood";
 import { pixelIconDefinitions, tracedArt } from "./iconDataPixel";
 import { playgroundIconDefinitions } from "./iconDataPlayground";
 import { underratedIconDefinitions } from "./iconDataUnderrated";
@@ -11,6 +13,7 @@ const iconDefinitions: readonly IconDefinition[] = [
   ...discoverIconDefinitions,
   ...playgroundIconDefinitions,
   ...pixelIconDefinitions,
+  ...foodIconDefinitions,
 ];
 
 export interface CategoryMeta {
@@ -40,6 +43,7 @@ const CATEGORY_LABELS: Record<CategoryId, string> = {
   security: "Security",
   nature: "Nature",
   maps: "Maps",
+  food: "Food & Kitchen",
 };
 
 /** Sidebar order. */
@@ -58,6 +62,7 @@ const CATEGORY_ORDER: CategoryId[] = [
   "media",
   "files",
   "nature",
+  "food",
   "maps",
   "commerce",
   "social",
@@ -82,9 +87,10 @@ const CATEGORY_ICONS: Record<CategoryId, string> = {
   security: "shield-check",
   nature: "leaf",
   maps: "map-pin",
+  food: "apple",
 };
 
-const STYLES: IconStyle[] = ["outline", "fill"];
+export const STYLES: readonly IconStyle[] = ["outline", "fill", "color"];
 
 /**
  * Flatten authoring definitions into grid entries: one entry per icon × style.
@@ -92,7 +98,7 @@ const STYLES: IconStyle[] = ["outline", "fill"];
  */
 export const iconVariants: readonly IconVariant[] = iconDefinitions.flatMap((def) =>
   STYLES.flatMap((style): IconVariant[] => {
-    const nodes = def[style];
+    const nodes = style === "color" ? colorNodes(def) : def[style];
     if (!nodes) return [];
     const searchText = [def.name, def.id, CATEGORY_LABELS[def.category], def.subcategory ?? "", style, def.isNew ? "new" : "", ...def.tags]
       .join(" ")
@@ -123,6 +129,12 @@ export const iconVariants: readonly IconVariant[] = iconDefinitions.flatMap((def
 export const iconCount = iconDefinitions.length;
 
 export const iconVariantsByKey: ReadonlyMap<string, IconVariant> = new Map(iconVariants.map((v) => [v.key, v]));
+
+/** Display names for each style. */
+export const STYLE_LABEL: Record<IconStyle, string> = { outline: "Outline", fill: "Fill", color: "Color" };
+
+/** The styles an icon ships in, in display order. */
+export const stylesOf = (iconId: string): IconStyle[] => STYLES.filter((style) => iconVariantsByKey.has(`${iconId}-${style}`));
 
 export const categories: readonly CategoryMeta[] = CATEGORY_ORDER.map((id) => {
   const subcategories: string[] = [];

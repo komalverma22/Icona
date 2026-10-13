@@ -68,7 +68,7 @@ export function Navbar() {
           </nav>
           <SavedButton />
           <GithubButton />
-          <Button variant="accent">Login</Button>
+          <ButtonLink variant="accent" href="/login">Login</ButtonLink>
         </div>
 
         <Button iconOnly className="md:hidden" aria-label="Open menu" aria-expanded={menuOpen} onClick={() => setMenuOpen(true)}>
@@ -84,9 +84,9 @@ export function Navbar() {
           <div className="flex items-center gap-3 border-t border-divider pt-4">
             <SavedButton onClick={closeMenu} />
             <GithubButton />
-            <Button variant="accent" className="ml-auto">
+            <ButtonLink variant="accent" href="/login" className="ml-auto">
               Login
-            </Button>
+            </ButtonLink>
           </div>
         </nav>
       </Sheet>

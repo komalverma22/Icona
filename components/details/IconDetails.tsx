@@ -6,7 +6,7 @@ import { useCallback, useEffect, useId, useMemo, useRef, useState, type Keyboard
 import { type ExportOptions, motionOf, optionsToParams } from "../export/options";
 import { buildScene } from "../export/scene";
 import { bakedSpeed } from "../export/render";
-import { categoryLabel, iconVariantsByKey } from "../icons/iconLibrary";
+import { categoryLabel, iconVariantsByKey, STYLE_LABEL, stylesOf } from "../icons/iconLibrary";
 import { IconRenderer } from "../icons/IconRenderer";
 import type { IconVariant } from "../icons/types";
 import { getMotions } from "../motion/registry";
@@ -113,8 +113,8 @@ export function IconDetails({ variantKey, initial }: { variantKey: string; initi
   const info = useMemo(() => buildScene(variant, options, bakedSpeed(options.speed)).info, [variant, options]);
   const animated = info.tier === "animated";
 
-  const twinKey = `${variant.iconId}-${variant.style === "outline" ? "fill" : "outline"}`;
-  const twin = iconVariantsByKey.get(twinKey);
+  const styles = stylesOf(variant.iconId);
+  const twin = styles.length > 1;
   const carry = optionsToParams({ ...options, motionId: null }).toString();
   const href = (key: string) => `/icons/${key}${carry ? `?${carry}` : ""}`;
 
@@ -147,13 +147,13 @@ export function IconDetails({ variantKey, initial }: { variantKey: string; initi
             <div className="min-w-0">
               <h1 className="truncate text-[24px] leading-8 font-medium text-ink">{variant.name}</h1>
               <p className="mt-1 text-[13px] leading-5 text-muted">
-                {categoryLabel(variant.category)} · {variant.style === "fill" ? "Fill" : "Outline"} · {motions.length} animations
+                {categoryLabel(variant.category)} · {STYLE_LABEL[variant.style]} · {motions.length} animations
                 {variant.pixel ? " · Pixel art" : ""}
               </p>
             </div>
             {twin && (
               <div role="group" aria-label="Icon style" className="flex shrink-0 rounded-[10px] border border-line bg-card p-0.5">
-                {(["outline", "fill"] as const).map((style) => {
+                {styles.map((style) => {
                   const selected = variant.style === style;
                   const classes = cx("flex h-7 items-center rounded-[8px] px-3 text-[12px] leading-3 font-medium capitalize transition-colors", selected ? "surface-raised text-ink shadow-segment" : "text-muted hover:text-ink");
                   return selected ? (

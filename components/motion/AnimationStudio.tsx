@@ -4,7 +4,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import { useCallback, useEffect, useId, useMemo, useRef, useState, type KeyboardEvent } from "react";
 import { optionsToParams, DEFAULT_OPTIONS } from "../export/options";
-import { categoryLabel, iconVariantsByKey } from "../icons/iconLibrary";
+import { categoryLabel, iconVariantsByKey, STYLE_LABEL, stylesOf } from "../icons/iconLibrary";
 import { IconRenderer } from "../icons/IconRenderer";
 import type { IconVariant } from "../icons/types";
 import { useLibrary } from "../library/LibraryProvider";
@@ -148,8 +148,8 @@ export function AnimationStudio({ variantKey, inSheet = false }: { variantKey: s
 
   if (!variant || !current) return null;
 
-  const twinKey = `${variant.iconId}-${variant.style === "outline" ? "fill" : "outline"}`;
-  const hasTwin = iconVariantsByKey.has(twinKey);
+  const styles = stylesOf(variant.iconId);
+  const hasTwin = styles.length > 1;
   const grouped = MOTION_STYLES.map((s) => ({ style: s, items: motions.filter((m) => m.style === s.id) })).filter((g) => g.items.length);
   const isPixel = Boolean(variant.pixel);
   const stageSize = isPixel ? 48 : 56;
@@ -190,7 +190,7 @@ export function AnimationStudio({ variantKey, inSheet = false }: { variantKey: s
         </div>
         {hasTwin && (
           <div role="radiogroup" aria-label="Icon style" className="flex shrink-0 rounded-[9px] border border-line bg-card p-0.5">
-            {(["outline", "fill"] as const).map((style) => {
+            {styles.map((style) => {
               const selected = variant.style === style;
               return (
                 <button

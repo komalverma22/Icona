@@ -14,7 +14,7 @@ export const kebabCase = (value: string) => words(value).join("-").toLowerCase()
  * Outline is the default style and stays unmarked.
  */
 export function iconSlug(variant: IconVariant, motion?: MotionVariant): string {
-  return kebabCase([variant.iconId, variant.style === "fill" ? "fill" : "", motion?.id ?? ""].join("-"));
+  return kebabCase([variant.iconId, variant.style === "outline" ? "" : variant.style, motion?.id ?? ""].join("-"));
 }
 
 export function componentName(variant: IconVariant, motion?: MotionVariant): string {

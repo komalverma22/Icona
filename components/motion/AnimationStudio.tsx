@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import { useCallback, useEffect, useId, useMemo, useRef, useState, type KeyboardEvent } from "react";
 import { optionsToParams, DEFAULT_OPTIONS } from "../export/options";
@@ -244,7 +244,7 @@ export function AnimationStudio({ variantKey, inSheet = false }: { variantKey: s
           }}
           aria-pressed={loop}
           disabled={timing.loops}
-          className={cx(ICON_BUTTON, loop && "border-accent bg-[rgba(91,220,103,0.1)] hover:bg-[rgba(91,220,103,0.16)]")}
+          className={cx(ICON_BUTTON, loop && "border-accent bg-[rgba(4,159,94,0.08)] hover:bg-[rgba(4,159,94,0.14)]")}
         >
           Loop
         </button>
@@ -256,10 +256,11 @@ export function AnimationStudio({ variantKey, inSheet = false }: { variantKey: s
       {/* Export & install: opens the icon's own page with the current choices */}
       <Link
         href={`/icons/${variant.key}?${optionsToParams({ ...DEFAULT_OPTIONS, motionId: current.id, color: filters.color, size: renderSize, strokeWidth: filters.strokeWidth })}`}
-        className="mt-3 flex h-10 w-full items-center justify-between rounded-[10px] border border-line bg-white px-3 text-[12px] leading-[14.4px] font-medium text-ink shadow-button transition-colors hover:bg-card"
+        className="group/cta relative mt-3 flex h-10 w-full items-center justify-between rounded-[7.5px] px-3 text-[12px] leading-[14.4px] font-medium text-white [text-shadow:0px_0.5px_0px_rgba(10,10,11,0.15)] transition-transform duration-150 active:scale-[0.98]"
       >
-        <span>Get code, export &amp; install</span>
-        <span aria-hidden className="text-muted">→</span>
+        <span aria-hidden className="pointer-events-none absolute inset-0 rounded-[7.5px] border-[0.5px] border-accent-ring surface-accent shadow-accent transition-[filter] duration-150 group-hover/cta:brightness-105" />
+        <span className="relative">Get code, export &amp; install</span>
+        <span aria-hidden className="relative transition-transform duration-150 group-hover/cta:translate-x-0.5">→</span>
       </Link>
 
       {/* Variants */}
@@ -345,28 +346,26 @@ export function AnimationStudio({ variantKey, inSheet = false }: { variantKey: s
         ))}
       </ul>
 
-      {/* Pixel collection link */}
-      <AnimatePresence>
-        {filters.set.kind !== "category" || filters.set.id !== "pixel" ? (
-          <motion.button
-            type="button"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => {
-              setFilter("set", { kind: "category", id: "pixel" });
-              closeStudio();
-            }}
-            className="mt-6 flex h-10 w-full cursor-pointer items-center justify-between rounded-[10px] border border-line bg-card px-3 text-[12px] leading-[14.4px] font-medium text-ink transition-colors hover:bg-white"
-          >
-            <span className="flex items-center gap-2">
-              <IconRenderer variant={iconVariantsByKey.get("pixel-gamepad-fill")!} size={16} recipe={null} />
-              {isPixel ? "More pixel art" : "Explore the pixel art collection"}
-            </span>
-            <span aria-hidden className="text-muted">→</span>
-          </motion.button>
-        ) : null}
-      </AnimatePresence>
+      {/* Back to the whole library */}
+      <button
+        type="button"
+        onClick={() => {
+          setFilter("set", { kind: "all" });
+          closeStudio();
+        }}
+        className="group mt-6 flex h-10 w-full cursor-pointer items-center justify-between rounded-[10px] border border-line bg-card px-3 text-[12px] leading-[14.4px] font-medium text-ink transition-colors hover:bg-white"
+      >
+        <span className="flex items-center gap-2">
+          <svg aria-hidden width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="4" y="4" width="6.5" height="6.5" rx="1.5" />
+            <rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5" />
+            <rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5" />
+            <rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5" />
+          </svg>
+          View all icons
+        </span>
+        <span aria-hidden className="text-muted transition-transform duration-150 group-hover:translate-x-0.5">→</span>
+      </button>
     </section>
   );
 }

@@ -165,7 +165,7 @@ export const IconCard = memo(function IconCard({ variant, size, strokeWidth, col
         aria-hidden
         className={cx(
           "pointer-events-none absolute inset-[0.2px] rounded-[10px] border transition-colors duration-200",
-          saved ? "border-[rgba(91,220,103,0.55)]" : "border-line",
+          saved ? "border-[rgba(4,159,94,0.55)]" : "border-line",
         )}
       />
       {/* Figma raised "Background" layer — the hover surface */}

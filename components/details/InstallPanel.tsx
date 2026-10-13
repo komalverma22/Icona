@@ -136,7 +136,7 @@ export default function Example() {
               Save it as <span className="font-medium text-ink">components/icona/{slug}.tsx</span>.
             </p>
             <div className="flex flex-wrap gap-1.5">
-              <ActionButton action={() => copyCode(tsx.main.content, `${slug}.tsx`)} label="Copy component source">
+              <ActionButton variant="accent" action={() => copyCode(tsx.main.content, `${slug}.tsx`)} label="Copy component source">
                 Copy component
               </ActionButton>
               <ActionButton action={() => downloadText(tsx.main.content, `${slug}.tsx`)} done="Saved" label="Download component file">
@@ -161,7 +161,7 @@ export default function Example() {
                 Save as <span className="font-medium text-ink">components/icona/particles.ts</span>. One copy serves every animated icon that uses particles. It has no dependencies.
               </p>
               <div className="flex flex-wrap gap-1.5">
-                <ActionButton action={() => (runtime.file ? copyCode(runtime.file.content, "particles.ts") : { ok: false, message: "Still loading the particle runtime." })} label="Copy particles.ts">
+                <ActionButton variant="accent" action={() => (runtime.file ? copyCode(runtime.file.content, "particles.ts") : { ok: false, message: "Still loading the particle runtime." })} label="Copy particles.ts">
                   Copy particles.ts
                 </ActionButton>
                 <ActionButton action={() => (runtime.file ? downloadText(runtime.file.content, "particles.ts") : { ok: false, message: "Still loading the particle runtime." })} done="Saved" label="Download particles.ts">

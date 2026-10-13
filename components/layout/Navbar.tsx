@@ -5,41 +5,13 @@ import { iconVariantsByKey } from "../icons/iconLibrary";
 import { IconRenderer } from "../icons/IconRenderer";
 import { useLibrary } from "../library/LibraryProvider";
 import { IconSearch } from "../search/IconSearch";
-import { Button, ButtonLink, cx } from "../ui/Button";
+import { Button, ButtonLink } from "../ui/Button";
 import { Sheet } from "../ui/Sheet";
 import { Tooltip } from "../ui/Tooltip";
+import { GITHUB_URL } from "../site/config";
+import { NavLinks } from "../site/SiteHeader";
 
-const NAV_LINKS = [
-  { label: "Icons", href: "/", current: true },
-  { label: "Sponsor", href: "#sponsor", current: false },
-  { label: "Docs", href: "#docs", current: false },
-] as const;
-
-const GITHUB_URL = "https://github.com";
 const MENU_ICON = iconVariantsByKey.get("menu-outline")!;
-
-function NavLinks({ vertical = false, onNavigate }: { vertical?: boolean; onNavigate?: () => void }) {
-  return (
-    <ul className={cx("flex", vertical ? "flex-col gap-1" : "items-center gap-1")}>
-      {NAV_LINKS.map((link) => (
-        <li key={link.label}>
-          <a
-            href={link.href}
-            onClick={onNavigate}
-            aria-current={link.current ? "page" : undefined}
-            className={cx(
-              "flex h-8 items-center rounded-[10px] px-2.5 text-[12px] leading-[14.4px] font-medium transition-colors",
-              link.current ? "text-ink" : "text-muted hover:text-ink",
-              vertical && "px-0 text-[14px]",
-            )}
-          >
-            {link.label}
-          </a>
-        </li>
-      ))}
-    </ul>
-  );
-}
 
 /** Saved-icons toggle — Figma bookmark button (48:1070). */
 function SavedButton({ onClick }: { onClick?: () => void }) {

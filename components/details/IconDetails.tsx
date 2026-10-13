@@ -25,9 +25,9 @@ const REPLAY = ICON("refresh-outline");
 const LOGO = "/figma/logo.png";
 
 const TABS = [
-  { id: "code", label: "Code", hint: "Copy React, SVG or HTML" },
-  { id: "download", label: "Download", hint: "SVG, PNG, GIF, APNG, zip" },
   { id: "install", label: "Install", hint: "CLI, manual, frameworks" },
+  { id: "download", label: "Download", hint: "SVG, PNG, GIF, APNG, zip" },
+  { id: "code", label: "Code", hint: "Copy React, SVG or HTML" },
 ] as const;
 type TabId = (typeof TABS)[number]["id"];
 
@@ -46,7 +46,7 @@ function Tabs({ value, onChange }: { value: TabId; onChange: (id: TabId) => void
     refs.current[next]?.focus();
   };
   return (
-    <div role="tablist" aria-label="Export options" className="flex gap-1 border-b border-divider">
+    <div role="tablist" aria-label="Export options" className="flex gap-1.5 rounded-[12px] border border-line bg-card p-1">
       {TABS.map((tab, i) => {
         const selected = tab.id === value;
         return (
@@ -63,13 +63,17 @@ function Tabs({ value, onChange }: { value: TabId; onChange: (id: TabId) => void
             tabIndex={selected ? 0 : -1}
             onClick={() => onChange(tab.id)}
             onKeyDown={(e) => onKey(e, i)}
-            className={cx(
-              "relative h-10 cursor-pointer rounded-t-[8px] px-3.5 text-[13px] leading-4 font-medium transition-colors focus-visible:outline-offset-[-2px]",
-              selected ? "text-ink" : "text-muted hover:text-ink",
-            )}
+            className="group relative flex h-8 flex-1 cursor-pointer items-center justify-center rounded-[8px] px-3.5 text-[12px] leading-4 font-medium focus-visible:outline-offset-1"
           >
-            {tab.label}
-            {selected && <motion.span layoutId={layoutId} aria-hidden className="absolute inset-x-2 -bottom-px h-0.5 rounded-full bg-ink" transition={{ type: "spring", stiffness: 520, damping: 42 }} />}
+            {selected && (
+              <motion.span
+                layoutId={layoutId}
+                aria-hidden
+                className="absolute inset-0 rounded-[7.5px] border-[0.5px] border-accent-ring surface-accent shadow-accent"
+                transition={{ type: "spring", stiffness: 520, damping: 42 }}
+              />
+            )}
+            <span className={cx("relative transition-colors duration-150", selected ? "text-white [text-shadow:0px_0.5px_0px_rgba(10,10,11,0.15)]" : "text-muted group-hover:text-ink")}>{tab.label}</span>
           </button>
         );
       })}
@@ -87,7 +91,7 @@ export function IconDetails({ variantKey, initial }: { variantKey: string; initi
   const variant = ICON(variantKey) as IconVariant;
   const reduce = useReducedMotion();
   const [options, setOptions] = useState<ExportOptions>(initial);
-  const [tab, setTab] = useState<TabId>("code");
+  const [tab, setTab] = useState<TabId>("install");
   const [mode, setMode] = useState<PlayMode>("loop");
   const [tone, setTone] = useState<Tone>("light");
   const [playKey, setPlayKey] = useState(0);
@@ -200,7 +204,7 @@ export function IconDetails({ variantKey, initial }: { variantKey: string; initi
                           setMode((m) => (m === "loop" ? "once" : "loop"));
                           replay();
                         }}
-                        className={cx(TOOL_BUTTON, mode === "loop" && "border-accent bg-[rgba(91,220,103,0.1)] hover:bg-[rgba(91,220,103,0.16)]")}
+                        className={cx(TOOL_BUTTON, mode === "loop" && "border-accent bg-[rgba(4,159,94,0.08)] hover:bg-[rgba(4,159,94,0.14)]")}
                       >
                         Loop
                       </button>
@@ -238,7 +242,7 @@ export function IconDetails({ variantKey, initial }: { variantKey: string; initi
 
               <section aria-label="Export">
                 <Tabs value={tab} onChange={setTab} />
-                <div role="tabpanel" id={`panel-${tab}`} aria-labelledby={`tab-${tab}`} className="pt-4">
+                <div role="tabpanel" id={`panel-${tab}`} aria-labelledby={`tab-${tab}`} className="pt-5">
                   <p className="mb-4 flex items-center gap-2 text-[12px] leading-4 text-muted">
                     {TABS.find((t) => t.id === tab)?.hint}
                     {animated ? <Badge tone="animated">Animated export</Badge> : <Badge tone="still">Static export</Badge>}

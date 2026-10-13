@@ -105,7 +105,7 @@ const dot = (hex: string) => <span aria-hidden className="size-2.5 rounded-full 
 type Preset = "ink" | "green" | "blue";
 const PRESETS: Record<Preset, { label: string; hex: string; value: string | null }> = {
   ink: { label: "Ink", hex: "#1c1f21", value: null },
-  green: { label: "Green", hex: "#5bdc67", value: "#5bdc67" },
+  green: { label: "Green", hex: "#049f5e", value: "#049f5e" },
   blue: { label: "Blue", hex: "#3d7bfa", value: "#3d7bfa" },
 };
 const COLOR_OPTIONS: readonly SegmentOption<Preset>[] = (Object.keys(PRESETS) as Preset[]).map((k) => ({

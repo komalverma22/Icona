@@ -29,7 +29,7 @@ export function Badge({ tone, children }: { tone: "animated" | "still" | "neutra
     <span
       className={cx(
         "inline-flex h-[18px] items-center rounded-[5px] px-1.5 text-[10px] leading-3 font-medium",
-        tone === "animated" ? "bg-[rgba(91,220,103,0.16)] text-[#1b7a2a]" : tone === "still" ? "bg-badge text-muted" : "bg-badge text-ink",
+        tone === "animated" ? "bg-[rgba(4,159,94,0.12)] text-accent-ink" : tone === "still" ? "bg-badge text-muted" : "bg-badge text-ink",
       )}
     >
       {children}

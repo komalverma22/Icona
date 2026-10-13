@@ -101,7 +101,7 @@ const THUMB =
   "pointer-events-none absolute size-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white shadow-[0_0_0_1px_rgba(28,31,33,0.18),0_1px_3px_rgba(10,10,11,0.25)]";
 
 const HUE_GRADIENT = "linear-gradient(90deg,#f00 0%,#ff0 16.67%,#0f0 33.33%,#0ff 50%,#00f 66.67%,#f0f 83.33%,#f00 100%)";
-export const RAINBOW_CONIC = "conic-gradient(from 180deg,#ff4d4d,#ffb84d,#f5e84d,#5bdc67,#4dd8ff,#4d6bff,#b04dff,#ff4d9e,#ff4d4d)";
+const SWATCHES = ["#1c1f21", "#8a8d8f", "#ef4444", "#f97316", "#eab308", "#049f5e", "#3d7bfa", "#8b5cf6"];
 
 /* -------------------------------------------------------------------------- */
 /* Component                                                                   */
@@ -237,11 +237,16 @@ export function ColorPicker({ value, active, onChange, initial = "#ff6b4a" }: Co
             active ? "surface-raised shadow-segment" : "hover:bg-[rgba(28,31,33,0.04)]",
           )}
         >
-          <span
-            aria-hidden
-            className="size-3.5 rounded-full shadow-[0_0_0_1px_rgba(28,31,33,0.1)] transition-transform duration-150 group-hover:scale-110"
-            style={{ background: active && value ? value : RAINBOW_CONIC }}
-          />
+          {active && value ? (
+            <span aria-hidden className="size-3.5 rounded-full shadow-[0_0_0_1px_rgba(28,31,33,0.12)] transition-transform duration-150 group-hover:scale-110" style={{ backgroundColor: value }} />
+          ) : (
+            // Not picked yet: a quiet "add a colour" affordance instead of a loud gradient.
+            <span aria-hidden className="relative flex size-3.5 items-center justify-center rounded-full border border-dashed border-muted text-muted transition-colors duration-150 group-hover:border-ink group-hover:text-ink">
+              <svg width="8" height="8" viewBox="0 0 8 8" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
+                <path d="M4 1.2v5.6M1.2 4h5.6" />
+              </svg>
+            </span>
+          )}
         </button>
       </div>
 
@@ -288,6 +293,24 @@ export function ColorPicker({ value, active, onChange, initial = "#ff6b4a" }: Co
               style={{ background: HUE_GRADIENT }}
             >
               <span className={THUMB} style={{ left: `${(hsv.h / 360) * 100}%`, top: "50%", backgroundColor: `hsl(${hsv.h} 100% 50%)` }} />
+            </div>
+
+            {/* Quick picks */}
+            <div role="group" aria-label="Suggested colours" className="grid grid-cols-8 gap-1.5">
+              {SWATCHES.map((c) => (
+                <button
+                  key={c}
+                  type="button"
+                  onClick={() => commit(hexToHsv(c)!)}
+                  aria-label={c.toUpperCase()}
+                  aria-pressed={normalizeHex(c) === hex}
+                  className={cx(
+                    "size-5 cursor-pointer rounded-full shadow-[inset_0_0_0_1px_rgba(28,31,33,0.12)] transition-transform duration-150 hover:scale-110 focus-visible:outline-offset-2",
+                    normalizeHex(c) === hex && "ring-2 ring-ink ring-offset-1",
+                  )}
+                  style={{ backgroundColor: c }}
+                />
+              ))}
             </div>
 
             {/* Hex + eyedropper */}

@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 /**
@@ -30,7 +31,9 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={booton.variable}>
-      <body className="font-sans">{children}</body>
+      <body className="font-sans">{children}
+        <Analytics />
+      </body>
     </html>
   );
 }

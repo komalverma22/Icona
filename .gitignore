@@ -11,3 +11,5 @@ packages/icons/dist/
 # Local env (Supabase keys etc.)
 .env
 .env*.local
+
+.vercel

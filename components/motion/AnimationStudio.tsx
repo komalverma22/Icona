@@ -256,11 +256,18 @@ export function AnimationStudio({ variantKey, inSheet = false }: { variantKey: s
       {/* Export & install: opens the icon's own page with the current choices */}
       <Link
         href={`/icons/${variant.key}?${optionsToParams({ ...DEFAULT_OPTIONS, motionId: current.id, color: filters.color, size: renderSize, strokeWidth: filters.strokeWidth })}`}
-        className="group/cta relative mt-3 flex h-10 w-full items-center justify-between rounded-[7.5px] px-3 text-[12px] leading-[14.4px] font-medium text-white [text-shadow:0px_0.5px_0px_rgba(10,10,11,0.15)] transition-transform duration-150 active:scale-[0.98]"
+        className="group/cta relative mt-3 flex h-11 w-full items-center gap-2.5 rounded-[10px] px-2 text-[13px] leading-4 font-semibold text-white transition-transform duration-150 active:scale-[0.98]"
       >
-        <span aria-hidden className="pointer-events-none absolute inset-0 rounded-[7.5px] border-[0.5px] border-accent-ring surface-accent shadow-accent transition-[filter] duration-150 group-hover/cta:brightness-105" />
-        <span className="relative">Get code, export &amp; install</span>
-        <span aria-hidden className="relative transition-transform duration-150 group-hover/cta:translate-x-0.5">→</span>
+        <span aria-hidden className="pointer-events-none absolute inset-0 rounded-[10px] surface-accent shadow-accent transition-[filter] duration-150 group-hover/cta:brightness-110" />
+        <span aria-hidden className="relative grid size-7 shrink-0 place-items-center rounded-[7px] bg-white/10 ring-1 ring-white/15">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="m16 18 6-6-6-6M8 6l-6 6 6 6" />
+          </svg>
+        </span>
+        <span className="relative flex-1 truncate text-left">Get code &amp; export</span>
+        <svg aria-hidden width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round" className="arrow-nudge relative mr-1.5 shrink-0">
+          <path d="M5 12h14M13 6l6 6-6 6" />
+        </svg>
       </Link>
 
       {/* Variants */}

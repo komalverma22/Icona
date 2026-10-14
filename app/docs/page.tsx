@@ -23,14 +23,14 @@ export default function DocsPage() {
       <SiteHeader />
       <div className="mx-auto max-w-[1440px] px-4 md:px-8 xl:px-[82px]">
         {/* Hero ------------------------------------------------------------------ */}
-        <div className="relative overflow-hidden border-b border-divider py-10 md:py-14">
-          <div className="relative z-10 max-w-[560px]">
-            <p className="text-[12px] leading-4 font-medium text-accent-ink">Documentation</p>
-            <h1 className="mt-2 text-[32px] leading-[40px] font-medium text-ink md:text-[40px] md:leading-[48px]">Find an icon. Make it yours. Ship it.</h1>
-            <p className="mt-3 text-[15px] leading-6 text-text">
+        {/* <div className="relative overflow-hidden border-b border-divider py-12 md:py-16">
+          <div className="relative z-10 max-w-[620px]">
+            <p className="inline-flex h-6 items-center rounded-full bg-[rgba(43,154,243,0.1)] px-2.5 text-[12px] leading-4 font-medium text-accent-ink">Documentation</p>
+            <h1 className="mt-4 text-[36px] leading-[42px] font-medium tracking-[-0.03em] text-ink md:text-[48px] md:leading-[54px]">Find an icon. Make it yours. Ship it.</h1>
+            <p className="mt-4 text-[16px] leading-[26px] text-text">
               Everything you need to use the {iconVariants.length} icons and {animatedCount.toLocaleString()} animated versions in Icona, from the first copy-paste to a full install.
             </p>
-            <div className="mt-6 flex flex-wrap gap-2">
+            <div className="mt-8 flex flex-wrap gap-3">
               <ButtonLink variant="accent" href="#quick-start" size="lg">
                 Quick start
                 <svg aria-hidden width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-150 group-hover/btn:translate-x-0.5"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
@@ -40,7 +40,7 @@ export default function DocsPage() {
               </ButtonLink>
             </div>
           </div>
-        </div>
+        </div> */}
 
         <div className="pt-0 lg:flex lg:items-start lg:gap-12 lg:pt-10">
           <DocsRail />

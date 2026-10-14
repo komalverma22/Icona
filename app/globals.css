@@ -69,9 +69,8 @@
 
   /* Visible, on-brand focus indicator for keyboard users. */
   :focus-visible {
-    outline: 2px solid var(--color-accent);
-    outline-offset: 2px;
-  }
+    outline: 2px solid color-mix(in srgb, var(--color-accent) 45%, transparent);
+    outline-offset: 2px;  }
 }
 
 @utility surface-raised {
@@ -216,4 +215,19 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .footer-light-idle { animation: none; opacity: 0; }
+}
+
+/* Gentle idle nudge for call-to-action arrows; hover pushes it further. */
+@keyframes arrow-nudge {
+  0%, 60%, 100% { transform: translateX(0); }
+  30% { transform: translateX(3px); }
+}
+.arrow-nudge {
+  animation: arrow-nudge 2.2s ease-in-out infinite;
+}
+.group\/cta:hover .arrow-nudge {
+  animation-duration: 0.9s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .arrow-nudge { animation: none; }
 }

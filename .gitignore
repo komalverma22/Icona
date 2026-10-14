@@ -7,3 +7,7 @@ next-env.d.ts
 # Generated icon package
 packages/icons/src/generated/
 packages/icons/dist/
+
+# Local env (Supabase keys etc.)
+.env
+.env*.local

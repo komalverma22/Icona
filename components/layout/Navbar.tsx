@@ -54,21 +54,22 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-divider bg-white">
-      <div className="mx-auto flex h-16 max-w-[1440px] items-center justify-between gap-3 px-4 md:px-8 xl:px-[82px]">
-        <div className="flex min-w-0 flex-1 items-center gap-3 sm:gap-[19px]">
+      <div className="mx-auto flex h-16 max-w-[1440px] items-center justify-between gap-3 px-4 md:grid md:grid-cols-[1fr_auto_1fr] md:px-8 xl:px-[82px]">
+        <div className="flex min-w-0 flex-1 items-center gap-3 sm:gap-[19px] md:flex-none">
           <a href="/" aria-label="Icona — home" className="shrink-0 rounded-[10px]">
             <img src="/figma/logo.png" alt="" width={32} height={32} className="size-8 object-cover" />
           </a>
           <IconSearch className="max-w-[332px]" />
         </div>
 
-        <div className="hidden items-center gap-3 md:flex">
-          <nav aria-label="Primary">
-            <NavLinks />
-          </nav>
+        <nav aria-label="Primary" className="hidden md:block">
+          <NavLinks />
+        </nav>
+
+        <div className="hidden items-center gap-3 justify-self-end md:flex">
           <SavedButton />
           <GithubButton />
-          <ButtonLink variant="accent" href="/login">Login</ButtonLink>
+          <AuthButton />
         </div>
 
         <Button iconOnly className="md:hidden" aria-label="Open menu" aria-expanded={menuOpen} onClick={() => setMenuOpen(true)}>
@@ -84,9 +85,7 @@ export function Navbar() {
           <div className="flex items-center gap-3 border-t border-divider pt-4">
             <SavedButton onClick={closeMenu} />
             <GithubButton />
-            <ButtonLink variant="accent" href="/login" className="ml-auto">
-              Login
-            </ButtonLink>
+            <AuthButton className="ml-auto" />
           </div>
         </nav>
       </Sheet>

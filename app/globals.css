@@ -198,3 +198,22 @@
   .how-caret, .how-dim, .how-pick, .how-cursor, .how-cur3, .how-label-a, .how-label-b, .how-toast, .how-press, .how-float, .how-float-2 { animation: none; }
   .how-cursor, .how-cur3, .how-label-b { opacity: 0; }
 }
+
+/* Footer wordmark: a soft band of light, either sweeping on its own or following the pointer. */
+.footer-light {
+  -webkit-mask-image: radial-gradient(closest-side, #000 0%, transparent 100%);
+  mask-image: radial-gradient(closest-side, #000 0%, transparent 100%);
+  -webkit-mask-size: 560px 100%;
+  mask-size: 560px 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  transition: mask-position 0.12s linear;
+}
+.footer-light-idle { animation: footer-sweep 8s ease-in-out infinite; }
+@keyframes footer-sweep {
+  0%, 12% { -webkit-mask-position: -560px 0; mask-position: -560px 0; }
+  60%, 100% { -webkit-mask-position: calc(100% + 560px) 0; mask-position: calc(100% + 560px) 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .footer-light-idle { animation: none; opacity: 0; }
+}

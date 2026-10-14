@@ -8,33 +8,38 @@ export interface Tier {
   tagline: string;
   perks: string[];
   featured?: boolean;
+  /** How many logo slots the tier card shows. */
+  slots: number;
 }
 
-/** Edit prices and perks here — the Sponsor page renders whatever is listed. */
+/** Edit prices and perks here — the Sponsor page renders whatever is listed, highest tier first. */
 export const TIERS: readonly Tier[] = [
   {
-    id: "passenger",
-    name: "Passenger",
-    price: 5,
-    seat: "12A",
-    tagline: "Hop on and keep the icons free for everyone.",
-    perks: ["Your name on the passenger manifest", "Early look at new icon sets"],
-  },
-  {
-    id: "crew",
-    name: "Crew",
-    price: 25,
-    seat: "3C",
-    tagline: "For people and teams who ship with Icona.",
-    perks: ["Everything in Passenger", "Name with a link on the manifest", "Logo in the project README", "Ask for an icon to be drawn"],
-    featured: true,
-  },
-  {
-    id: "captain",
-    name: "Captain",
-    price: 100,
+    id: "gold",
+    name: "Gold",
+    price: 150,
     seat: "1A",
-    tagline: "Help steer where the library goes next.",
-    perks: ["Everything in Crew", "Logo on the icons page", "Priority on icon requests", "A shoutout when a new set ships"],
+    tagline: "Your logo everywhere Icona is seen.",
+    perks: ["Logo on the icons page", "Logo on the landing page", "Listing on the sponsors page", "Shoutout on X", "Logo in the README"],
+    featured: true,
+    slots: 3,
+  },
+  {
+    id: "silver",
+    name: "Silver",
+    price: 100,
+    seat: "3C",
+    tagline: "Front and centre on the landing page.",
+    perks: ["Logo on the landing page", "Listing on the sponsors page", "Shoutout on X"],
+    slots: 3,
+  },
+  {
+    id: "bronze",
+    name: "Bronze",
+    price: 30,
+    seat: "12A",
+    tagline: "Back the project and get noticed.",
+    perks: ["Logo in the README", "Shoutout on X"],
+    slots: 3,
   },
 ];

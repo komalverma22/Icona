@@ -2,6 +2,7 @@ import { iconDefinitions as baseDefinitions } from "./iconData";
 import { colorNodes } from "./colorStyle";
 import { discoverIconDefinitions } from "./iconDataDiscover";
 import { foodIconDefinitions } from "./iconDataFood";
+import { stickerIconDefinitions } from "./iconDataStickers";
 import { pixelIconDefinitions, tracedArt } from "./iconDataPixel";
 import { playgroundIconDefinitions } from "./iconDataPlayground";
 import { underratedIconDefinitions } from "./iconDataUnderrated";
@@ -14,6 +15,7 @@ const iconDefinitions: readonly IconDefinition[] = [
   ...playgroundIconDefinitions,
   ...pixelIconDefinitions,
   ...foodIconDefinitions,
+  ...stickerIconDefinitions,
 ];
 
 export interface CategoryMeta {
@@ -44,6 +46,10 @@ const CATEGORY_LABELS: Record<CategoryId, string> = {
   nature: "Nature",
   maps: "Maps",
   food: "Food & Kitchen",
+  doodle: "Doodle Faces",
+  sketch: "Sketch Critters",
+  glass: "Glass",
+  shadow: "Shadow",
 };
 
 /** Sidebar order. */
@@ -64,6 +70,10 @@ const CATEGORY_ORDER: CategoryId[] = [
   "nature",
   "food",
   "maps",
+  "doodle",
+  "sketch",
+  "glass",
+  "shadow",
   "commerce",
   "social",
 ];
@@ -88,6 +98,10 @@ const CATEGORY_ICONS: Record<CategoryId, string> = {
   nature: "leaf",
   maps: "map-pin",
   food: "apple",
+  doodle: "doodle-beanie",
+  sketch: "sketch-cat",
+  glass: "glass-folder",
+  shadow: "shadow-folder",
 };
 
 export const STYLES: readonly IconStyle[] = ["outline", "fill", "color"];

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { AuthButton } from "../auth/AuthButton";
 import { Button, ButtonLink, cx } from "../ui/Button";
 import { Sheet } from "../ui/Sheet";
 import { Tooltip } from "../ui/Tooltip";
@@ -53,7 +54,7 @@ export function SiteHeader({ cta = "browse", bordered = true }: { cta?: "browse"
   const close = () => setMenuOpen(false);
   const action =
     cta === "login" ? (
-      <ButtonLink variant="accent" href="/login">Login</ButtonLink>
+      <AuthButton />
     ) : (
       <ButtonLink variant="accent" href="/icons">
         Browse icons

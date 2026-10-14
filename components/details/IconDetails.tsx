@@ -11,6 +11,8 @@ import { IconRenderer } from "../icons/IconRenderer";
 import type { IconVariant } from "../icons/types";
 import { getMotions } from "../motion/registry";
 import { cx } from "../ui/Button";
+import { LoginGate } from "../auth/LoginGate";
+import { useUser } from "../auth/useUser";
 import { CodePanel } from "./CodePanel";
 import { Customize, MotionPicker } from "./Controls";
 import { DownloadPanel } from "./DownloadPanel";
@@ -88,6 +90,7 @@ function Tabs({ value, onChange }: { value: TabId; onChange: (id: TabId) => void
  * real files from the same scene the preview is playing.
  */
 export function IconDetails({ variantKey, initial }: { variantKey: string; initial: ExportOptions }) {
+  const user = useUser();
   const variant = ICON(variantKey) as IconVariant;
   const reduce = useReducedMotion();
   const [options, setOptions] = useState<ExportOptions>(initial);
@@ -248,7 +251,8 @@ export function IconDetails({ variantKey, initial }: { variantKey: string; initi
                     {animated ? <Badge tone="animated">Animated export</Badge> : <Badge tone="still">Static export</Badge>}
                   </p>
                   {tab === "code" && <CodePanel variant={variant} options={options} />}
-                  {tab === "download" && <DownloadPanel variant={variant} options={options} />}
+                  {tab === "download" && user === null && <LoginGate title="Log in to export" description="Browsing is free. Create an account or log in to download SVG, PNG, GIF, APNG and zip exports." />}
+                  {tab === "download" && user && <DownloadPanel variant={variant} options={options} />}
                   {tab === "install" && <InstallPanel variant={variant} options={options} />}
                 </div>
               </section>

@@ -1,5 +1,4 @@
 import { Faq } from "@/components/landing/Faq";
-import { FinalCta } from "@/components/landing/FinalCta";
 import { Features } from "@/components/landing/Features";
 import { HowItWorks } from "@/components/landing/HowItWorks";
 import { IsoShowcase } from "@/components/landing/IsoShowcase";
@@ -86,9 +85,6 @@ export default function Page() {
           </div>
         </section>
 
-        <section className={SECTION}>
-          <FinalCta />
-        </section>
       </main>
       <SiteFooter />
     </>

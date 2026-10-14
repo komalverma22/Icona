@@ -12,6 +12,8 @@ import {
   type MouseEvent,
   type PointerEvent,
 } from "react";
+import { useRouter } from "next/navigation";
+import { ensureUser, loginHref } from "../auth/useUser";
 import { MotionIcon } from "../motion/MotionIcon";
 import type { MotionVariant } from "../motion/types";
 import { toggleSaved, useIsSaved } from "../saved/savedIconsStore";
@@ -89,13 +91,19 @@ export const IconCard = memo(function IconCard({ variant, size, strokeWidth, col
     copiedTimer.current = window.setTimeout(() => setCopied(false), COPIED_MS);
   }, [variant, size, strokeWidth, color]);
 
-  const onToggleSave = useCallback(() => {
+  const router = useRouter();
+  const onToggleSave = useCallback(async () => {
+    // Saving needs an account — send signed-out visitors to log in and bring them back.
+    if (!(await ensureUser())) {
+      router.push(loginHref("save"));
+      return;
+    }
     const willSave = !saved;
     toggleSaved(variant.key);
     window.clearTimeout(savedTimer.current);
     setJustSaved(willSave);
     if (willSave) savedTimer.current = window.setTimeout(() => setJustSaved(false), 700);
-  }, [saved, variant.key]);
+  }, [saved, variant.key, router]);
 
   /* Interaction state ---------------------------------------------------- */
 

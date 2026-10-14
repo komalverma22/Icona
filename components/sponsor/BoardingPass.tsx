@@ -14,7 +14,7 @@ function bars(seed: number) {
 }
 
 const Check = () => (
-  <svg aria-hidden width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round" className="mt-[5px] shrink-0 text-accent">
+  <svg aria-hidden width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round" className="mt-[5px] shrink-0 text-ink">
     <path d="m5 12.5 4.5 4.5L19 7.5" />
   </svg>
 );
@@ -30,10 +30,10 @@ export function BoardingPass({ tier, index }: { tier: Tier; index: number }) {
       aria-labelledby={`tier-${tier.id}`}
       className={cx(
         "group/pass relative flex flex-col overflow-hidden rounded-[18px] border bg-white transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_18px_40px_-18px_rgba(10,10,11,0.22)] motion-reduce:transition-none motion-reduce:hover:translate-y-0",
-        tier.featured ? "border-accent-ring/60 shadow-[0_0_0_1px_rgba(43,154,243,0.25)]" : "border-line",
+        tier.featured ? "border-[rgba(28,31,33,0.55)] shadow-[0_0_0_1px_rgba(28,31,33,0.12),0_18px_40px_-24px_rgba(10,10,11,0.35)]" : "border-line",
       )}
     >
-      {tier.featured && <span aria-hidden className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-accent to-accent-light" />}
+      {tier.featured && <span aria-hidden className="absolute inset-x-0 top-0 h-1 bg-[linear-gradient(90deg,#1d1f23,#4b5058,#1d1f23)]" />}
 
       <div className="flex flex-col gap-4 p-6 pb-7">
         <div className="flex items-center justify-between text-[10px] leading-3 font-medium tracking-[0.08em] text-muted uppercase">
@@ -41,19 +41,19 @@ export function BoardingPass({ tier, index }: { tier: Tier; index: number }) {
           <PlaneGlyph size={16} className="text-ink transition-transform duration-300 group-hover/pass:translate-x-1 group-hover/pass:-translate-y-0.5 group-hover/pass:-rotate-12 motion-reduce:transition-none" />
         </div>
         <div>
-          <h3 id={`tier-${tier.id}`} className="text-[28px] leading-8 font-medium text-ink">
+          <h3 id={`tier-${tier.id}`} className="text-[26px] leading-8 font-medium tracking-[-0.025em] text-ink">
             {tier.name}
           </h3>
           <p className="mt-1 text-[13px] leading-5 text-muted">{tier.tagline}</p>
         </div>
         <p className="flex items-baseline gap-1.5">
-          <span className="text-[40px] leading-[44px] font-medium tracking-[-0.02em] text-ink">${tier.price}</span>
+          <span className="text-[40px] leading-[44px] font-semibold tracking-[-0.04em] text-ink">${tier.price}</span>
           <span className="text-[13px] leading-5 text-muted">per month</span>
         </p>
         {tier.featured ? (
-          <span className="h-[18px] w-fit rounded-[5px] bg-[rgba(43,154,243,0.12)] px-1.5 text-[10px] leading-[18px] font-medium text-accent-ink">Recommended</span>
+          <span className="h-5 w-fit rounded-full border border-black bg-[#1d1f23] px-2 text-[10px] leading-[18px] font-medium text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.15)]">Recommended</span>
         ) : (
-          <span aria-hidden className="h-[18px]" />
+          <span aria-hidden className="h-5" />
         )}
       </div>
 

@@ -57,7 +57,16 @@ function Field({ label, error, children, htmlFor }: { label: string; error?: str
  * supplied by the caller through `onSubmit`. There is no auth backend in this
  * project yet, so without it a valid form shows a notice instead of pretending to sign in.
  */
-export function AuthForm({ mode, onSubmit }: { mode: Mode; onSubmit?: (values: AuthValues) => Promise<void> | void }) {
+export function AuthForm({
+  mode,
+  onSubmit,
+  onGoogle,
+}: {
+  mode: Mode;
+  /** May resolve to a message (e.g. "check your inbox") to show instead of redirecting. */
+  onSubmit?: (values: AuthValues) => Promise<string | void> | string | void;
+  onGoogle?: () => Promise<void> | void;
+}) {
   const copy = COPY[mode];
   const signup = mode === "signup";
   const uid = useId();
@@ -73,11 +82,12 @@ export function AuthForm({ mode, onSubmit }: { mode: Mode; onSubmit?: (values: A
     setErrors((prev) => ({ ...prev, [key]: undefined }));
   };
 
-  const finish = async (run: () => Promise<void> | void) => {
+  const finish = async (run: () => Promise<string | void> | string | void) => {
     setNotice(null);
     setBusy(true);
     try {
-      await run();
+      const message = await run();
+      if (message) setNotice(message);
     } catch (err) {
       setNotice(err instanceof Error ? err.message : "Something went wrong. Please try again.");
     } finally {
@@ -96,13 +106,14 @@ export function AuthForm({ mode, onSubmit }: { mode: Mode; onSubmit?: (values: A
     if (Object.keys(next).length) return;
     void finish(async () => {
       if (!onSubmit) throw new Error("Accounts aren’t connected to a backend yet, so nothing was sent.");
-      await onSubmit({ ...values, email: values.email.trim(), name: values.name.trim() });
+      return onSubmit({ ...values, email: values.email.trim(), name: values.name.trim() });
     });
   };
 
   const google = () =>
     void finish(() => {
-      throw new Error("Google sign-in isn’t connected yet.");
+      if (!onGoogle) throw new Error("Google sign-in isn’t connected yet.");
+      return onGoogle();
     });
 
   return (

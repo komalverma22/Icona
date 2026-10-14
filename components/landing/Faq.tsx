@@ -4,7 +4,9 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useId, useState, type ReactNode } from "react";
 import { cx } from "../ui/Button";
 
-const ITEMS: { q: string; a: ReactNode }[] = [
+export type FaqItem = { q: string; a: ReactNode };
+
+const ITEMS: FaqItem[] = [
   {
     q: "What is Icona?",
     a: "Icona is a library of hand-crafted icons that move. Every icon comes as a static outline, a color version or an animated component, so you can browse the set, preview a motion and drop the result into your interface.",
@@ -42,14 +44,14 @@ function Plus({ open }: { open: boolean }) {
 }
 
 /** Single-open accordion: the first question starts open, and the plus turns into a cross. */
-export function Faq() {
+export function Faq({ items = ITEMS }: { items?: readonly FaqItem[] }) {
   const [open, setOpen] = useState<number | null>(0);
   const reduce = useReducedMotion();
   const uid = useId();
 
   return (
     <div className="rounded-[14px] border border-line bg-white px-5 py-2 shadow-card-hover sm:px-8 sm:py-3">
-      {ITEMS.map((item, i) => {
+      {items.map((item, i) => {
         const isOpen = open === i;
         const panelId = `${uid}-panel-${i}`;
         const buttonId = `${uid}-button-${i}`;

@@ -18,7 +18,7 @@ export function CopyLinkButton() {
 
   return (
     <>
-      <Button onClick={copy} className="h-9 px-4">
+      <Button onClick={copy}>
         {state === "done" ? "Link copied" : state === "failed" ? "Couldn't copy" : "Copy link to Icona"}
       </Button>
       <span className="sr-only" role="status" aria-live="polite">

@@ -27,7 +27,11 @@ export type CategoryId =
   | "security"
   | "nature"
   | "maps"
-  | "food";
+  | "food"
+  | "doodle"
+  | "sketch"
+  | "glass"
+  | "shadow";
 
 /**
  * How a node is painted.

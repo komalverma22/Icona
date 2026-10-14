@@ -56,9 +56,10 @@ export function SiteHeader({ cta = "browse", bordered = true }: { cta?: "browse"
     cta === "login" ? (
       <AuthButton />
     ) : (
-      <ButtonLink variant="accent" href="/icons">
-        Browse icons
-      </ButtonLink>
+      <>
+        <ButtonLink href="/icons">Browse icons</ButtonLink>
+        <AuthButton />
+      </>
     );
   return (
     <header className={cx("sticky top-0 z-40 bg-white", bordered && "border-b border-divider")}>

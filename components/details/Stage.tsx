@@ -35,7 +35,7 @@ export function PreviewStage({
   /** Bump to restart the animation. */
   playKey: number;
   tone: Tone;
-  /** Called when the pointer enters — "once" mode replays. */
+  /** Called when the pointer enters - "once" mode replays. */
   onHover: () => void;
 }) {
   const reduce = useReducedMotion();
@@ -89,7 +89,7 @@ export function PreviewStage({
         aria-label={`${variant.name} ${variant.style}${options.motionId ? `, ${scene.info.motion?.label ?? ""} animation` : ""}`}
         className="relative"
         style={{ width: scene.width, height: scene.height, color: options.color ?? undefined }}
-        // The markup is generated from the library's own icon data — never from user input.
+        // The markup is generated from the library's own icon data - never from user input.
         dangerouslySetInnerHTML={{ __html: markup }}
       />
     </div>

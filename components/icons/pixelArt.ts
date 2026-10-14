@@ -34,7 +34,7 @@ export function parseSprite(grid: PixelGrid): Pixel[] {
 
 /**
  * Outline style for a sprite: keep every solid pixel that touches something
- * other than solid (empty space or shade), drop shade and interior pixels —
+ * other than solid (empty space or shade), drop shade and interior pixels -
  * the classic 1px pixel-art line version of the same silhouette.
  */
 export function outlineSprite(grid: PixelGrid): PixelGrid {

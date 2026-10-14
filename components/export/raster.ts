@@ -10,8 +10,8 @@ import type { Scene } from "./scene";
 /**
  * Browser-side rasterising: static PNG, and frame capture for GIF / APNG.
  *
- * Frames are drawn from the exact SVG the "SVG" export produces — paused at a
- * moment in time with the browser's own animation engine — so a GIF can never
+ * Frames are drawn from the exact SVG the "SVG" export produces - paused at a
+ * moment in time with the browser's own animation engine - so a GIF can never
  * disagree with the SVG. Particles (canvas-drawn) are simulated at fixed time
  * steps and composited on top.
  */

@@ -62,7 +62,7 @@ function buildChips(filters: FilterState, setFilter: ReturnType<typeof useLibrar
 
 /**
  * Results bar above the grid: live result count, active-filter chips (each
- * removable), sort, and — below the lg breakpoint — the Filters sheet trigger.
+ * removable), sort, and - below the lg breakpoint - the Filters sheet trigger.
  */
 export function ResultsToolbar() {
   const [open, setOpen] = useState(false);

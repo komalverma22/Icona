@@ -55,7 +55,7 @@ export function trace({ delay = 0, duration = 0.75, segment = 0.22 }: Timing & {
   };
 }
 
-/** Fade a solid fill in (or to a partial opacity) — used after an outline has been drawn. */
+/** Fade a solid fill in (or to a partial opacity) - used after an outline has been drawn. */
 export function fillIn({ delay = 0, duration = 0.25, to = 1, rest }: Timing & { to?: number; rest?: number } = {}): NodeMotion {
   return { tracks: { fillOpacity: { values: [0, to], delay, duration, ease: EASE_OUT, rest } } };
 }

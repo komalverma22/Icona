@@ -1,6 +1,6 @@
 import { crc32 } from "./apng";
 
-/** A tiny "store" (uncompressed) ZIP writer — plenty for a handful of source files. */
+/** A tiny "store" (uncompressed) ZIP writer - plenty for a handful of source files. */
 export function zipFiles(files: { path: string; content: string }[]): Uint8Array {
   const enc = new TextEncoder();
   const parts: Uint8Array[] = [];

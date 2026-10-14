@@ -35,7 +35,7 @@ export type CategoryId =
 
 /**
  * How a node is painted.
- *  - "stroke"   : 1.5px outline (inherits from the <svg> root) — the default.
+ *  - "stroke"   : 1.5px outline (inherits from the <svg> root) - the default.
  *  - "fill"     : solid shape (fill + matching stroke so silhouettes match outline icons).
  *  - "fillOnly" : solid shape with no stroke (e.g. a heart's inner fill layer).
  */
@@ -49,7 +49,7 @@ type Geometry =
 /**
  * One drawable SVG element of an icon.
  * `id` is the semantic part name ("shaft", "head", "body"…) that animation
- * recipes target — outline and fill variants share ids so a single recipe
+ * recipes target - outline and fill variants share ids so a single recipe
  * animates both.
  */
 export type IconNode = Geometry & {
@@ -87,7 +87,7 @@ export interface IconDefinition {
   subcategory?: string;
   tags: string[];
   sizes: readonly IconSize[];
-  /** Recently added — listed in the "New" set. */
+  /** Recently added - listed in the "New" set. */
   isNew?: boolean;
   /** Name of the animation recipe; omit for static icons. */
   animation?: AnimationName;
@@ -112,7 +112,7 @@ export interface PixelArt {
   frames?: Record<string, PixelGrid>;
 }
 
-/** A renderable entry in the grid — one icon in one style. */
+/** A renderable entry in the grid - one icon in one style. */
 export interface IconVariant {
   /** Unique key, e.g. "heart-fill". Also the key used for favourites. */
   key: string;

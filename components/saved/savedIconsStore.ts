@@ -33,7 +33,7 @@ function commit(next: readonly string[], persist: boolean) {
     try {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
     } catch {
-      // Storage may be unavailable (private mode / quota) — keep in-memory state.
+      // Storage may be unavailable (private mode / quota) - keep in-memory state.
     }
   }
   listeners.forEach((l) => l());
@@ -76,7 +76,7 @@ export function useSavedIcons(): readonly string[] {
   return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 }
 
-/** Whether one icon is saved — re-renders only when this icon's flag flips. */
+/** Whether one icon is saved - re-renders only when this icon's flag flips. */
 export function useIsSaved(key: string): boolean {
   const getFlag = useCallback(() => {
     ensureHydrated();

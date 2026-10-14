@@ -4,7 +4,7 @@ import { AuthPanel } from "@/components/auth/AuthPanel";
 import { AuthShell } from "@/components/auth/AuthShell";
 
 export const metadata: Metadata = {
-  title: "Sign up — Icona",
+  title: "Sign up - Icona",
   description: "Create your Icona account and start your 30 day free trial.",
 };
 

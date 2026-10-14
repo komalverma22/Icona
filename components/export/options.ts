@@ -4,7 +4,7 @@ import { getMotions } from "../motion/registry";
 import type { MotionVariant } from "../motion/types";
 import { normalizeHex } from "../ui/colorUtils";
 
-/** Everything a user can customise on the details page — and everything an export bakes in. */
+/** Everything a user can customise on the details page - and everything an export bakes in. */
 export interface ExportOptions {
   /** Motion variant id, or null for the static icon. */
   motionId: string | null;

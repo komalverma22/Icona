@@ -16,8 +16,8 @@ import { nodeEl, stillTree } from "./static";
 import { fromEffectTrack, fromRecipeTrack, holds, round, sample, type NTrack, type Val } from "./tracks";
 
 /**
- * Builds an exportable scene — an SVG element tree plus the CSS that animates
- * it — for one icon variant and one motion variant. A scene is everything
+ * Builds an exportable scene - an SVG element tree plus the CSS that animates
+ * it - for one icon variant and one motion variant. A scene is everything
  * except the file / component wrapper, so the SVG file, the React component,
  * the HTML snippet and the GIF / APNG frame renderer all share it.
  */
@@ -64,7 +64,7 @@ export interface Scene {
   css: string;
   /** Particle cues to run on top (React component and raster exports). */
   script?: ParticleScript;
-  /** Start delays (seconds) of staggered layers, by class — frame capture has to preserve them. */
+  /** Start delays (seconds) of staggered layers, by class - frame capture has to preserve them. */
   delays: Record<string, number>;
   /** Where the icon layer has moved to `seconds` into a pass, in grid units (particles that "follow" the icon use it). */
   followAt: (seconds: number) => [number, number];

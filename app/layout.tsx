@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import "./globals.css";
 
 /**
@@ -18,7 +19,7 @@ const booton = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Icona — Icon Library",
+  title: "Icona - Icon Library",
   description: "A cohesive, animated SVG icon library. Search, filter, save and copy icons as SVG.",
 };
 
@@ -33,6 +34,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en" className={booton.variable}>
       <body className="font-sans">{children}
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

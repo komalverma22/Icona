@@ -1,7 +1,7 @@
 /**
  * The npm package built by `npm run build:icons` (packages/icons).
  *
- * The Install tab only offers the package once it has really been published —
+ * The Install tab only offers the package once it has really been published -
  * set `published` to true after `npm publish` (and change `name` if you
  * publish under a different scope).
  */

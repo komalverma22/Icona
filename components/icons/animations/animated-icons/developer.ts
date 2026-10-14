@@ -3,7 +3,7 @@ import { draw, EASE_IN_OUT, EASE_OUT, keyframes, merge, pop, slide, trace } from
 
 /** Developer set: keys, terminals, code, scanning, UI controls. */
 export const developerRecipes = {
-  /** ⌘ is one continuous loop — a comet runs the whole knot, then it closes. */
+  /** ⌘ is one continuous loop - a comet runs the whole knot, then it closes. */
   command: () => ({
     knot: trace({ duration: 0.85, segment: 0.18 }),
   }),

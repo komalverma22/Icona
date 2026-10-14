@@ -2,7 +2,7 @@ import { spriteNodes, outlineSprite } from "./pixelArt";
 import { ICON_SIZES, type CategoryId, type IconDefinition, type PixelArt } from "./types";
 
 /**
- * Pixel Art set — hand-placed 12×12 sprites ("#" solid, "+" shade).
+ * Pixel Art set - hand-placed 12×12 sprites ("#" solid, "+" shade).
  * Fill style is the sprite itself; outline style is auto-traced from it.
  * Extra frames feed frame-by-frame animations (walk cycles, an opening lid).
  */

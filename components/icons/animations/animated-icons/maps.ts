@@ -1,7 +1,7 @@
 import type { AnimationName, AnimationRecipe } from "../animationTypes";
 import { draw, EASE_IN_OUT, EASE_OUT, EASE_SPRINGY, keyframes, merge, pop, slide } from "../primitives";
 
-/** Flag cloth keyframes — identical command structure so the `d` attribute morphs. */
+/** Flag cloth keyframes - identical command structure so the `d` attribute morphs. */
 const FLAG_REST = "M5 4C8.5 2.5 10.5 5.5 14 4C16.5 3 18 3.5 19 4V13C18 12.5 16.5 12 14 13C10.5 14.5 8.5 11.5 5 13";
 const FLAG_WAVE = "M5 4C8 5.5 10.5 2.5 14 4C16.5 5 18 4.5 19 4V13C18 13.5 16.5 14 14 13C10.5 11.5 8 14.5 5 13";
 
@@ -30,7 +30,7 @@ export const mapsRecipes = {
     arms: draw({ delay: 0.32, duration: 0.35, from: "center" }),
   }),
 
-  /** Pole is planted, the cloth is drawn — then its path morphs into a wave. */
+  /** Pole is planted, the cloth is drawn - then its path morphs into a wave. */
   flag: () => ({
     pole: draw({ duration: 0.25, ease: EASE_OUT }),
     cloth: merge(draw({ delay: 0.12, duration: 0.4 }), {

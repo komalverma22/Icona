@@ -9,9 +9,9 @@ type Props = PageProps<"/icons/[key]">;
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { key } = await params;
   const variant = iconVariantsByKey.get(key);
-  if (!variant) return { title: "Icon not found — Icona" };
+  if (!variant) return { title: "Icon not found - Icona" };
   return {
-    title: `${variant.name} (${variant.style}) — Icona`,
+    title: `${variant.name} (${variant.style}) - Icona`,
     description: `${variant.name} icon from the ${categoryLabel(variant.category)} set. Copy it as React, SVG or HTML, download PNG, GIF or APNG, or install it with one command.`,
   };
 }

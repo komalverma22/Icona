@@ -5,7 +5,7 @@ import type { ParticlePresetId } from "./particles";
 export type { ParticlePresetId };
 
 /**
- * Motion variants — the hover animations an icon can play.
+ * Motion variants - the hover animations an icon can play.
  *
  * A variant combines up to three independent layers:
  *  - `recipe` : a node-level path recipe (the existing engine: parts of the icon move)
@@ -98,7 +98,7 @@ export interface EmitterCue extends Omit<ParticleCue, "count"> {
   rate: number;
   /** Stop after this many seconds (default: while active). */
   duration?: number;
-  /** Optional moving origin: x/y as a function of progress 0–1 over `duration`. */
+  /** Optional moving origin: x/y as a function of progress 0-1 over `duration`. */
   path?: (p: number) => [number, number];
 }
 

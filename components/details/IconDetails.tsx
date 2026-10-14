@@ -126,7 +126,7 @@ export function IconDetails({ variantKey, initial }: { variantKey: string; initi
       <ToastProvider>
         <header className="sticky top-0 z-40 border-b border-divider bg-white">
           <div className="mx-auto flex h-16 max-w-[1440px] items-center gap-3 px-4 md:px-8 xl:px-[82px]">
-            <Link href="/" aria-label="Icona — home" className="shrink-0 rounded-[10px]">
+            <Link href="/" aria-label="Icona - home" className="shrink-0 rounded-[10px]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={LOGO} alt="" width={32} height={32} className="size-8 object-cover" />
             </Link>

@@ -51,7 +51,7 @@ function run(el: HTMLElement, track: EffectTrack, delayExtra = 0, omitOpacity = 
     repeat: track.loop ? Infinity : 0,
     repeatDelay: track.repeatDelay,
   });
-  // Full turns end visually at rest — snap them to 0 so leaving doesn't unwind the spin.
+  // Full turns end visually at rest - snap them to 0 so leaving doesn't unwind the spin.
   if (!track.loop) {
     controls.then(() => {
       const snap: Record<string, number> = {};

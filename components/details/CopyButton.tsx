@@ -12,7 +12,7 @@ const CHECK = iconVariantsByKey.get("check-outline")!;
 
 /**
  * A button that runs an action (copy or download), shows a brief "Done" state
- * on success and reports the outcome — success or failure — in a toast.
+ * on success and reports the outcome - success or failure - in a toast.
  */
 export function ActionButton({
   action,

@@ -2,7 +2,7 @@ import { FLAG_PATH } from "./animations/animated-icons/maps";
 import { ICON_SIZES, type IconDefinition, type IconNode } from "./types";
 
 /**
- * Underrated icons — everyday metaphors most sets forget (⌘, fingerprint,
+ * Underrated icons - everyday metaphors most sets forget (⌘, fingerprint,
  * QR, scan, toggle, grip, hourglass…). Same design language as `iconData.ts`:
  * 24px grid, 1.5px round strokes, fill variants via silhouette + mask knock-outs.
  */

@@ -19,7 +19,7 @@ const OPTIONS: readonly SegmentOption<StrokeWidthValue>[] = [
   { value: 2, label: "2", icon: sample(2), ariaLabel: "Stroke 2 pixels" },
 ];
 
-/** Stroke weight of every icon — applied live to the grid and to copied SVG. */
+/** Stroke weight of every icon - applied live to the grid and to copied SVG. */
 export function StrokeFilter() {
   const { filters, setFilter } = useLibrary();
   const labelId = useId();

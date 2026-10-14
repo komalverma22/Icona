@@ -13,7 +13,7 @@ const NEW_ICON = iconVariantsByKey.get("sparkles-outline");
 
 /**
  * "Sets" menu: All, New, every category (expandable into its sub-groups) and
- * Saved — each row with its icon, a live count badge and a trailing chevron.
+ * Saved - each row with its icon, a live count badge and a trailing chevron.
  */
 export function CategoryFilter() {
   const { filters, setFilter, setCounts } = useLibrary();

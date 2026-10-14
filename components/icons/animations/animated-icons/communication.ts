@@ -4,7 +4,7 @@ import { draw, EASE_IN_OUT, EASE_OUT, keyframes, merge, pop, slide } from "../pr
 /** Communication + social sets. */
 export const communicationRecipes = {
   /**
-   * The bell body swings from its crown while the clapper lags behind it —
+   * The bell body swings from its crown while the clapper lags behind it -
    * two separate paths moving, not the whole icon rotating.
    */
   bell: () => ({

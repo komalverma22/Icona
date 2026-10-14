@@ -126,7 +126,7 @@ const STROKES: readonly SegmentOption<number>[] = [
 ];
 const SPEEDS: readonly SegmentOption<number>[] = [0.5, 1, 1.5, 2].map((n) => ({ value: n, label: `${n}×`, ariaLabel: `${n} times speed` }));
 
-/** Color, size, stroke and speed — everything here is baked into every export. */
+/** Color, size, stroke and speed - everything here is baked into every export. */
 export function Customize({
   variant,
   options,

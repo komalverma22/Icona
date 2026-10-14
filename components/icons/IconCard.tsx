@@ -47,6 +47,8 @@ export interface IconCardProps {
   motion?: MotionVariant;
   /** Number of motion variants this icon offers. */
   motionCount: number;
+  /** Static filter: the card shows the plain icon and never animates. */
+  still?: boolean;
   onOpenStudio: (variantKey: string) => void;
 }
 
@@ -55,12 +57,12 @@ export interface IconCardProps {
  *  - Hover (mouse/pen), keyboard focus or a tap activates it: the SVG path
  *    animation plays, the Save button and "Copy as SVG" animate in.
  *  - Leaving resets the animation to rest; re-entering replays it from the start.
- *  - The card only passes `active` to MotionIcon — the chosen motion variant
+ *  - The card only passes `active` to MotionIcon - the chosen motion variant
  *    (path recipe, effect, particles or pixel frames) does the rest.
  *  - Clicking the card (mouse / pen), the Animations button or "A" opens the
  *    Animation Studio for this icon.
  */
-export const IconCard = memo(function IconCard({ variant, size, strokeWidth, color, motion: mv, motionCount, onOpenStudio }: IconCardProps) {
+export const IconCard = memo(function IconCard({ variant, size, strokeWidth, color, motion: mv, motionCount, still = false, onOpenStudio }: IconCardProps) {
   const saved = useIsSaved(variant.key);
   const reduceMotion = useReducedMotion();
 
@@ -93,7 +95,7 @@ export const IconCard = memo(function IconCard({ variant, size, strokeWidth, col
 
   const router = useRouter();
   const onToggleSave = useCallback(async () => {
-    // Saving needs an account — send signed-out visitors to log in and bring them back.
+    // Saving needs an account - send signed-out visitors to log in and bring them back.
     if (!(await ensureUser())) {
       router.push(loginHref("save"));
       return;
@@ -123,7 +125,7 @@ export const IconCard = memo(function IconCard({ variant, size, strokeWidth, col
     onOpenStudio(variant.key);
   };
   const onFocus = (e: FocusEvent<HTMLDivElement>) => {
-    // Only keyboard focus counts — clicking Save must not pin the card open.
+    // Only keyboard focus counts - clicking Save must not pin the card open.
     if (e.target.matches(":focus-visible")) setKeyboardFocus(true);
   };
   const onBlur = (e: FocusEvent<HTMLDivElement>) => {
@@ -146,7 +148,7 @@ export const IconCard = memo(function IconCard({ variant, size, strokeWidth, col
     }
   };
 
-  const label = `${variant.name}, ${variant.style}, ${motionCount} animations`;
+  const label = still ? `${variant.name}, ${variant.style}` : `${variant.name}, ${variant.style}, ${motionCount} animations`;
   const showSave = active || saved;
   // Large icons make room for the Copy button while the card is active.
   const lift = Math.max(0, (size - 24) / 4);
@@ -176,7 +178,7 @@ export const IconCard = memo(function IconCard({ variant, size, strokeWidth, col
           saved ? "border-[rgba(43,154,243,0.55)]" : "border-line",
         )}
       />
-      {/* Figma raised "Background" layer — the hover surface */}
+      {/* Figma raised "Background" layer - the hover surface */}
       <span
         aria-hidden
         className={cx(
@@ -190,7 +192,7 @@ export const IconCard = memo(function IconCard({ variant, size, strokeWidth, col
         className="absolute inset-0 rounded-[10px] text-ink transition-transform duration-200 ease-out"
         style={{ transform: active && lift ? `translateY(-${lift}px)` : undefined, color: color ?? undefined }}
       >
-        <MotionIcon variant={variant} motion={mv} active={active} size={size} strokeWidth={strokeWidth} />
+        <MotionIcon variant={variant} motion={mv} active={active && !still} size={size} strokeWidth={strokeWidth} />
       </div>
 
       {/* Name tooltip */}
@@ -210,7 +212,7 @@ export const IconCard = memo(function IconCard({ variant, size, strokeWidth, col
         )}
       </AnimatePresence>
 
-      {/* Animation Studio — top left */}
+      {/* Animation Studio - top left */}
       {motionCount > 0 && (
         <motion.button
           type="button"
@@ -234,7 +236,7 @@ export const IconCard = memo(function IconCard({ variant, size, strokeWidth, col
         </motion.button>
       )}
 
-      {/* Save / bookmark — top right */}
+      {/* Save / bookmark - top right */}
       <motion.button
         type="button"
         aria-label={saved ? `Remove ${variant.name} from saved` : `Save ${variant.name}`}
@@ -264,7 +266,7 @@ export const IconCard = memo(function IconCard({ variant, size, strokeWidth, col
         </span>
       </motion.button>
 
-      {/* Copy as SVG — bottom */}
+      {/* Copy as SVG - bottom */}
       <motion.button
         type="button"
         onClick={onCopy}

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { ButtonLink } from "../ui/Button";
-import { GITHUB_URL, SPONSOR_URL } from "./config";
+import { GITHUB_URL, SPONSOR_URL, X_URL } from "./config";
 import { FooterWordmark } from "./FooterWordmark";
 
 type FooterLink = { label: string; href: string; external?: boolean };
@@ -30,6 +30,7 @@ const COLUMNS: { title: string; links: FooterLink[] }[] = [
       { label: "FAQs", href: "/#faq" },
       { label: "Sponsor", href: "/sponsor" },
       { label: "GitHub", href: GITHUB_URL, external: true },
+      { label: "X", href: X_URL, external: true },
     ],
   },
 ];
@@ -75,6 +76,11 @@ export function SiteFooter() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/figma/github.svg" alt="" aria-hidden width={18} height={18} className="size-[18px]" />
             </ButtonLink>
+            <ButtonLink iconOnly href={X_URL} target="_blank" rel="noreferrer" aria-label="Icona on X (opens in a new tab)">
+              <svg aria-hidden width="16" height="16" viewBox="0 0 24 24" fill="currentColor" className="text-ink">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+              </svg>
+            </ButtonLink>
           </div>
         </div>
 
@@ -83,7 +89,7 @@ export function SiteFooter() {
           <div>
             <p className="text-[14px] leading-5 font-medium text-ink">Reach out to us</p>
             <a
-              href={GITHUB_URL}
+              href={`${GITHUB_URL}/issues`}
               target="_blank"
               rel="noreferrer"
               className="group/card mt-4 flex w-full max-w-[340px] items-center gap-3 rounded-[14px] border border-line bg-card p-3 transition-[border-color,box-shadow,background-color] duration-200 hover:border-[rgba(28,31,33,0.2)] hover:bg-white hover:shadow-card-hover"

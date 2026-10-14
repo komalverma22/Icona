@@ -1,12 +1,12 @@
 @import "tailwindcss";
 
 /*
- * Design tokens — extracted from the Figma file "Icon Library" (node 48:1045).
+ * Design tokens - extracted from the Figma file "Icon Library" (node 48:1045).
  * Every colour, radius and shadow used in the UI is declared here so that
  * components never reach for ad-hoc Tailwind palette colours.
  */
 @theme {
-  /* Typography — Booton is the only typeface in the product. */
+  /* Typography - Booton is the only typeface in the product. */
   --font-sans: var(--font-booton), ui-sans-serif, system-ui, sans-serif;
 
   /* Colour palette (Figma) */
@@ -20,7 +20,7 @@
   --color-kbd: rgba(28, 31, 33, 0.08);    /* keyboard hint pill */
   --color-scrim: rgba(28, 31, 33, 0.5);   /* clear-search button */
   --color-badge: #ededed;        /* count badge in Sets list */
-  --color-accent: #2b9af3;       /* sky blue (cofounder.co) — focus, selected states */
+  --color-accent: #2b9af3;       /* sky blue (cofounder.co) - focus, selected states */
   --color-accent-light: #8fd0ff; /* light blue tint */
   --color-accent-ring: #1b7fd4;  /* blue hairline */
   --color-accent-glow: #5ab6fa;  /* blue inset glow */

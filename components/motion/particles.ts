@@ -32,7 +32,7 @@ export type ParticlePresetId =
  *
  *  - One `ParticleField` per animated icon stage. The <canvas> is created
  *    lazily on the first burst and removed from the DOM as soon as the last
- *    particle dies — idle icons cost nothing.
+ *    particle dies - idle icons cost nothing.
  *  - One requestAnimationFrame loop per field, stopped when idle.
  *  - Hard cap on live particles; device-pixel-ratio aware; pixel presets snap
  *    to a square grid so 8-bit particles stay crisp.
@@ -90,7 +90,7 @@ interface Particle {
   persist?: boolean;
   orbit?: { cx: number; cy: number; rx: number; ry: number; a: number; va: number };
   target?: { x: number; y: number };
-  /** Pixel grid size (px) — position and size snap to it. */
+  /** Pixel grid size (px) - position and size snap to it. */
   grid?: number;
   text?: string;
 }
@@ -559,7 +559,7 @@ interface Emitter {
 }
 
 /**
- * Particle state, physics and drawing — no DOM, no timers. `ParticleField`
+ * Particle state, physics and drawing - no DOM, no timers. `ParticleField`
  * drives it from requestAnimationFrame; the exporter drives it with fixed time
  * steps to record GIF / APNG frames.
  */
@@ -799,7 +799,7 @@ export class ParticleField {
 }
 
 /* -------------------------------------------------------------------------- */
-/* Scripts — particle cues as plain data (used by exported components)         */
+/* Scripts - particle cues as plain data (used by exported components)         */
 /* -------------------------------------------------------------------------- */
 
 /** A one-shot burst. Coordinates are on the 24px icon grid; `follow` emits from the icon's moved position. */

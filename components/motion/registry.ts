@@ -9,8 +9,8 @@ import type { MotionStyleId, MotionVariant } from "./types";
  * Resolves the motion variants available for an icon variant:
  *   1. the curated, meaning-specific variants from the catalogue (the first is
  *      what a card plays by default)
- *   2. "Classic Draw" — the icon's original path animation (vector icons)
- *   3. "Fill Morph" — morph into the icon's other style, when it has one and
+ *   2. "Classic Draw" - the icon's original path animation (vector icons)
+ *   3. "Fill Morph" - morph into the icon's other style, when it has one and
  *      no other morph was curated
  * Results are cached per icon variant so cards get stable object identities.
  */

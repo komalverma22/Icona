@@ -10,7 +10,7 @@ import { TIERS } from "@/components/sponsor/tiers";
 import { cx } from "@/components/ui/Button";
 
 export const metadata: Metadata = {
-  title: "Sponsor — Icona",
+  title: "Sponsor - Icona",
   description: "Icona is free to use. Sponsoring pays for the time it takes to draw, animate and maintain the icons.",
 };
 

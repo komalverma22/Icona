@@ -50,7 +50,7 @@ function Sidebar() {
   );
 }
 
-/** Below lg there is no sidebar — the studio opens in a sheet. */
+/** Below lg there is no sidebar - the studio opens in a sheet. */
 function StudioSheet() {
   const { studioKey, closeStudio } = useLibrary();
   const desktop = useIsDesktop();

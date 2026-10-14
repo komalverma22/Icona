@@ -1,7 +1,7 @@
 import type { AnimationName, AnimationRecipe } from "../animationTypes";
 import { draw, EASE_IN_OUT, EASE_OUT, keyframes, merge, pop, slide } from "../primitives";
 
-/** Circumference of the loader ring (r = 8.5) — dash values are in user units. */
+/** Circumference of the loader ring (r = 8.5) - dash values are in user units. */
 const LOADER_C = 2 * Math.PI * 8.5;
 /** Dash pattern where `f` of the ring is visible, e.g. 0.7 → "37.38 16.02" (matches iconData). */
 const dash = (f: number) => `${(LOADER_C * f).toFixed(2)} ${(LOADER_C * (1 - f)).toFixed(2)}`;
@@ -91,7 +91,7 @@ export const uiRecipes = {
   /**
    * Lid lifts and settles, the can draws, the ribs follow.
    * Lid and handle hinge around the same point (the lid's left end, 4,6.5):
-   * the handle's bbox spans x 9.5–14.5, so that point is at -110% / 100% of it.
+   * the handle's bbox spans x 9.5-14.5, so that point is at -110% / 100% of it.
    */
   trash: () => {
     const lift = { delay: 0, duration: 0.55, ease: EASE_IN_OUT };

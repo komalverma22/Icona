@@ -15,7 +15,7 @@ const OPTIONS: readonly { value: StyleFilterValue; label: string }[] = [
 ];
 
 /**
- * Style picker — the Figma vertical list (48:1679): tray of 30px rows, the
+ * Style picker - the Figma vertical list (48:1679): tray of 30px rows, the
  * selected row is a raised white pill with a check on the left.
  */
 export function StyleFilter() {

@@ -127,7 +127,7 @@ function reactComponent(variant: IconVariant, options: ExportOptions, ts: boolea
   const head = `${particles ? '"use client";\n\n' : ""}${imports.length ? imports.join("\n") + "\n\n" : ""}${css}${script}${propsType}`;
 
   const doc = playable
-    ? `/** ${scene.info.motion?.label} — ${variant.name} (${variant.style})${particles ? ", with particles" : ""}. */`
+    ? `/** ${scene.info.motion?.label} - ${variant.name} (${variant.style})${particles ? ", with particles" : ""}. */`
     : `/** ${variant.name} (${variant.style}). */`;
   const signature = `export function ${name}({ ${params.join(", ")} }${annotation})`;
 

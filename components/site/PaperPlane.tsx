@@ -20,7 +20,7 @@ interface FlightPathProps {
   /** SVG path the plane follows (start → end). */
   d: string;
   viewBox: string;
-  /** Scroll-linked position, 0–1. Without it the plane loops on its own. */
+  /** Scroll-linked position, 0-1. Without it the plane loops on its own. */
   progress?: MotionValue<number>;
   /** Plane size in viewBox units. */
   planeSize?: number;

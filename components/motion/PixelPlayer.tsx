@@ -36,7 +36,7 @@ function framePaths(frame: PixelFrame) {
 
 /**
  * Frame-by-frame pixel-art player. Steps frames with a timer at the effect's
- * own fps (no tweening between frames — that is the point), renders each
+ * own fps (no tweening between frames - that is the point), renders each
  * frame as crisp SVG paths and draws outside the 24px box when pixels fly.
  */
 export const PixelPlayer = memo(function PixelPlayer({ art, alt, effect, playKey, size, onDone }: PixelPlayerProps) {

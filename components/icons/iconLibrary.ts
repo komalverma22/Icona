@@ -108,7 +108,7 @@ export const STYLES: readonly IconStyle[] = ["outline", "fill", "color"];
 
 /**
  * Flatten authoring definitions into grid entries: one entry per icon × style.
- * Runs once at module load — search haystacks are pre-computed here.
+ * Runs once at module load - search haystacks are pre-computed here.
  */
 export const iconVariants: readonly IconVariant[] = iconDefinitions.flatMap((def) =>
   STYLES.flatMap((style): IconVariant[] => {

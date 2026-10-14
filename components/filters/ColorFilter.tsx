@@ -36,7 +36,7 @@ function presetFor(color: string | null): Preset | null {
   return (Object.keys(PRESETS) as Preset[]).find((key) => PRESETS[key].value === hex) ?? null;
 }
 
-/** Icon colour — previewed in the grid and baked into copied SVG (Ink stays `currentColor`). */
+/** Icon colour - previewed in the grid and baked into copied SVG (Ink stays `currentColor`). */
 export function ColorFilter() {
   const { filters, setFilter } = useLibrary();
   const labelId = useId();

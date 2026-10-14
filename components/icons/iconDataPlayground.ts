@@ -1,7 +1,7 @@
 import { ICON_SIZES, type IconDefinition, type IconNode } from "./types";
 
 /**
- * Playground set — icons picked for their motion potential (vehicles,
+ * Playground set - icons picked for their motion potential (vehicles,
  * celebrations, physics, creative tools). Their parts are split into named
  * nodes so context-aware recipes can animate them (car spokes and speed lines,
  * rocket flame, popper streamers). `animationOnly` nodes only appear while a

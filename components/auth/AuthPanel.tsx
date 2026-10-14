@@ -28,7 +28,7 @@ export function AuthPanel({ mode }: { mode: "login" | "signup" }) {
       router.refresh();
       return;
     }
-    return "Check your inbox — we sent you a link to confirm your email.";
+    return "Check your inbox - we sent you a link to confirm your email.";
   };
 
   const onGoogle = async () => {

@@ -86,7 +86,7 @@ export function iconItem(slug: string, params: Pick<URLSearchParams, "get">, ori
     $schema: REGISTRY_SCHEMA,
     name: slug,
     type: "registry:component",
-    title: `${entry.variant.name} (${entry.variant.style})${motion ? ` — ${motion.label}` : ""}`,
+    title: `${entry.variant.name} (${entry.variant.style})${motion ? ` - ${motion.label}` : ""}`,
     description: motion
       ? `Animated ${entry.variant.name} icon: ${motion.label}. React + CSS${needsParticleRuntime(code.scene) ? " with canvas particles" : ""}, no animation library.`
       : `${entry.variant.name} icon as a React component.`,

@@ -8,7 +8,7 @@ import { FilterSection } from "./FilterSection";
 
 export const SORT_OPTIONS: readonly SegmentOption<SortValue>[] = [
   { value: "featured", label: "Featured" },
-  { value: "az", label: "A–Z", ariaLabel: "Name A to Z" },
+  { value: "az", label: "A-Z", ariaLabel: "Name A to Z" },
   { value: "new", label: "New", ariaLabel: "Newest first" },
 ];
 

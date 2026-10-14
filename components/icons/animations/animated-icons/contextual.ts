@@ -4,8 +4,8 @@ import { draw, EASE_IN_OUT, EASE_OUT, EASE_SPRINGY, keyframes, merge } from "../
 
 /**
  * Context-aware path recipes used by motion variants (not only as an icon's
- * signature animation). Each one animates the icon's real parts — wheels,
- * flaps, lids, hands — so the motion explains what the icon means.
+ * signature animation). Each one animates the icon's real parts - wheels,
+ * flaps, lids, hands - so the motion explains what the icon means.
  * Nodes marked `animationOnly` in the icon data are hidden at rest
  * (`rest: 0` on opacity) and only appear while a recipe plays.
  */
@@ -27,7 +27,7 @@ const showFor = (from: number, to: number, total: number, fade = 0.08): NodeMoti
 
 const DROP_EASE: Easing[] = [[0.5, 0, 0.9, 0.5], "linear", "linear", EASE_SPRINGY];
 
-/** Mail flap shapes — identical command structure so `d` morphs. */
+/** Mail flap shapes - identical command structure so `d` morphs. */
 const FLAP_CLOSED = "M3.5 7L12 13L20.5 7";
 const FLAP_OPEN = "M3.5 7L12 1.5L20.5 7";
 

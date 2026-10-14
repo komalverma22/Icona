@@ -1,16 +1,14 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
-import type { KeyboardEvent } from "react";
+import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import { useLibrary } from "../library/LibraryProvider";
 import { hasActiveFilters } from "../library/filterIcons";
 import { getMotions, resolveMotion } from "../motion/registry";
 import { Button } from "../ui/Button";
-import { EASE_OUT } from "./animations/primitives";
 import { IconCard } from "./IconCard";
 
-/** Above this many results, skip layout animations to keep large grids cheap. */
-const LAYOUT_ANIMATION_LIMIT = 150;
+/** Cards mounted up front; more are added as the visitor scrolls, so a 600 icon library opens instantly. */
+const PAGE_SIZE = 96;
 
 const ARROWS = new Set(["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End"]);
 
@@ -43,7 +41,20 @@ function onGridKeyDown(e: KeyboardEvent<HTMLDivElement>) {
 
 export function IconGrid() {
   const { results, renderSize, filters, resetFilters, isStale, motionChoices, openStudio } = useLibrary();
-  const animateLayout = results.length <= LAYOUT_ANIMATION_LIMIT;
+  const [limit, setLimit] = useState(PAGE_SIZE);
+  const sentinel = useRef<HTMLDivElement>(null);
+  const still = filters.animation === "static";
+
+  // A new result set starts from the first page again.
+  useEffect(() => setLimit(PAGE_SIZE), [results]);
+
+  useEffect(() => {
+    const el = sentinel.current;
+    if (!el || limit >= results.length) return;
+    const io = new IntersectionObserver((entries) => entries[0].isIntersecting && setLimit((n) => n + PAGE_SIZE), { rootMargin: "600px" });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [limit, results.length]);
 
   if (results.length === 0) {
     const query = filters.query.trim();
@@ -56,7 +67,7 @@ export function IconGrid() {
         <p className="max-w-[280px] text-[12px] leading-[18px] text-muted">
           {savedView
             ? "Hover an icon and press the bookmark to save it. Saved icons stay here after a refresh."
-            : "Try a different name, category or tag — or clear the filters."}
+            : "Try a different name, category or tag - or clear the filters."}
         </p>
         {hasActiveFilters(filters) && (
           <Button onClick={resetFilters} className="mt-1">
@@ -68,38 +79,31 @@ export function IconGrid() {
   }
 
   return (
-    <div
-      role="list"
-      aria-label="Icons"
-      aria-busy={isStale}
-      onKeyDown={onGridKeyDown}
-      className="grid grid-cols-2 gap-3 sm:grid-cols-[repeat(auto-fill,minmax(121px,1fr))] sm:gap-x-[22px] sm:gap-y-[13.6px]"
-    >
-      <AnimatePresence mode="popLayout" initial={false}>
-        {results.map((variant) => (
-          <motion.div
-            role="listitem"
-            key={variant.key}
-            layout={animateLayout ? "position" : false}
-            initial={{ opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.96 }}
-            transition={{ duration: 0.22, ease: EASE_OUT }}
-            // An active card (and its particles) must paint above its neighbours.
-            className="relative has-[[data-active]]:z-10"
-          >
+    <>
+      <div
+        role="list"
+        aria-label="Icons"
+        aria-busy={isStale}
+        onKeyDown={onGridKeyDown}
+        className="grid grid-cols-2 gap-3 sm:grid-cols-[repeat(auto-fill,minmax(121px,1fr))] sm:gap-x-[22px] sm:gap-y-[13.6px]"
+      >
+        {results.slice(0, limit).map((variant) => (
+          // An active card (and its particles) must paint above its neighbours.
+          <div key={variant.key} role="listitem" className="relative has-[[data-active]]:z-10">
             <IconCard
               variant={variant}
               size={renderSize}
               strokeWidth={filters.strokeWidth}
               color={filters.color}
-              motion={resolveMotion(variant, filters.motion, motionChoices[variant.key])}
-              motionCount={getMotions(variant).length}
+              motion={still ? undefined : resolveMotion(variant, filters.motion, motionChoices[variant.key])}
+              motionCount={still ? 0 : getMotions(variant).length}
+              still={still}
               onOpenStudio={openStudio}
             />
-          </motion.div>
+          </div>
         ))}
-      </AnimatePresence>
-    </div>
+      </div>
+      {limit < results.length && <div ref={sentinel} aria-hidden className="h-px" />}
+    </>
   );
 }

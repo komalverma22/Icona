@@ -13,7 +13,7 @@ interface SetRowProps {
   onSelect: () => void;
   /** Leading glyph (drawn with the library's own icons; it animates while the row is hovered). */
   icon?: IconVariant;
-  /** Present when the set has sub-groups — the trailing chevron becomes a toggle. */
+  /** Present when the set has sub-groups - the trailing chevron becomes a toggle. */
   expandable?: { expanded: boolean; onToggle: () => void; controls: string };
   /** Number of matching icons, shown as a count badge. */
   count?: number;

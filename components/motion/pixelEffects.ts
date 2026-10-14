@@ -5,7 +5,7 @@ import type { PixelArt } from "../icons/types";
  * Frame-by-frame pixel-art animations.
  *
  * Every frame is computed on the 12×12 sprite grid and snapped to whole
- * pixels — rotations and scales use nearest-neighbour sampling, so a sword
+ * pixels - rotations and scales use nearest-neighbour sampling, so a sword
  * swing or a coin spin stays authentically pixelated instead of turning into
  * smoothed vector motion. Pixels may leave the 12×12 box (explosions, launches);
  * the player draws them outside the icon bounds.
@@ -438,7 +438,7 @@ export const PIXEL_EFFECTS: Record<string, PixelEffect> = {
     },
   },
 
-  /** Bomb: the fuse burns down with sparks, then — boom — and it reassembles. */
+  /** Bomb: the fuse burns down with sparks, then - boom - and it reassembles. */
   "fuse-boom": {
     fps: 14,
     frames: 30,

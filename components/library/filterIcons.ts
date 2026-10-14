@@ -64,7 +64,7 @@ function score(variant: IconVariant, terms: string[]): number {
 
 const parseTerms = (query: string) => query.trim().toLowerCase().split(/\s+/).filter(Boolean);
 
-/** Everything except the "set" dimension — shared by filtering and the per-set counts. */
+/** Everything except the "set" dimension - shared by filtering and the per-set counts. */
 function matchesFacets(variant: IconVariant, filters: FilterState, ignoreMotion = false): boolean {
   if (filters.style !== "all" && variant.style !== filters.style) return false;
   if (filters.size !== "all" && !variant.sizes.includes(filters.size)) return false;
@@ -172,7 +172,7 @@ export function hasActiveFilters(filters: FilterState) {
   );
 }
 
-/** Anything differing from the defaults — drives the "Reset" button. */
+/** Anything differing from the defaults - drives the "Reset" button. */
 export function isModified(filters: FilterState) {
   return (
     hasActiveFilters(filters) ||

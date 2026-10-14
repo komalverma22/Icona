@@ -17,7 +17,7 @@ import { normalizeHex } from "./colorUtils";
 /* Colour maths                                                                */
 /* -------------------------------------------------------------------------- */
 
-/** h: 0–360, s/v: 0–1. */
+/** h: 0-360, s/v: 0-1. */
 interface Hsv {
   h: number;
   s: number;
@@ -112,7 +112,7 @@ interface EyeDropperCtor {
 }
 
 interface ColorPickerProps {
-  /** Current colour (hex) — the picker shows it when it is a custom pick. */
+  /** Current colour (hex) - the picker shows it when it is a custom pick. */
   value: string | null;
   /** True when the current colour came from this picker (draws the selected state). */
   active: boolean;

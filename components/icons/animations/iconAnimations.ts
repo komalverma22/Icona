@@ -88,7 +88,7 @@ function withAutoFill(variant: IconVariant, plan: AnimationPlan): AnimationPlan 
 /**
  * Bake a track's delay into its keyframes. Holding the first keyframe for the
  * delay (instead of using `transition.delay`) means every part of the icon
- * resets to its start state the instant the animation begins — so staggered
+ * resets to its start state the instant the animation begins - so staggered
  * parts never flash fully-drawn before they start drawing.
  */
 function compileTrack(track: Track): { keyframes: AnimatableValue[]; transition: Transition } {
@@ -140,7 +140,7 @@ const EMPTY: CompiledAnimation = Object.freeze({});
 
 /**
  * The resolved, uncompiled animation plan (node id → tracks) for an icon
- * variant — what the exporter turns into CSS keyframes.
+ * variant - what the exporter turns into CSS keyframes.
  */
 export function getIconPlan(
   variant: IconVariant,

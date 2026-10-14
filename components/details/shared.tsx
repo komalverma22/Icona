@@ -37,7 +37,7 @@ export function Badge({ tone, children }: { tone: "animated" | "still" | "neutra
   );
 }
 
-/** Where this page is served from — install commands point at it. */
+/** Where this page is served from - install commands point at it. */
 export function useOrigin() {
   const [origin, setOrigin] = useState("https://your-icona-domain");
   useEffect(() => setOrigin(window.location.origin), []);

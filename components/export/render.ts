@@ -23,7 +23,7 @@ function rootAttributes(scene: Scene) {
 
 /**
  * The scene as a standalone <svg> element tree. Animated scenes carry their
- * own <style> and loop (or play on hover) — drop the file into an <img> and it
+ * own <style> and loop (or play on hover) - drop the file into an <img> and it
  * animates; paste it inline and the colour follows `currentColor`.
  */
 export function svgTree(scene: Scene, options: Pick<ExportOptions, "color">, trigger: Trigger = "loop", extra: Attrs = {}): El {

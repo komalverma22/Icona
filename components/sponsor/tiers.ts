@@ -12,7 +12,7 @@ export interface Tier {
   slots: number;
 }
 
-/** Edit prices and perks here — the Sponsor page renders whatever is listed, highest tier first. */
+/** Edit prices and perks here - the Sponsor page renders whatever is listed, highest tier first. */
 export const TIERS: readonly Tier[] = [
   {
     id: "gold",

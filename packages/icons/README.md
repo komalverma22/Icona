@@ -1,6 +1,6 @@
 # @icona/icons
 
-Icona icons as React components — static, animated and pixel-art.
+Icona icons as React components - static, animated and pixel-art.
 
 ```bash
 pnpm add @icona/icons      # or: npm install @icona/icons / yarn add @icona/icons

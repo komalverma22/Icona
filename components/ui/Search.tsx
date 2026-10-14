@@ -11,7 +11,7 @@ interface SearchProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "onCha
 }
 
 /**
- * Search field — Figma "Input" (48:1052): #f5f6f8 field, hairline border,
+ * Search field - Figma "Input" (48:1052): #f5f6f8 field, hairline border,
  * 10px radius, 12px Booton placeholder, leading search glyph, shortcut hint
  * and a clear button that replaces the hint once there is a query.
  */

@@ -3,7 +3,7 @@ import type { MotionStyleId, MotionVariant } from "./types";
 
 /**
  * Curated motion variants per icon id. Each icon gets animations that match
- * what it means — a car drives, a bell swings, a balloon pops — rather than
+ * what it means - a car drives, a bell swings, a balloon pops - rather than
  * one generic effect for everything. The icon's own path animation is always
  * offered first as "Signature" (added by the registry).
  *

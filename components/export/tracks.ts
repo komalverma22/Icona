@@ -18,7 +18,7 @@ export type Ease = "linear" | "step" | Bezier;
 export interface NTrack {
   prop: string;
   values: Val[];
-  /** 0–1 offsets of each value within `duration`. */
+  /** 0-1 offsets of each value within `duration`. */
   times: number[];
   /** One easing per segment (`values.length - 1`). */
   eases: Ease[];

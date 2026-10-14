@@ -48,7 +48,7 @@ export function GithubButton() {
   );
 }
 
-/** Top bar for the Docs and Sponsor pages — the library's bar, minus the search and filters. */
+/** Top bar for the Docs and Sponsor pages - the library's bar, minus the search and filters. */
 export function SiteHeader({ cta = "browse", bordered = true }: { cta?: "browse" | "login"; bordered?: boolean }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const close = () => setMenuOpen(false);
@@ -64,7 +64,7 @@ export function SiteHeader({ cta = "browse", bordered = true }: { cta?: "browse"
   return (
     <header className={cx("sticky top-0 z-40 bg-white", bordered && "border-b border-divider")}>
       <div className="mx-auto flex h-16 max-w-[1440px] items-center justify-between gap-3 px-4 md:grid md:grid-cols-[1fr_auto_1fr] md:px-8 xl:px-[82px]">
-        <Link href="/" aria-label="Icona — home" className="flex shrink-0 items-center gap-3 justify-self-start rounded-[10px]">
+        <Link href="/" aria-label="Icona - home" className="flex shrink-0 items-center gap-3 justify-self-start rounded-[10px]">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/figma/logo.png" alt="" width={40} height={40} className="size-10 object-cover" />
           <span className="text-[24px] leading-6 font-semibold tracking-[-0.045em] text-ink">Icona</span>

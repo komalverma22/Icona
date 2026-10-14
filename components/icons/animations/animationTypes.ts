@@ -138,7 +138,7 @@ export interface Track {
   /** Seconds before this track starts. The first keyframe is held during the delay. */
   delay?: number;
   ease?: Easing | Easing[];
-  /** Keyframe offsets (0–1) relative to this track's own duration. */
+  /** Keyframe offsets (0-1) relative to this track's own duration. */
   times?: number[];
   repeat?: number;
   repeatType?: "loop" | "reverse" | "mirror";
@@ -163,7 +163,7 @@ export interface RecipeContext {
 
 export type AnimationRecipe = (ctx: RecipeContext) => AnimationPlan;
 
-/** Compiled Framer Motion data for one node — cached per icon variant. */
+/** Compiled Framer Motion data for one node - cached per icon variant. */
 export interface CompiledNodeMotion {
   variants: Variants;
   style?: MotionStyle;

@@ -1,7 +1,7 @@
 import { ICON_SIZES, type IconDefinition, type IconNode } from "./types";
 
 /**
- * Discover set — practical icons most libraries skip: developer workflow
+ * Discover set - practical icons most libraries skip: developer workflow
  * (regex, variables, breakpoints, webhooks), data visualisation, accessibility,
  * layout / wayfinding, UI states, touch gestures and productivity.
  * Same design language as `iconData.ts`: 24px grid, 1.5px round strokes, fill

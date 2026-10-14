@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prebuild": "npm run build:icons",
     "build": "next build",
     "start": "next start",
     "build:icons": "tsx scripts/build-icons.mts"

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { AuthButton } from "../auth/AuthButton";
 import { iconVariantsByKey } from "../icons/iconLibrary";
 import { IconRenderer } from "../icons/IconRenderer";
 import { useLibrary } from "../library/LibraryProvider";

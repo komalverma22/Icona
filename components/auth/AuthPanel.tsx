@@ -47,7 +47,11 @@ export function AuthPanel({ mode }: { mode: "login" | "signup" }) {
     <>
       {params.get("reason") && (
         <p role="status" className="mb-4 rounded-[10px] border border-line bg-white px-3 py-2.5 text-[13px] leading-5 text-text">
-          {params.get("reason") === "save" ? "Log in to save icons to your collection." : "Log in to export icons."}
+          {params.get("reason") === "save"
+            ? "Log in to save icons to your collection."
+            : params.get("reason") === "sponsor"
+              ? "Log in to sponsor Icona."
+              : "Log in to export icons."}
         </p>
       )}
       {params.get("error") && (

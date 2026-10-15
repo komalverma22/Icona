@@ -5,9 +5,10 @@ import { GITHUB_URL, SPONSOR_URL } from "@/components/site/config";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { CopyLinkButton } from "@/components/sponsor/CopyLinkButton";
-import { TakeoffButton } from "@/components/sponsor/TakeoffButton";
+import { SponsorCheckoutButton } from "@/components/sponsor/SponsorCheckoutButton";
 import { TIERS } from "@/components/sponsor/tiers";
-import { cx } from "@/components/ui/Button";
+import { cx, ButtonLink } from "@/components/ui/Button";
+import { createClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
   title: "Sponsor - Icona",
@@ -72,7 +73,24 @@ function LogoSlot({ index, tierId }: { index: number; tierId: string }) {
   );
 }
 
-export default function SponsorPage() {
+const ACTIVE_STATUSES = new Set(["active", "on_hold", "paused"]);
+
+export default async function SponsorPage() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  const { data: sponsorship } = user
+    ? await supabase
+        .from("sponsorships")
+        .select("tier, status")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .maybeSingle()
+    : { data: null };
+  const currentTier = sponsorship && ACTIVE_STATUSES.has(sponsorship.status) ? sponsorship.tier : null;
+
   return (
     <>
       <SiteHeader cta="login" bordered={false} />
@@ -180,9 +198,13 @@ export default function SponsorPage() {
 
                   <div className="flex flex-col gap-3 border-t border-line px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-5">
                     <p className="text-[13px] leading-5 text-muted">{tier.tagline}</p>
-                    <TakeoffButton href={SPONSOR_URL} variant={tier.featured ? "accent" : "raised"} className="h-10 w-full sm:w-auto">
-                      Choose {tier.name}
-                    </TakeoffButton>
+                    {currentTier === tier.id ? (
+                      <ButtonLink href="/customer-portal" variant="raised" className="h-10 w-full sm:w-auto">
+                        Manage subscription
+                      </ButtonLink>
+                    ) : (
+                      <SponsorCheckoutButton tierId={tier.id} tierName={tier.name} variant={tier.featured ? "accent" : "raised"} className="h-10 w-full sm:w-auto" />
+                    )}
                   </div>
                 </article>
               </Reveal>

@@ -9,7 +9,7 @@ import { IconSearch } from "../search/IconSearch";
 import { Button } from "../ui/Button";
 import { Sheet } from "../ui/Sheet";
 import { Tooltip } from "../ui/Tooltip";
-import { NavLinks, XButton } from "../site/SiteHeader";
+import { GithubButton, NavLinks } from "../site/SiteHeader";
 
 const MENU_ICON = iconVariantsByKey.get("menu-outline")!;
 
@@ -58,7 +58,7 @@ export function Navbar() {
 
         <div className="hidden items-center gap-3 justify-self-end md:flex">
           <SavedButton />
-          <XButton />
+          <GithubButton />
           <AuthButton />
         </div>
 
@@ -74,7 +74,7 @@ export function Navbar() {
           <NavLinks vertical onNavigate={closeMenu} />
           <div className="flex items-center gap-3 border-t border-divider pt-4">
             <SavedButton onClick={closeMenu} />
-            <XButton />
+            <GithubButton />
             <AuthButton className="ml-auto" />
           </div>
         </nav>

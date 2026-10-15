@@ -49,7 +49,7 @@ export async function ensureUser(): Promise<User | null> {
 }
 
 /** Login URL that returns the visitor to the page they were on. */
-export function loginHref(reason?: "save" | "export") {
+export function loginHref(reason?: "save" | "export" | "sponsor") {
   const next = `${window.location.pathname}${window.location.search}`;
   return `/login?next=${encodeURIComponent(next)}${reason ? `&reason=${reason}` : ""}`;
 }

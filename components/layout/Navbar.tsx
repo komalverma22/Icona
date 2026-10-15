@@ -6,11 +6,10 @@ import { iconVariantsByKey } from "../icons/iconLibrary";
 import { IconRenderer } from "../icons/IconRenderer";
 import { useLibrary } from "../library/LibraryProvider";
 import { IconSearch } from "../search/IconSearch";
-import { Button, ButtonLink } from "../ui/Button";
+import { Button } from "../ui/Button";
 import { Sheet } from "../ui/Sheet";
 import { Tooltip } from "../ui/Tooltip";
-import { GITHUB_URL } from "../site/config";
-import { NavLinks } from "../site/SiteHeader";
+import { NavLinks, XButton } from "../site/SiteHeader";
 
 const MENU_ICON = iconVariantsByKey.get("menu-outline")!;
 
@@ -31,16 +30,6 @@ function SavedButton({ onClick }: { onClick?: () => void }) {
       >
         <img src="/figma/bookmark.svg" alt="" aria-hidden width={18} height={18} className="size-[18px]" />
       </Button>
-    </Tooltip>
-  );
-}
-
-function GithubButton() {
-  return (
-    <Tooltip label="GitHub" side="bottom">
-      <ButtonLink iconOnly href={GITHUB_URL} target="_blank" rel="noreferrer" aria-label="Icona on GitHub (opens in a new tab)">
-        <img src="/figma/github.svg" alt="" aria-hidden width={18} height={18} className="size-[18px]" />
-      </ButtonLink>
     </Tooltip>
   );
 }
@@ -69,7 +58,7 @@ export function Navbar() {
 
         <div className="hidden items-center gap-3 justify-self-end md:flex">
           <SavedButton />
-          <GithubButton />
+          <XButton />
           <AuthButton />
         </div>
 
@@ -85,7 +74,7 @@ export function Navbar() {
           <NavLinks vertical onNavigate={closeMenu} />
           <div className="flex items-center gap-3 border-t border-divider pt-4">
             <SavedButton onClick={closeMenu} />
-            <GithubButton />
+            <XButton />
             <AuthButton className="ml-auto" />
           </div>
         </nav>

@@ -17,7 +17,7 @@ export const TIERS: readonly Tier[] = [
   {
     id: "gold",
     name: "Gold",
-    price: 150,
+    price: 40,
     seat: "1A",
     tagline: "Your logo everywhere Icona is seen.",
     perks: ["Logo on the icons page", "Logo on the landing page", "Listing on the sponsors page", "Shoutout on X", "Logo in the README"],
@@ -27,7 +27,7 @@ export const TIERS: readonly Tier[] = [
   {
     id: "silver",
     name: "Silver",
-    price: 100,
+    price: 30,
     seat: "3C",
     tagline: "Front and centre on the landing page.",
     perks: ["Logo on the landing page", "Listing on the sponsors page", "Shoutout on X"],
@@ -36,7 +36,7 @@ export const TIERS: readonly Tier[] = [
   {
     id: "bronze",
     name: "Bronze",
-    price: 30,
+    price: 20,
     seat: "12A",
     tagline: "Back the project and get noticed.",
     perks: ["Logo in the README", "Shoutout on X"],

@@ -34,7 +34,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en" className={booton.variable}>
       <body className="font-sans">{children}
         <Analytics />
-        <SpeedInsights />
+        <SpeedInsights /> 
       </body>
     </html>
   );

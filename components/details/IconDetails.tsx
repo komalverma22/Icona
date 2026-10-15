@@ -71,7 +71,7 @@ function Tabs({ value, onChange }: { value: TabId; onChange: (id: TabId) => void
               <motion.span
                 layoutId={layoutId}
                 aria-hidden
-                className="absolute inset-0 rounded-[7.5px] border-[0.5px] border-accent-ring surface-accent shadow-accent"
+                className="absolute inset-0 rounded-[7.5px] surface-accent shadow-accent"
                 transition={{ type: "spring", stiffness: 520, damping: 42 }}
               />
             )}

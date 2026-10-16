@@ -8,6 +8,8 @@ import type { IconNode, IconVariant } from "./types";
 
 export const VIEWBOX = "0 0 24 24";
 
+
+
 /** Presentation attributes on the <svg> root (React prop names). */
 export const ROOT_ATTRS = {
   fill: "none",

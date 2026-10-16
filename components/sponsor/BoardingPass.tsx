@@ -1,7 +1,6 @@
 import { cx } from "../ui/Button";
 import { PlaneGlyph } from "../site/PaperPlane";
-import { SPONSOR_URL } from "../site/config";
-import { TakeoffButton } from "./TakeoffButton";
+import { SponsorCheckoutButton } from "./SponsorCheckoutButton";
 import type { Tier } from "./tiers";
 
 /** Deterministic bar widths so the barcode is identical on server and client. */
@@ -74,9 +73,7 @@ export function BoardingPass({ tier, index }: { tier: Tier; index: number }) {
           ))}
         </ul>
 
-        <TakeoffButton href={SPONSOR_URL} variant={tier.featured ? "accent" : "raised"} className="h-10 w-full">
-          Board as {tier.name}
-        </TakeoffButton>
+        <SponsorCheckoutButton tierId={tier.id} tierName={tier.name} variant={tier.featured ? "accent" : "raised"} className="h-10 w-full" />
 
         <div aria-hidden className="flex items-end justify-between gap-4 border-t border-dashed border-[rgba(28,31,33,0.14)] pt-4">
           <dl className="flex gap-5 text-[10px] leading-3 font-medium tracking-[0.06em] text-muted uppercase">

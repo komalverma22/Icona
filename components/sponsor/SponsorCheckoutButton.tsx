@@ -45,7 +45,7 @@ export function SponsorCheckoutButton({
   };
 
   return (
-    <div className="flex flex-col items-end gap-1.5">
+    <div className="flex flex-col gap-1.5">
       <Button variant={variant} className={className} disabled={busy || user === undefined} onClick={start}>
         {busy ? "Starting checkout…" : `Choose ${tierName}`}
       </Button>
